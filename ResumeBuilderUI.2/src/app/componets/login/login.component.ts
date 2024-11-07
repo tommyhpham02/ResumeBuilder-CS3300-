@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import ValidatorForm from '../../helpers/validateForm';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,8 @@ export class LoginComponent implements OnInit{
     else{
       console.log("Form is Invalis");
       //throw error
+      ValidatorForm.validateAllFormFileds(this.loginForm);
+      alert("Your Form is invalid")
     }
   }
 
