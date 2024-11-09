@@ -1,5 +1,7 @@
 using RsumeBuilder_Team_9_.Context;
 using Microsoft.EntityFrameworkCore;
+using LayoutPDFTest;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
