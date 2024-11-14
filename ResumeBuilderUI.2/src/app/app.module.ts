@@ -7,6 +7,7 @@ import { SignupComponent } from './componets/signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpContext } from '@angular/common/http';
 import { DashboardComponent } from './componets/dashboard/dashboard.component';
+import { EducationComponent } from './componets/education/education.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { DashboardComponent } from './componets/dashboard/dashboard.component';
     LoginComponent,
     SignupComponent,
     DashboardComponent,
+    EducationComponent,
   ],
   imports: [
     BrowserModule,
