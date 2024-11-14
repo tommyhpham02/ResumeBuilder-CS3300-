@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Title section -->
+    <div class="title">Work Experience</div>
+    <div class="content">
+      <!-- Work Experience Form -->
+      <form id="jobForm" action="#">
+        <div class="user-details" id="jobContainer">
+          <!-- Input for Company Name -->
+          <div class="input-box">
+            <span class="details">Company Name</span>
+            <input type="text" placeholder="Enter the Company Name" required>
+          </div>
+          <!-- Input for Position -->
+          <div class="input-box">
+            <span class="details">Position</span>
+            <input type="text" placeholder="Position" required>
+          </div>
+          <!-- Input for Dates Worked-->
+          <div class="input-box">
+            <span class="details">Dates Worked</span>
+            <input type="text" placeholder="Enter the Dates Worked" required>
+          </div>
+        </div>
+          <!-- Summary Box -->
+        <div class="summary-box">
+            <span class="details">Job Responsibilities</span>
+            <textarea placeholder="Add your responsibilities summary" required></textarea>
+         </div>
+
+        <!-- Add Another Job Button (Grey) -->
+        <div class="button grey-button">
+          <input type="button" value="Add Another Job" onclick="addJob()">
+        </div>
+
+
+        <!-- Go Back and Continue Buttons -->
+        <div class="button-group">
+          <input type="button" value="Go Back">
+          <input type="submit" value="Continue">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Function to add a new degree to the list
+    function addJob() {
+      const jobContainer = document.getElementById('jobContainer');
+      const jobList = document.getElementById('jobList');
+
+      // Clone the current degree input fields
+      const newJobFields = degreeContainer.cloneNode(true);
+
+      // Clear the inputs in the cloned fields
+      const inputs = newJobFields.querySelectorAll('input, select');
+      inputs.forEach(input => input.value = '');
+
+      // Add the cloned fields to the degree list
+      const newJobItem = document.createElement('li');
+      newJobItem.appendChild(newJobFields);
+      jobList.appendChild(newJobItem);
+    }
+  </script>
+</body>
+</html>
