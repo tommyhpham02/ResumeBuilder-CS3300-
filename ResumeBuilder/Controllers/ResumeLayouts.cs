@@ -23,17 +23,6 @@ namespace ResumeBuilder.Controllers
         SqlControllers sqlControllers = new SqlControllers();
         public string[] titles = { "", "", "", "", "", "", "" };
 
-        public void printingLanguage()
-        {
-            titles[0] = Settings.Default.jobTitleLanguage;
-            titles[1] = Settings.Default.educationTitleLanguage;
-            titles[2] = Settings.Default.certificationsTitleLanguage;
-            titles[3] = Settings.Default.personalProjectsTitleLanguage;
-            titles[4] = Settings.Default.languagesTitleLanguage;
-            titles[5] = Settings.Default.interestsTitleLanguage;
-            titles[6] = Settings.Default.skillsTitleLanguage;
-        }
-
 /*This code defines a method called "ClassicLayout" that takes in several string parameters representing 
 various details about a person, such as their name, job history, education, certifications, personal 
 projects, languages, interests, and skills. The method uses a library called "Document" to create a 
@@ -43,7 +32,6 @@ certifications, personal projects, languages, interests, and skills. The method 
 such as if the PDF file is already open and cannot be written to.*/
         public void ClassicLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string interests, string skills, string summary)
         {
-            printingLanguage();
             try
             {
                 Document.Create(container =>
@@ -140,7 +128,6 @@ some formatting options, such as bold and italic text, and allows for customizat
 Finally, the PDF document is saved to a specified file path.*/
         public void ModernLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string interests, string skills, string summary)
         {
-            printingLanguage();
             Document.Create(container =>
             {
                 container.Page(page =>
@@ -210,5 +197,90 @@ Finally, the PDF document is saved to a specified file path.*/
                 });
             }).GeneratePdf(path);
         }
+        public void NewLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string interests, string skills, string summary)
+        {
+            try
+            {
+                Document.Create(container =>
+                {
+                    container.Page(page =>
+                    {
+                        page.Size(PageSizes.A4);
+                        page.Margin(1, Unit.Centimetre);
+                        page.PageColor(Colors.White);
+                        page.DefaultTextStyle(x => x.FontSize(Settings.Default.detailFontSize));
+                        page.Header().Row(row =>
+                        {
+                            row.Spacing(15);
+                            if (!string.IsNullOrEmpty(sqlControllers.getPicture()))
+                            {
+                                row.ConstantItem(Settings.Default.pictureSize).Image(sqlControllers.getPicture());
+                            }
+                            row.RelativeItem().AlignMiddle().Column(column =>
+                            {
+                                if (name != "") column.Item().Text(name).FontSize(18).FontColor(Colors.Blue.Medium).Bold();
+                                if (personDetails != "") column.Item().Text(personDetails);
+                                if (summary != "") column.Item().Text(summary);
+                            });
+                        }
+                        );
+                        page.Content()
+                            .PaddingVertical(1, Unit.Centimetre)
+                            .Column(x =>
+                            {
+                                x.Spacing(5);
+                                if (jobs != "")
+                                {
+                                    x.Item().Text(titles[0]).Bold().FontSize(13);
+                                    x.Item().Text(jobs);
+                                }
+                                if (educations != "")
+                                {
+                                    x.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Grey.Medium);
+                                    x.Item().Text(titles[1]).Bold().FontSize(13);
+                                    x.Item().Text(educations);
+                                }
+                                if (certifications != "")
+                                {
+                                    x.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Grey.Medium);
+
+                                    x.Item().Text(titles[2]).Bold().FontSize(13);
+                                    x.Item().Text(certifications);
+                                }
+                                if (personalProjects != "")
+                                {
+                                    x.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Grey.Medium);
+                                    x.Item().Text(titles[3]).Bold().FontSize(13);
+                                    x.Item().Text(personalProjects);
+                                }
+                                if (languages != "")
+                                {
+                                    x.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Grey.Medium);
+                                    x.Item().Text(titles[4]).Bold().FontSize(13);
+                                    x.Item().Text(languages);
+                                }
+                                if (interests != "")
+                                {
+                                    x.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Grey.Medium);
+                                    x.Item().Text(titles[5]).Bold().FontSize(13);
+                                    x.Item().Text(interests);
+                                }
+                                if (skills != "")
+                                {
+                                    x.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Grey.Medium);
+                                    x.Item().Text(titles[6]).Bold().FontSize(13);
+                                    x.Item().Text(skills);
+                                }
+                            });
+                    });
+                })
+                    .GeneratePdf(path);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message + "Please close file and retry!");
+            }
+        }
+
     }
 }
