@@ -48,8 +48,6 @@ export class SignupComponent implements OnInit {
           alert(err?.error?.message || 'An error occurred during registration');
         }
       })
-      console.log(this.signUpForm.value);
-      //Logic for sign up
     }
     else{
       console.log("Form is Invalis");
