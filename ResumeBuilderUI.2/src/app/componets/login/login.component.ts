@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit{
   type: string = "password";
   isText: Boolean = false;
   eyeIcon: string = "fa-eye-slash";
+  userId: any = "";
+  loginSuccess: Boolean = false;
   loginForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
@@ -39,6 +41,8 @@ export class LoginComponent implements OnInit{
       this.auth.login(this.loginForm.value)
       .subscribe({
         next: (res)=>{
+          this.auth.getUserId(this.loginForm.get('username')?.value)
+          console.log("The Id is: " + sessionStorage.getItem("userId"));
           alert(res.message);
           this.loginForm.reset();
           this.router.navigate(['dashboard'])
@@ -55,5 +59,4 @@ export class LoginComponent implements OnInit{
       alert("Your Form is invalid")
     }
   }
-
 }

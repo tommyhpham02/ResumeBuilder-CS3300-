@@ -45,5 +45,16 @@ namespace RsumeBuilder_Team_9_.Controllers
                 Message = "User has been Registered"
             });
         }
+
+        [HttpGet("{username}")]
+        public IActionResult GetIdByUsername(string username) 
+        {
+            var user = _authContext.Users.FirstOrDefault(x => x.Username == username);
+
+            if (user == null)
+                return BadRequest();
+
+            return Ok(user.Id.ToString());
+        }
     }
 }

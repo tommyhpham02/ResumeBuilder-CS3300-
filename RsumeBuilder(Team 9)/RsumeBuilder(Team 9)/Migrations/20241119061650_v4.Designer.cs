@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RsumeBuilder_Team_9_.Context;
 
@@ -10,9 +11,11 @@ using RsumeBuilder_Team_9_.Context;
 namespace RsumeBuilder_Team_9_.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241119061650_v4")]
+    partial class v4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,66 +61,6 @@ namespace RsumeBuilder_Team_9_.Migrations
                     b.ToTable("Degree", (string)null);
                 });
 
-            modelBuilder.Entity("RsumeBuilder_Team_9_.Models.Job", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DatesWorked")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JobResponsibilities")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ResumeInputId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResumeInputId");
-
-                    b.ToTable("Job", (string)null);
-                });
-
-            modelBuilder.Entity("RsumeBuilder_Team_9_.Models.Language", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("LanguageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LanguageProficiency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ResumeInputId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResumeInputId");
-
-                    b.ToTable("Language");
-                });
-
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.ResumeInput", b =>
                 {
                     b.Property<int>("Id")
@@ -127,24 +70,30 @@ namespace RsumeBuilder_Team_9_.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Summary")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Website")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -197,24 +146,6 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RsumeBuilder_Team_9_.Models.Job", b =>
-                {
-                    b.HasOne("RsumeBuilder_Team_9_.Models.ResumeInput", null)
-                        .WithMany("Jobs")
-                        .HasForeignKey("ResumeInputId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RsumeBuilder_Team_9_.Models.Language", b =>
-                {
-                    b.HasOne("RsumeBuilder_Team_9_.Models.ResumeInput", null)
-                        .WithMany("Languages")
-                        .HasForeignKey("ResumeInputId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.ResumeInput", b =>
                 {
                     b.HasOne("RsumeBuilder_Team_9_.Models.User", null)
@@ -227,10 +158,6 @@ namespace RsumeBuilder_Team_9_.Migrations
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.ResumeInput", b =>
                 {
                     b.Navigation("Degrees");
-
-                    b.Navigation("Jobs");
-
-                    b.Navigation("Languages");
                 });
 
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.User", b =>
