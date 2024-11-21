@@ -24,7 +24,7 @@ namespace RsumeBuilder_Team_9_.Controllers
                 return BadRequest();
             var user = await _authContext.Users.FirstOrDefaultAsync(x => x.Username == authRequest.Username && x.Password == authRequest.Password);
             if (user == null)
-                return NotFound(new {Message = "User Not Found! Tommy Fix your Code" });
+                return NotFound(new { Message = "User Not Found!" });
 
             return Ok(new
             {
@@ -47,7 +47,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
-        [HttpGet("{username}")]
+        [HttpGet("userId/{username}")]
         public IActionResult GetIdByUsername(string username) 
         {
             var user = _authContext.Users.FirstOrDefault(x => x.Username == username);

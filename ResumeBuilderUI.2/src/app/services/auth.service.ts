@@ -23,11 +23,16 @@ export class AuthService {
 
   getUserId(username: string){
     this.actualUrl = this.baseUrl + "User/"
-    return this.http.get<any>(`${this.actualUrl}${username}`)
+    return this.http.get<any>(`${this.actualUrl}userId/${username}`)
   }
 
-  submit(infoObj: any){
+  getResumeInputId(){
     this.actualUrl = this.baseUrl + "Input/"
-    return this.http.put<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, infoObj)
+    return this.http.get<any>(`${this.actualUrl}resumeInputId/${sessionStorage.getItem("userId")}`)
+  }
+
+  submitPersonalInfo(infoObj: any){
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.put<any>(`${this.actualUrl}submit/personalInfo/${sessionStorage.getItem("userId")}`, infoObj)
   }
 }

@@ -20,7 +20,7 @@ export class DashboardComponent {
       email:['',Validators.required],
       phoneNumber:['',Validators.required],
       website:['',Validators.required],
-      summary:['',Validators.required]
+      summary:['',Validators.required],
     })
   }
 
@@ -29,12 +29,12 @@ export class DashboardComponent {
     {
       console.log(this.dashboardForm.value);
       //send obj to database
-      this.auth.submit(this.dashboardForm.value)
+      this.auth.submitPersonalInfo(this.dashboardForm.value)
       .subscribe({
         next: (res)=>{
           alert(res.message);
           this.dashboardForm.reset();
-          this.router.navigate(['dashboard'])
+          this.router.navigate(['education'])
         },
         error:(err)=>{
           alert(err?.error.message)

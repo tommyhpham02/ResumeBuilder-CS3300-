@@ -15,7 +15,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext = appDbContext;
         }
 
-        [HttpPut("submit/{id}")]
+        [HttpPut("submit/personalInfo/{id}")]
         public async Task<IActionResult> RegisterUser([FromBody] ResumeInput inputObj, string id)
         {
             var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
@@ -34,6 +34,17 @@ namespace RsumeBuilder_Team_9_.Controllers
             {
                 Message = "Input values updated"
             });
+        }
+
+        [HttpGet("resumeInputId/{userId}")]
+        public IActionResult GetIdByUsername(string userId)
+        {
+            var resumeInput = _authContext.ResumeInputs.FirstOrDefault(x => x.UserId.ToString() == userId);
+
+            if (resumeInput == null)
+                return BadRequest();
+
+            return Ok(resumeInput.Id.ToString());
         }
     }
 }
