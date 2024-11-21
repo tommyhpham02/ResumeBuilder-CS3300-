@@ -19,13 +19,14 @@ namespace RsumeBuilder_Team_9_.Controllers
         public async Task<IActionResult> RegisterUser([FromBody] ResumeInput inputObj, string id)
         {
             var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
-            inputObj.Id = input.Id;
-            inputObj.UserId = input.UserId;
 
             if (inputObj == null)
                 return BadRequest();
             else if (input == null)
                 return BadRequest();
+
+            inputObj.Id = input.Id;
+            inputObj.UserId = input.UserId;
 
             _authContext.Entry(input).CurrentValues.SetValues(inputObj);
             await _authContext.SaveChangesAsync(); 

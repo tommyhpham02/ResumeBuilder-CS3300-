@@ -41,14 +41,14 @@ export class LoginComponent implements OnInit{
       this.auth.login(this.loginForm.value)
       .subscribe({
         next: (res)=>{
-          this.auth.getUserId(this.loginForm.get('username')?.value)
-          console.log("The Id is: " + sessionStorage.getItem("userId"));
           alert(res.message);
+          this.saveUserID(true);
           this.loginForm.reset();
           this.router.navigate(['dashboard'])
         },
         error:(err)=>{
           alert(err?.error.message)
+          this.saveUserID(false);
         }
       })
     }
@@ -57,6 +57,21 @@ export class LoginComponent implements OnInit{
       //throw error
       ValidatorForm.validateAllFormFileds(this.loginForm);
       alert("Your Form is invalid")
+    }
+  }
+
+  saveUserID(valid: Boolean){
+    if (valid){
+      this.auth.getUserId(this.loginForm.get('username')?.value).subscribe
+      (data => 
+        {
+          sessionStorage.setItem('userId', data);
+        }
+      );
+      this.loginSuccess = false;
+    }
+    else{
+      sessionStorage.setItem('userId', '-1');
     }
   }
 }

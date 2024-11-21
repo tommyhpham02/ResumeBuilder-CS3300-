@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RsumeBuilder_Team_9_.Context;
 using RsumeBuilder_Team_9_.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {

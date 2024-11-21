@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class AuthService {
 
   getUserId(username: string){
     this.actualUrl = this.baseUrl + "User/"
-    return this.http.get<any>(`${this.actualUrl}${username}`).pipe(tap(response => {sessionStorage.setItem("userId", response)}))
+    return this.http.get<any>(`${this.actualUrl}${username}`)
   }
 
   submit(infoObj: any){
