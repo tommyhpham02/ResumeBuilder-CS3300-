@@ -12,44 +12,50 @@
     <div class="title">Personal Information</div>
     <div class="content">
       <!-- Personal Information form -->
-      <form action="#">
+      <form [formGroup]="dashboardForm">
         <div class="user-details">
           <!-- Input for First Name -->
-          <div class="input-box">
+          <div class="input-box" [class.error]="dashboardForm.controls['firstName'].dirty && dashboardForm.hasError('required','firstName')">
             <span class="details">First Name</span>
-            <input type="text" placeholder="Enter your First Name" required>
+            <input formControlName="firstName" type="text" placeholder="Enter your First Name">
+            <small *ngIf="dashboardForm.controls['firstName'].dirty && dashboardForm.hasError('required','firstName')" class="text-danger">*First Name is required</small>
           </div>
           <!-- Input for Last Name -->
-          <div class="input-box">
+          <div class="input-box" [class.error]="dashboardForm.controls['lastName'].dirty && dashboardForm.hasError('required','lastName')">
             <span class="details">Last Name</span>
-            <input type="text" placeholder="Enter your Last Name" required>
+            <input formControlName="lastName" type="text" placeholder="Enter your Last Name">
+            <small *ngIf="dashboardForm.controls['lastName'].dirty && dashboardForm.hasError('required','lastName')" class="text-danger">*Last Name is required</small>
           </div>
           <!-- Input for Email -->
-          <div class="input-box">
+          <div class="input-box" [class.error]="dashboardForm.controls['email'].dirty && dashboardForm.hasError('required','email')">
             <span class="details">Email</span>
-            <input type="text" placeholder="Enter your e-mail" required>
+            <input formControlName="email" type="text" placeholder="Enter your Email">
+            <small *ngIf="dashboardForm.controls['email'].dirty && dashboardForm.hasError('required','email')" class="text-danger">*Email is required</small>
           </div>
           <!-- Input for Phone Number -->
-          <div class="input-box">
+          <div class="input-box" [class.error]="dashboardForm.controls['phoneNumber'].dirty && dashboardForm.hasError('required','phoneNumber')">
             <span class="details">Phone Number</span>
-            <input type="text" placeholder="Enter your phone number" required>
+            <input formControlName="phoneNumber" type="text" placeholder="Enter your Phone Number">
+            <small *ngIf="dashboardForm.controls['phoneNumber'].dirty && dashboardForm.hasError('required','phoneNumber')" class="text-danger">*Phone Number is required</small>
           </div>
           <!-- Input for Website -->
-          <div class="input-box">
+          <div class="input-box" [class.error]="dashboardForm.controls['website'].dirty && dashboardForm.hasError('required','website')">
             <span class="details">Website</span>
-            <input type="text" placeholder="Enter your website address" required>
+            <input formControlName="website" type="text" placeholder="Enter your Website">
+            <small *ngIf="dashboardForm.controls['website'].dirty && dashboardForm.hasError('required','website')" class="text-danger">*Website is required</small>
           </div>
         </div>
 
         <!-- Summary Box -->
-        <div class="summary-box">
+        <div class="summary-box" [class.error]="dashboardForm.controls['summary'].dirty && dashboardForm.hasError('required','summary')">
           <span class="details">Summary</span>
-          <textarea placeholder="Add your professional summary" required></textarea>
+          <textarea formControlName="summary" type="text" placeholder="Enter your Summary"></textarea>
+          <small *ngIf="dashboardForm.controls['summary'].dirty && dashboardForm.hasError('required','summary')" class="text-danger">*Summary is required</small>
         </div>
 
         <!-- Continue button -->
         <div class="button">
-          <input type="submit" value="Continue">
+          <input (click)="onSubmit()" type="submit" value="Continue">
         </div>
       </form>
     </div>

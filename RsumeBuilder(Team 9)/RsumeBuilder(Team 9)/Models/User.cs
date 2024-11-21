@@ -11,5 +11,6 @@ namespace RsumeBuilder_Team_9_.Models
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public ResumeInput ResumeInput { get; set; }
     }
 }

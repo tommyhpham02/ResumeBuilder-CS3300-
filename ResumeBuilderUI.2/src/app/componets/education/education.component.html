@@ -1,1 +1,91 @@
-<p>education works!</p>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="styleMA.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Title section -->
+    <div class="title">Education</div>
+    <div class="content">
+      <!-- Education Form -->
+      <form id="educationForm" action="#">
+        <div class="user-details" id="degreeContainer">
+          <!-- Input for College -->
+          <div class="input-box">
+            <span class="details">College</span>
+            <input type="text" placeholder="Enter your Full College Name" required>
+          </div>
+          <!-- Input for City/State -->
+          <div class="input-box">
+            <span class="details">City/State</span>
+            <input type="text" placeholder="Enter the City and State" required>
+          </div>
+          <!-- Degree Type Dropdown -->
+          <div class="input-box">
+            <span class="details">Degree Type</span>
+            <select required>
+              <option value="Associate Degree">Associate Degree</option>
+              <option value="Bachelors Degree">Bachelors Degree</option>
+              <option value="Masters Degree">Masters Degree</option>
+              <option value="PhD">PhD</option>
+            </select>
+          </div>
+          <!-- Input for Degree -->
+          <div class="input-box">
+            <span class="details">Degree</span>
+            <input type="text" placeholder="Enter your degree" required>
+          </div>
+          <!-- Input for Year Graduated -->
+          <div class="input-box">
+            <span class="details">Year Graduated</span>
+            <input type="text" placeholder="Enter the year you graduated" required>
+          </div>
+        </div>
+
+        <!-- Add Another Degree Button (Grey) -->
+        <div class="button grey-button">
+          <input onclick="addDegree()" type="button" value="Add Another Degree">
+        </div>
+
+        <!-- List of Degrees -->
+        <div class="degree-list">
+          <h3>Degrees Entered:</h3>
+          <ul id="degreeList">
+            <!-- Added degrees will appear here -->
+          </ul>
+        </div>
+
+        <!-- Go Back and Continue Buttons -->
+        <div class="button-group">
+          <input type="button" value="Go Back">
+          <input type="submit" value="Continue">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Function to add a new degree to the list
+    function addDegree() {
+      const degreeContainer = document.getElementById('degreeContainer');
+      const degreeList = document.getElementById('degreeList');
+
+      // Clone the current degree input fields
+      const newDegreeFields = degreeContainer.cloneNode(true);
+
+      // Clear the inputs in the cloned fields
+      const inputs = newDegreeFields.querySelectorAll('input, select');
+      inputs.forEach(input => input.value = '');
+
+      // Add the cloned fields to the degree list
+      const newDegreeItem = document.createElement('li');
+      newDegreeItem.appendChild(newDegreeFields);
+      degreeList.appendChild(newDegreeItem);
+    }
+  </script>
+</body>
+</html>

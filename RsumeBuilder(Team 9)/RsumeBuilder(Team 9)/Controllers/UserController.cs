@@ -7,6 +7,7 @@ using RsumeBuilder_Team_9_.Models;
 using System.Text;
 using System.Text.RegularExpressions;
 
+
 namespace RsumeBuilder_Team_9_.Controllers
 {
     [Route("api/[controller]")]
@@ -31,6 +32,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             {
                 return BadRequest(new { Message = "Password is incorrect" });
             }
+
 
             return Ok(new
             {
@@ -85,6 +87,6 @@ namespace RsumeBuilder_Team_9_.Controllers
                 sb.Append("Password should contain special chars" + Environment.NewLine);
 
             return sb.ToString();
-        }
+         }
     }
 }

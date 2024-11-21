@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit{
   type: string = "password";
   isText: Boolean = false;
   eyeIcon: string = "fa-eye-slash";
+  userId: any = "";
+  loginSuccess: Boolean = false;
   loginForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
@@ -40,11 +42,15 @@ export class LoginComponent implements OnInit{
       .subscribe({
         next: (res)=>{
           alert(res.message);
+          this.saveUserId(true);
+          this.saveResumeInputId(true);
           this.loginForm.reset();
           this.router.navigate(['dashboard'])
         },
         error:(err)=>{
           alert(err?.error.message)
+          this.saveUserId(false);
+          this.saveResumeInputId(false);
         }
       })
     }
@@ -56,4 +62,33 @@ export class LoginComponent implements OnInit{
     }
   }
 
+  saveUserId(valid: Boolean){
+    if (valid){
+      this.auth.getUserId(this.loginForm.get('username')?.value).subscribe
+      (data => 
+        {
+          sessionStorage.setItem('userId', data);
+        }
+      );
+      this.loginSuccess = false;
+    }
+    else{
+      sessionStorage.setItem('userId', '-1');
+    }
+  }
+
+  saveResumeInputId(valid: Boolean){
+    if (valid){
+      this.auth.getResumeInputId().subscribe
+      (data => 
+        {
+          sessionStorage.setItem('resumeInputId', data);
+        }
+      );
+      this.loginSuccess = false;
+    }
+    else{
+      sessionStorage.setItem('resumeInputId', '-1');
+    }
+  }
 }
