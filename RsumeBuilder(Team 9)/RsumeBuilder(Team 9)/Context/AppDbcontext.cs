@@ -11,10 +11,16 @@ namespace RsumeBuilder_Team_9_.Context
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<ResumeInput> ResumeInputs { get; set; }
+        public DbSet<Degree> Degrees { get; set; }
+        public DbSet<Job> Jobs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<ResumeInput>().ToTable("ResumeInput");
+            modelBuilder.Entity<Degree>().ToTable("Degree");
+            modelBuilder.Entity<Job>().ToTable("Job");
         }
     }
 }

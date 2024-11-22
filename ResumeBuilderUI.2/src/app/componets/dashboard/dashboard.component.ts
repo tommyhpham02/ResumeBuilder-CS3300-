@@ -9,31 +9,43 @@ import { Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit {
-
+export class DashboardComponent {
   dashboardForm!: FormGroup;
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.dashboardForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required, , Validators.pattern(/^\d{10}$/)],
-      address: ['', Validators.required],
-      summary: ['', Validators.required]
+      firstName:['',Validators.required],
+      lastName:['',Validators.required],
+      email:['',Validators.required],
+      phoneNumber:['',Validators.required],
+      website:['',Validators.required],
+      summary:['',Validators.required],
     })
   }
 
-  // Go to the next page when pressing the button
-  goToNextPage() {
-    if (this.dashboardForm.valid) {
-      console.log('Form Data:', this.dashboardForm.value);
-
-      // Navigate to the next page
-      this.router.navigate(['education']); // Uncomment and adjust route as needed
-    } else {
-      console.error('Form is invalid');
+  onSubmit(){
+    if(this.dashboardForm.valid)
+    {
+      console.log(this.dashboardForm.value);
+      //send obj to database
+      this.auth.submitPersonalInfo(this.dashboardForm.value)
+      .subscribe({
+        next: (res)=>{
+          alert(res.message);
+          this.dashboardForm.reset();
+          this.router.navigate(['education'])
+        },
+        error:(err)=>{
+          alert(err?.error.message)
+        }
+      })
+    }
+    else{
+      console.log("Form is Invalis");
+      //throw error
+      ValidatorForm.validateAllFormFileds(this.dashboardForm);
+      alert("Your Form is invalid")
     }
   }
 }
