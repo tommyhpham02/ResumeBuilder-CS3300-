@@ -26,11 +26,6 @@ export class AuthService {
     return this.http.get<any>(`${this.actualUrl}userId/${username}`)
   }
 
-  getResumeInputId(){
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.get<any>(`${this.actualUrl}resumeInputId/${sessionStorage.getItem("userId")}`)
-  }
-
   submitPersonalInfo(infoObj: any){
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.put<any>(`${this.actualUrl}submit/personalInfo/${sessionStorage.getItem("userId")}`, infoObj)

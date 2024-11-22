@@ -36,16 +36,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
-        [HttpGet("resumeInputId/{userId}")]
-        public IActionResult GetIdByUsername(string userId)
-        {
-            var resumeInput = _authContext.ResumeInputs.FirstOrDefault(x => x.UserId.ToString() == userId);
 
-            if (resumeInput == null)
-                return BadRequest();
-
-            return Ok(resumeInput.Id.ToString());
-        }
     }
 }
 

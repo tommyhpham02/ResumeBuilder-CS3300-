@@ -15,7 +15,7 @@ namespace RsumeBuilder_Team_9_.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _authContext;
-        public UserController(AppDbContext appDbContext){
+        public UserController(AppDbContext appDbContext) {
 
             _authContext = appDbContext;
         }
@@ -23,12 +23,12 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest authRequest)
         {
-            if (authRequest  == null)
+            if (authRequest == null)
                 return BadRequest();
             var user = await _authContext.Users.FirstOrDefaultAsync(x => x.Username == authRequest.Username);
             if (user == null)
-                return NotFound(new {Message = "User Not Found! Tommy Fix your Code" });
-            if(!PasswordHash.VerifyPass(authRequest.Password, user.Password))
+                return NotFound(new { Message = "User Not Found! Tommy Fix your Code" });
+            if (!PasswordHash.VerifyPass(authRequest.Password, user.Password))
             {
                 return BadRequest(new { Message = "Password is incorrect" });
             }
@@ -39,6 +39,17 @@ namespace RsumeBuilder_Team_9_.Controllers
                 Message = "Login Success"
             });
 
+        }
+
+        [HttpGet("userId/{username}")]
+        public IActionResult GetUserIdFromUsername(string username) 
+        {
+            var user = _authContext.Users.SingleOrDefault(x => x.Username == username);
+
+            if (user == null)
+                return BadRequest($"{username} is not a user");
+
+            return Ok(user.Id.ToString());
         }
 
         [HttpPost("register")]
