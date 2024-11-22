@@ -9,6 +9,7 @@ import { HttpClient, HttpClientModule, HttpContext } from '@angular/common/http'
 import { DashboardComponent } from './componets/dashboard/dashboard.component';
 import { EducationComponent } from './componets/education/education.component';
 import { jwtDecode } from 'jwt-decode';
+import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { jwtDecode } from 'jwt-decode';
     SignupComponent,
     DashboardComponent,
     EducationComponent,
+    WorkExperienceComponent,
   ],
   imports: [
     BrowserModule,
