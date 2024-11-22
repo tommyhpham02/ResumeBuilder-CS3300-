@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resume Builder</title>
-  <link rel="stylesheet" href="education.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -50,22 +50,18 @@
           </div>
         </div>
   
-        <!-- Add Another Degree Button (Grey) -->
+        <!-- Add Another Edu Button -->
         <div class="button grey-button">
-          <input type="button" value="Add Another Degree" onclick="addDegree()">
+          <input type="button" value="Add Another Education" id="addEducationButton">
         </div>
-  
-        <!-- List of Degrees -->
-        <div class="degree-list">
-          <ul id="degreeList">
-            <!-- Added degrees will appear here -->
-          </ul>
-        </div>
+
+        <!-- Job Preview Section -->
+        <ul id="educationList" class="education-preview"></ul>
   
         <!-- Go Back and Continue Buttons -->
-        <div class="button">
+        <div class="button-group">
           <input type="button" value="Go Back">
-          <input type="button" value="Continue">
+          <input type="submit" value="Continue">
         </div>
       </form>
     </div>

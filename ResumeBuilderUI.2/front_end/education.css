@@ -197,6 +197,7 @@ form .summary-box textarea:valid {
     background: linear-gradient(-135deg, #71b7e6, #1c0455);
   }
 
+
   /* Dropdown styling */
 form .input-box select {
     height: 45px;
