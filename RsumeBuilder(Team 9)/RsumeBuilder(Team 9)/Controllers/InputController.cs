@@ -16,7 +16,7 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPut("submit/personalInfo/{id}")]
-        public async Task<IActionResult> RegisterUser([FromBody] ResumeInput inputObj, string id)
+        public async Task<IActionResult> SubmitPersonlInfo([FromBody] ResumeInput inputObj, string id)
         {
             var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
 
@@ -36,7 +36,35 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
+        [HttpPost("submit/degrees/{id}")]
+        public async Task<IActionResult> SubmitDegreeList(List<Degree> degrees, string id)
+        { 
+            int inputId = FindResumeInputIdFromUserID(id);
 
+            if (inputId == 0)
+                return BadRequest();
+
+
+            foreach (Degree degree in degrees) 
+            {
+                degree.ResumeInputId = inputId;
+                await _authContext.Degrees.AddAsync(degree); 
+            }
+            await _authContext.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = "Degrees saved."
+            });
+        }
+
+        private int FindResumeInputIdFromUserID(string id)
+        {
+            var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
+            int resumeInputId = ((input == null) ? 0 : input.Id);
+
+            return resumeInputId;
+        }
     }
 }
 
