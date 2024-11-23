@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -13,8 +13,77 @@ import { Router } from '@angular/router';
 
 export class WorkExperienceComponent {
   workExperienceForm!: FormGroup;
+  jobList!: string[];
+  currentJob: Boolean = false;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.refreshFormGroup();
+    this.jobList = [];
+  }
+
+  refreshFormGroup(): void {
+    this.workExperienceForm = this.fb.group({
+      companyName: ['', Validators.required],
+      position: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      currentJobValue: [false],
+      jobResponsibilities: ['', Validators.required]
+    });
+    this.currentJob = false;
+  }
+
+  onCurrentChange(): void {
+    this.currentJob = !this.currentJob;
+    console.log("Truth Value: " + this.currentJob);
+  }
+
+  addJob(): void {
+    if (this.jobList.length < 3)
+    {
+      if (this.workExperienceForm.valid)
+      {
+        if (this.currentJob)
+          this.workExperienceForm.get('currentJobValue')?.setValue(true);
+
+        this.jobList.push(this.workExperienceForm.value);
+        alert("Successfully added Job!");
+        this.refreshFormGroup();
+        console.log("List of Jobs: " + "\n" + "--------------" + "\n");
+        this.jobList.forEach(element => {
+          console.log(element);
+        });
+      }
+      else
+      {
+        alert("Form is invalid!")
+      }
+    }
+    else
+    {
+      alert("Cannot have more than 3 jobs!");
+    }
+  }
+
+  saveJobsToDatbase(){
+    console.log(JSON.stringify(this.jobList));
+    this.auth.submitJobsInfo(this.jobList)
+    .subscribe({
+      next:(res) =>{
+        alert(res.message)
+        this.workExperienceForm.reset();
+        this.router.navigate(['skills']);
+      },
+      error: (err) => {
+        console.error('Full Error Response:', err);
+        alert(err?.error.message);
+      }
+    })
+  }
 }
+
+
 /*
 const MAX_JOBS = 3;
 

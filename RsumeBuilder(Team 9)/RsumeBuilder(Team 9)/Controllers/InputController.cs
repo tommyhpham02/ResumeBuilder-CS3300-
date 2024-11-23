@@ -44,7 +44,6 @@ namespace RsumeBuilder_Team_9_.Controllers
             if (inputId == 0)
                 return BadRequest();
 
-
             foreach (Degree degree in degrees) 
             {
                 degree.ResumeInputId = inputId;
@@ -55,6 +54,27 @@ namespace RsumeBuilder_Team_9_.Controllers
             return Ok(new
             {
                 Message = "Degrees saved."
+            });
+        }
+
+        [HttpPost("submit/jobs/{id}")]
+        public async Task<IActionResult> SubmitJobList(List<Job> jobs, string id)
+        {
+            int inputId = FindResumeInputIdFromUserID(id);
+
+            if (inputId == 0)
+                return BadRequest();
+
+            foreach (Job job in jobs)
+            {
+                job.ResumeInputId = inputId;
+                await _authContext.Jobs.AddAsync(job);
+            }
+            await _authContext.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = "Jobs saved."
             });
         }
 

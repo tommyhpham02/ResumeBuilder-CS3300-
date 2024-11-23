@@ -20,7 +20,7 @@ export class DashboardComponent {
       email:['',Validators.required],
       phoneNumber:['',Validators.required],
       website:['',Validators.required],
-      summary:['',Validators.required],
+      summary:['',Validators.required]
     })
   }
 
