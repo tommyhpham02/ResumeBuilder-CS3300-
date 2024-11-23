@@ -31,8 +31,8 @@ export class AuthService {
     return this.http.put<any>(`${this.actualUrl}submit/personalInfo/${sessionStorage.getItem("userId")}`, infoObj)
   }
 
-  submitJobsInfo(jobList: any[]){
+  submitJobsInfo(jobInfo: any){
     this.actualUrl = this.baseUrl + "Input/"
-    return this.http.post<any>(`${this.actualUrl}submit/jobs/${sessionStorage.getItem("userId")}`, jobList)
+    return this.http.post<any>(`${this.actualUrl}submit/jobs/${sessionStorage.getItem("userId")}`, jobInfo)
   }
 }

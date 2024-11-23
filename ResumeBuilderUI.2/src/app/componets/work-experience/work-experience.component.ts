@@ -13,16 +13,11 @@ import { Router } from '@angular/router';
 
 export class WorkExperienceComponent {
   workExperienceForm!: FormGroup;
-  jobList!: string[];
+  jobList: string[] = [];
   currentJob: Boolean = false;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.refreshFormGroup();
-    this.jobList = [];
-  }
-
-  refreshFormGroup(): void {
     this.workExperienceForm = this.fb.group({
       companyName: ['', Validators.required],
       position: ['', Validators.required],
@@ -31,7 +26,6 @@ export class WorkExperienceComponent {
       currentJobValue: [false],
       jobResponsibilities: ['', Validators.required]
     });
-    this.currentJob = false;
   }
 
   onCurrentChange(): void {
@@ -40,40 +34,35 @@ export class WorkExperienceComponent {
   }
 
   addJob(): void {
-    if (this.jobList.length < 3)
-    {
-      if (this.workExperienceForm.valid)
-      {
+    if (this.jobList.length < 3) {
+      if (this.workExperienceForm.valid) {
         if (this.currentJob)
           this.workExperienceForm.get('currentJobValue')?.setValue(true);
 
+        this.saveJobToDatbase(this.workExperienceForm.value)
         this.jobList.push(this.workExperienceForm.value);
-        alert("Successfully added Job!");
-        this.refreshFormGroup();
         console.log("List of Jobs: " + "\n" + "--------------" + "\n");
         this.jobList.forEach(element => {
           console.log(element);
         });
       }
-      else
-      {
+      else {
         alert("Form is invalid!")
       }
     }
-    else
-    {
+    else {
       alert("Cannot have more than 3 jobs!");
     }
   }
 
-  saveJobsToDatbase(){
-    console.log(JSON.stringify(this.jobList));
-    this.auth.submitJobsInfo(this.jobList)
+  saveJobToDatbase(value: any){
+    console.log(value);
+    this.auth.submitJobsInfo(value)
     .subscribe({
-      next:(res) =>{
+      next:(res) => {
         alert(res.message)
-        this.workExperienceForm.reset();
-        this.router.navigate(['skills']);
+        this.workExperienceForm.reset()
+        this.currentJob = false;
       },
       error: (err) => {
         console.error('Full Error Response:', err);
@@ -81,8 +70,18 @@ export class WorkExperienceComponent {
       }
     })
   }
-}
 
+  continueButtonPushed(){
+    if (this.jobList.length >= 1) {
+      this.workExperienceForm.reset();
+      this.router.navigate(['skills']);
+    }
+    else {
+      alert("No jobs entered. Proceeding")
+      this.router.navigate(['skills']);
+    }
+  }
+}
 
 /*
 const MAX_JOBS = 3;

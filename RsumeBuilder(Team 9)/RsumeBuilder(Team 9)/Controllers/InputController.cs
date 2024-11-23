@@ -37,44 +37,44 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPost("submit/degrees/{id}")]
-        public async Task<IActionResult> SubmitDegreeList(List<Degree> degrees, string id)
+        public async Task<IActionResult> SubmitDegreeList(Degree degree, string id)
         { 
+            if (degree == null)
+                return BadRequest();
+
             int inputId = FindResumeInputIdFromUserID(id);
 
             if (inputId == 0)
                 return BadRequest();
 
-            foreach (Degree degree in degrees) 
-            {
-                degree.ResumeInputId = inputId;
-                await _authContext.Degrees.AddAsync(degree); 
-            }
+            degree.ResumeInputId = inputId;
+            await _authContext.Degrees.AddAsync(degree); 
             await _authContext.SaveChangesAsync();
 
             return Ok(new
             {
-                Message = "Degrees saved."
+                Message = "Degree saved."
             });
         }
 
         [HttpPost("submit/jobs/{id}")]
-        public async Task<IActionResult> SubmitJobList(List<Job> jobs, string id)
+        public async Task<IActionResult> SubmitJobList(Job job, string id)
         {
+            if (job == null)
+                return BadRequest();
+
             int inputId = FindResumeInputIdFromUserID(id);
 
             if (inputId == 0)
                 return BadRequest();
 
-            foreach (Job job in jobs)
-            {
-                job.ResumeInputId = inputId;
-                await _authContext.Jobs.AddAsync(job);
-            }
+            job.ResumeInputId = inputId;
+            await _authContext.Jobs.AddAsync(job);
             await _authContext.SaveChangesAsync();
 
             return Ok(new
             {
-                Message = "Jobs saved."
+                Message = "Job saved."
             });
         }
 
