@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpContext } from '@angular/common/http';
 import { DashboardComponent } from './componets/dashboard/dashboard.component';
 import { EducationComponent } from './componets/education/education.component';
-import { jwtDecode } from 'jwt-decode';
+//import { jwtDecode } from 'jwt-decode';
 
 
 @NgModule({

@@ -1,0 +1,84 @@
+/* Importing Google Fonts - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+/* Universal reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif; /* Applying Poppins as the main font */
+    background: linear-gradient(135deg, #2f8687, #0f034d);
+    color: #fff;
+    overflow: hidden; /* Prevents scroll from any body overflow */
+}
+
+/* Main Container Centering */
+.main-container {
+    text-align: center;
+    outline: none; /* Ensures no outlines */
+    border: none;  /* Removes any default borders */
+}
+
+/* Title Styling */
+.title {
+    font-size: 65px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-family: 'Poppins', sans-serif; /* Ensures title uses Poppins */
+    border: none; /* Removes any default borders */
+    outline: none; /* Removes any outlines */
+    box-shadow: none; /* Removes any shadows */
+}
+
+/* Button Group Styling for Register and Log In */
+.button-group {
+  display: inline-flex;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.button-group button {
+  padding: 15px 35px; /* Consistent padding */
+  min-width: 150px; /* Ensures both buttons are the same width */
+  font-size: 18px;
+  font-weight: bold;
+  color: #9b59b6;
+  background-color: #f8f9fa;
+  border: 2px solid #9b59b6;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.button-group button:hover {
+  background-color: #e2e3e5;
+  color: #5a3d71;
+  border-color: #5a3d71;
+}
+
+
+/* Large Create a Resume Button */
+.create-resume button {
+    padding: 20px 50px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.create-resume button:hover {
+    background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+}
