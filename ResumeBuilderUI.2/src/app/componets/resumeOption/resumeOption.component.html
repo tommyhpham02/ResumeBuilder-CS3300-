@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Option Menu</title>
+  <link rel="stylesheet" href="resumeOption.component.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="main-container">
+    <!-- Main Title -->
+    <h1 class="title">Resume Creation Options</h1>
+    
+    <!-- Button Group -->
+    <div class="button-group">
+      <button (click)="onEdit()">Edit Resume</button>
+      <button (click)="onNewresume()">New Resume</button>
+    </div>
+    
+    <!-- Create Resume Button -->
+    <div class="create-resume">
+      <button (click)="onLogout()">Logout</button>
+    </div>
+  </div>
+</body>
+</html>
+
