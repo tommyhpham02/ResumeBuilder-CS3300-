@@ -14,11 +14,15 @@ body, html {
     overflow: hidden; /* Prevents scroll from any body overflow */
 }
 
-/* Main Container Centering */
+
 .main-container {
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    outline: none; /* Ensures no outlines */
-    border: none;  /* Removes any default borders */
+    min-height: 100vh;
 }
 
 /* Title Styling */

@@ -17,48 +17,47 @@
           <!-- Input for College -->
           <div class="input-box">
             <span class="details">College</span>
-            <input type="text" placeholder="Enter your Full College Name" required>
+            <input type="text" id="college" placeholder="Enter your Full College Name" required>
           </div>
           <!-- Input for City/State -->
           <div class="input-box">
             <span class="details">City/State</span>
-            <input type="text" placeholder="Enter the City and State" required>
+            <input type="text" id="cityState" placeholder="Enter the City and State" required>
           </div>
           <!-- Degree Type Dropdown -->
           <div class="input-box">
             <span class="details">Degree Type</span>
-            <select required>
+            <select id="degreeType" required>
               <option value="Associate Degree">Associate Degree</option>
               <option value="Bachelors Degree">Bachelors Degree</option>
               <option value="Masters Degree">Masters Degree</option>
               <option value="PhD">PhD</option>
             </select>
           </div>
-          <!-- Input for Degree -->
+          <!-- Major Dropdown -->
           <div class="input-box">
-            <span class="details">Degree</span>
-            <input type="text" placeholder="Enter your degree" required>
+            <span class="details">Major</span>
+            <select id="major" required>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Management">Management</option>
+              <option value="Computer Engineering">Computer Engineering</option>
+            </select>
           </div>
           <!-- Input for Year Graduated -->
           <div class="input-box">
             <span class="details">Year Graduated</span>
-            <input type="text" placeholder="Enter the year you graduated" required>
+            <input type="text" id="yearGraduated" placeholder="Enter the year you graduated" required>
           </div>
         </div>
-
-        <!-- Add Another Degree Button (Grey) -->
+  
+        <!-- Add Another Edu Button -->
         <div class="button grey-button">
-          <input onclick="addDegree()" type="button" value="Add Another Degree">
+          <input type="button" value="Add Another Education" id="addEducationButton">
         </div>
 
-        <!-- List of Degrees -->
-        <div class="degree-list">
-          <h3>Degrees Entered:</h3>
-          <ul id="degreeList">
-            <!-- Added degrees will appear here -->
-          </ul>
-        </div>
-
+        <!-- Job Preview Section -->
+        <ul id="educationList" class="education-preview"></ul>
+  
         <!-- Go Back and Continue Buttons -->
         <div class="button-group">
           <input type="button" value="Go Back">
@@ -67,6 +66,7 @@
       </form>
     </div>
   </div>
+  
 
   <script>
     // Function to add a new degree to the list
