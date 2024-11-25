@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+
+import { HomeComponent} from './componets/home/home.component'
 import { LoginComponent } from './componets/login/login.component';
 import { SignupComponent } from './componets/signup/signup.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -10,6 +12,7 @@ import { WorkExperienceComponent } from './componets/work-experience/work-experi
 import { ResumeOptionComponent } from './componets/resumeOption/resumeOption.component';
 
 export const routes: Routes = [
+  {path:'', component: HomeComponent },
   {path:'login', component: LoginComponent },
   {path:'signup', component: SignupComponent },
   {path:'dashboard', component: DashboardComponent},
