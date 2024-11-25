@@ -26,13 +26,18 @@ export class AuthService {
     return this.http.get<any>(`${this.actualUrl}userId/${username}`)
   }
 
-  getResumeInputId(){
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.get<any>(`${this.actualUrl}resumeInputId/${sessionStorage.getItem("userId")}`)
-  }
-
   submitPersonalInfo(infoObj: any){
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.put<any>(`${this.actualUrl}submit/personalInfo/${sessionStorage.getItem("userId")}`, infoObj)
+  }
+
+  submitJobsInfo(jobInfo: any){
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.post<any>(`${this.actualUrl}submit/jobs/${sessionStorage.getItem("userId")}`, jobInfo)
+  }
+
+  deleteJob(id: number){
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.delete<any>(`${this.actualUrl}delete/jobs/${id}`)
   }
 }

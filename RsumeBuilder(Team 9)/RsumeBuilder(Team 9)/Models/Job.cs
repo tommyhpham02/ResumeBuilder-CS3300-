@@ -7,11 +7,13 @@ namespace RsumeBuilder_Team_9_.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("ResumeInput")]
-        public int ResumeInputId { get; set; }
+        [ForeignKey("User")]
+        public int UserId { get; set; }
         public string CompanyName { get; set; }
         public string Position {  get; set; }
-        public string DatesWorked { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public bool CurrentJob {  get; set; }
         public string JobResponsibilities { get; set; }
     }
 }
