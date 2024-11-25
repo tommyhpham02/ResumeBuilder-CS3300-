@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpContext } from '@angular/common/http';
 import { DashboardComponent } from './componets/dashboard/dashboard.component';
 import { EducationComponent } from './componets/education/education.component';
+import { HomeComponent } from './componets/home/home.component';
 //import { jwtDecode } from 'jwt-decode';
 
 
@@ -18,6 +19,7 @@ import { EducationComponent } from './componets/education/education.component';
     SignupComponent,
     DashboardComponent,
     EducationComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
