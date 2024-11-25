@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
@@ -17,35 +17,90 @@ export class WorkExperienceComponent {
   htmlListOfJobs: string[] = ['', '', ''];
   jobsEntered: Boolean[] = [false, false, false];
   currentJob: Boolean = false;
+  editMode: Boolean = false;
+  editingResume: Boolean = true;
+  todayDate: Date = new Date();
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    this.setFormGroup('', '', '', '', '');
+
+    if (this.editingResume) {
+      this.auth.getListOfEnteredJobs()
+      .subscribe(data => {
+          for (let i = 0; i < data.length; i++){
+            let jsonData = JSON.parse(this.makeKeysLowercase(data[i]));
+            let id = jsonData['id'];
+            delete jsonData.UserId;
+            delete jsonData.Id;
+            this.addToHtmlList(jsonData['companyName'] + " - " + jsonData['position']);
+            this.jobList.set(id, jsonData)
+          }
+          if (this.jobList.size > 0)
+            this.editMode = true;
+      });
+    }
+
+    else {
+      this.auth.deleteAllJobs()
+      .subscribe({
+        next:(res) => {
+          console.log(res.message)
+        },
+        error: (err) => {
+          console.error('Full Error Response:', err);
+          alert(err?.error.message);
+        }
+      });
+    }
+  }
+
+  setFormGroup(name: string, pos: string, start: string, end: string, res: string) {
+    if (end == `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`)
+      this.currentJob = true;
+    else
+      this.currentJob = false;
+
     this.workExperienceForm = this.fb.group({
-      companyName: ['', Validators.required],
-      position: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      currentJobValue: [false],
-      jobResponsibilities: ['', Validators.required]
+      companyName: [name, Validators.required],
+      position: [pos, Validators.required],
+      startDate: [start, Validators.required],
+      endDate: [end, Validators.required],
+      jobResponsibilities: [res, Validators.required],
+      checkBox: new FormControl(this.currentJob)
     });
+  }
+
+  makeKeysLowercase(jsonData: string): string {
+    jsonData = jsonData.replace("\"Id\":", "\"id\":");
+    jsonData = jsonData.replace("\"UserId\":", "\"userId\":");
+    jsonData = jsonData.replace("\"CompanyName\":", "\"companyName\":");
+    jsonData = jsonData.replace("\"Position\":", "\"position\":");
+    jsonData = jsonData.replace("\"StartDate\":", "\"startDate\":");
+    jsonData = jsonData.replace("\"EndDate\":", "\"endDate\":");
+    jsonData = jsonData.replace("\"JobResponsibilities\":", "\"jobResponsibilities\":");
+
+    return jsonData;
   }
 
   onCurrentChange(): void {
     this.currentJob = !this.currentJob;
-    console.log("Truth Value: " + this.currentJob);
+    if (this.currentJob) {
+      this.workExperienceForm.controls['endDate']
+        .setValue(`${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`);
+    }
+    else {
+      this.workExperienceForm.controls['endDate'].setValue('');
+    }
   }
 
   addJob(): void {
     if (this.jobList.size < 3) {
       if (this.workExperienceForm.valid) {
-        if (this.currentJob)
-          this.workExperienceForm.get('currentJobValue')?.setValue(true);
+        if (!this.editMode)
+          this.editMode = true;
 
-        this.saveJobToDatbase(this.workExperienceForm.value);
-        console.log("List of Jobs: " + "\n" + "--------------" + "\n");
-        this.jobList.forEach(element => {
-          console.log(element);
-        });
+        this.saveJobToDatbase(this.workExperienceForm.value)
       }
       else {
         alert("Form is invalid!")
@@ -57,26 +112,34 @@ export class WorkExperienceComponent {
   }
 
   editJob(index: number) {
-    this.workExperienceForm = this.jobList.get(Array.from(this.jobList.keys())[index]);
+    this.editMode = false;
+    let jobToEdit = this.jobList.get(Array.from(this.jobList.keys())[index]);
+    this.setFormGroup(jobToEdit[`companyName`], jobToEdit[`position`], jobToEdit[`startDate`], jobToEdit[`endDate`],
+      jobToEdit[`jobResponsibilities`]);
+
     this.removeJobWithIndex(index);
   }
 
-  saveJobToDatbase(value: any){
-    console.log(value);
+  saveJobToDatbase(value: any) {
     this.auth.submitJobsInfo(value)
     .subscribe({
       next:(data) => {
-        this.addToHtmlList(this.workExperienceForm.get('companyName')?.value + ' - ' + this.workExperienceForm.get('position')?.value)
-        this.jobList.set(data, this.workExperienceForm);
-        alert("Job has been saved.")
-        this.workExperienceForm.reset();
+        alert("Job has been saved.");
+        this.workExperienceForm.removeControl('checkBox');
+        this.addToHtmlList(this.workExperienceForm.controls['companyName'].value + ' - ' + this.workExperienceForm.controls['position'].value)
+        this.jobList.set(data, value);
+        console.log("List of Jobs: " + "\n" + "--------------" + "\n");
+        this.jobList.forEach((value, key) => {
+          console.log(value);
+        });
+        this.setFormGroup('', '', '', '', '');
         this.currentJob = false;
       },
       error: (err) => {
         console.error('Full Error Response:', err);
         alert(err?.error.message);
       }
-    })
+    });
   }
 
   addToHtmlList(htmlInsert: string) {
@@ -85,10 +148,11 @@ export class WorkExperienceComponent {
   }
 
   removeJobWithIndex(index: number) {
+    console.log(this.jobList.get(Array.from(this.jobList.keys())[index]))
     this.auth.deleteJob(Array.from(this.jobList.keys())[index])
     .subscribe({
       next:(res) => {
-        alert(res.message)
+        console.log(res.message)
       },
       error: (err) => {
         console.error('Full Error Response:', err);
@@ -98,6 +162,9 @@ export class WorkExperienceComponent {
     this.jobList.delete(Array.from(this.jobList.keys())[index]);
     this.htmlListOfJobs.splice(index, 1);
     this.jobsEntered.splice(index, 1);
+
+    if (this.jobList.size == 0)
+      this.editMode = false;
   }
 
   continueButtonPushed(){

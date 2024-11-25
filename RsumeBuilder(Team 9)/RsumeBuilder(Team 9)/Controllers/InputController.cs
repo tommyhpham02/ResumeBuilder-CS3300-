@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using RsumeBuilder_Team_9_.Context;
 using RsumeBuilder_Team_9_.Models;
+using System.Text.Json;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
@@ -106,6 +109,49 @@ namespace RsumeBuilder_Team_9_.Controllers
 
             return Ok(new { Message = "Job successfully removed." });
 
+        }
+
+        [HttpDelete("delete/jobs/all/{id}")]
+        public async Task<IActionResult> RemoveJobsFromList(int id)
+        {
+            List<Job> jobListToDelete = _authContext.Jobs.Where(x => x.UserId == id).ToList();
+
+            if (jobListToDelete.Count > 0)
+            {
+                foreach (Job job in jobListToDelete)
+                {
+                    _authContext.Jobs.Remove(job);
+                }
+                await _authContext.SaveChangesAsync();
+
+                return Ok(new { Message = "Jobs were found and removed" });
+            }
+            else 
+            {
+                return Ok(new { Message = "No jobs required removing" });
+            }
+        }
+
+        [HttpGet("get/jobs/all/{id}")]
+        public IActionResult GetJobsFromList(int id)
+        {
+            List<Job> jobListToGet = _authContext.Jobs.Where(x => x.UserId == id).ToList();
+            List<string> jsonStrings = new List<string>();
+
+            if (jobListToGet.Count > 0)
+            {
+                foreach (Job job in jobListToGet)
+                {
+                    string jsonString = JsonSerializer.Serialize<Job>(job);
+                    jsonStrings.Add(jsonString); 
+                }
+
+                return Ok(jsonStrings);
+            }
+            else
+            {
+                return Ok(new { Message = "No jobs required getting" });
+            }
         }
 
         private int FindResumeInputIdFromUserID(string id)

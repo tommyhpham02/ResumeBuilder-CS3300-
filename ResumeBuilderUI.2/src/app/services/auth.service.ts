@@ -11,7 +11,7 @@ export class AuthService {
   private actualUrl:string = "";
   constructor(private http : HttpClient) { }
 
-  signUp(userObj:any){
+  signUp(userObj: any){
     this.actualUrl = this.baseUrl + "User/"
     return this.http.post<any>(`${this.actualUrl}register`, userObj);
   }
@@ -39,5 +39,15 @@ export class AuthService {
   deleteJob(id: number){
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.delete<any>(`${this.actualUrl}delete/jobs/${id}`)
+  }
+
+  deleteAllJobs() {
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.delete<any>(`${this.actualUrl}delete/jobs/all/${sessionStorage.getItem("userId")}`)
+  }
+
+  getListOfEnteredJobs() {
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.get<any>(`${this.actualUrl}get/jobs/all/${sessionStorage.getItem("userId")}`)
   }
 }

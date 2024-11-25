@@ -42,7 +42,7 @@
                   <input formControlName="endDate" type="date" id="endDate" required>
                   <small *ngIf="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')" class="text-danger">End Date is Required</small>
                   <label for="currentCheckbox">
-                    <input (change)="onCurrentChange()" formControlName="currentJobValue" type="checkbox" id="currentCheckbox">
+                    <input (change)="onCurrentChange()" formControlName="checkBox" type="checkbox" id="currentCheckbox">
                     Current
                   </label>
                 </div>
@@ -63,14 +63,17 @@
         </div>
 
         <!-- Job Preview Section -->
-        <div class="title">Job List (Click to edit)</div>
-        <ul id="jobList" class="job-preview">
-          <li class="input-field" *ngIf="jobsEntered[0]" (click)="editJob(0)">{{htmlListOfJobs[0]}}</li>
-          <button *ngIf="jobsEntered[0]" (click)="removeJobWithIndex(0)">Remove</button>
-          <li class="input-field" *ngIf="jobsEntered[1]" (click)="editJob(1)">{{htmlListOfJobs[1]}}</li>
-          <button *ngIf="jobsEntered[1]" (click)="removeJobWithIndex(1)">Remove</button>
-          <li class="input-field" *ngIf="jobsEntered[2]" (click)="editJob(2)">{{htmlListOfJobs[2]}}</li>
-          <button *ngIf="jobsEntered[2]" (click)="removeJobWithIndex(2)">Remove</button>
+        <div *ngIf="editMode" class="title">Job List</div>
+        <ul *ngIf="editMode" id="jobList" class="job-preview">
+          <li class="input-field" *ngIf="jobsEntered[0]">{{htmlListOfJobs[0]}}</li>
+          <input type="Button" *ngIf="jobsEntered[0]" (click)="editJob(0)" value="Edit">
+          <input type="Button" *ngIf="jobsEntered[0]" (click)="removeJobWithIndex(0)" value="Remove">
+          <li class="input-field" *ngIf="jobsEntered[1]">{{htmlListOfJobs[1]}}</li>
+          <input type="Button" *ngIf="jobsEntered[1]" (click)="editJob(1)" value="Edit">
+          <input type="Button" *ngIf="jobsEntered[1]" (click)="removeJobWithIndex(1)" value="Remove">
+          <li class="input-field" *ngIf="jobsEntered[2]">{{htmlListOfJobs[2]}}</li>
+          <input type="Button" *ngIf="jobsEntered[2]" (click)="editJob(2)" value="Edit">
+          <input type="Button" *ngIf="jobsEntered[2]" (click)="removeJobWithIndex(2)" value="Remove">
         </ul>
 
         <!-- Go Back and Continue Buttons -->
