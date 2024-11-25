@@ -13,7 +13,9 @@ import { Router } from '@angular/router';
 
 export class WorkExperienceComponent {
   workExperienceForm!: FormGroup;
-  jobList: string[] = [];
+  jobList = new Map<number, any>;
+  htmlListOfJobs: string[] = ['', '', ''];
+  jobsEntered: Boolean[] = [false, false, false];
   currentJob: Boolean = false;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
@@ -34,13 +36,12 @@ export class WorkExperienceComponent {
   }
 
   addJob(): void {
-    if (this.jobList.length < 3) {
+    if (this.jobList.size < 3) {
       if (this.workExperienceForm.valid) {
         if (this.currentJob)
           this.workExperienceForm.get('currentJobValue')?.setValue(true);
 
-        this.saveJobToDatbase(this.workExperienceForm.value)
-        this.jobList.push(this.workExperienceForm.value);
+        this.saveJobToDatbase(this.workExperienceForm.value);
         console.log("List of Jobs: " + "\n" + "--------------" + "\n");
         this.jobList.forEach(element => {
           console.log(element);
@@ -55,13 +56,20 @@ export class WorkExperienceComponent {
     }
   }
 
+  editJob(index: number) {
+    this.workExperienceForm = this.jobList.get(Array.from(this.jobList.keys())[index]);
+    this.removeJobWithIndex(index);
+  }
+
   saveJobToDatbase(value: any){
     console.log(value);
     this.auth.submitJobsInfo(value)
     .subscribe({
-      next:(res) => {
-        alert(res.message)
-        this.workExperienceForm.reset()
+      next:(data) => {
+        this.addToHtmlList(this.workExperienceForm.get('companyName')?.value + ' - ' + this.workExperienceForm.get('position')?.value)
+        this.jobList.set(data, this.workExperienceForm);
+        alert("Job has been saved.")
+        this.workExperienceForm.reset();
         this.currentJob = false;
       },
       error: (err) => {
@@ -71,14 +79,35 @@ export class WorkExperienceComponent {
     })
   }
 
+  addToHtmlList(htmlInsert: string) {
+    this.htmlListOfJobs[this.jobList.size] = htmlInsert;
+    this.jobsEntered[this.jobList.size] = true;
+  }
+
+  removeJobWithIndex(index: number) {
+    this.auth.deleteJob(Array.from(this.jobList.keys())[index])
+    .subscribe({
+      next:(res) => {
+        alert(res.message)
+      },
+      error: (err) => {
+        console.error('Full Error Response:', err);
+        alert(err?.error.message);
+      }
+    })
+    this.jobList.delete(Array.from(this.jobList.keys())[index]);
+    this.htmlListOfJobs.splice(index, 1);
+    this.jobsEntered.splice(index, 1);
+  }
+
   continueButtonPushed(){
-    if (this.jobList.length >= 1) {
+    if (this.jobList.size >= 1) {
       this.workExperienceForm.reset();
-      this.router.navigate(['skills']);
+      this.router.navigate(['download']);
     }
     else {
       alert("No jobs entered. Proceeding")
-      this.router.navigate(['skills']);
+      this.router.navigate(['download']);
     }
   }
 }

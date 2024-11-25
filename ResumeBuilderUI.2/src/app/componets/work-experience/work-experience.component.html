@@ -59,11 +59,19 @@
 
         <!-- Add Another Job Button -->
         <div class="button grey-button">
-          <input (click)="(addJob())"type="button" value="Add Another Job" id="addJobButton">
+          <input (click)="(addJob())"type="button" value="Add Job" id="addJobButton">
         </div>
 
         <!-- Job Preview Section -->
-        <ul id="jobList" class="job-preview"></ul>
+        <div class="title">Job List (Click to edit)</div>
+        <ul id="jobList" class="job-preview">
+          <li class="input-field" *ngIf="jobsEntered[0]" (click)="editJob(0)">{{htmlListOfJobs[0]}}</li>
+          <button *ngIf="jobsEntered[0]" (click)="removeJobWithIndex(0)">Remove</button>
+          <li class="input-field" *ngIf="jobsEntered[1]" (click)="editJob(1)">{{htmlListOfJobs[1]}}</li>
+          <button *ngIf="jobsEntered[1]" (click)="removeJobWithIndex(1)">Remove</button>
+          <li class="input-field" *ngIf="jobsEntered[2]" (click)="editJob(2)">{{htmlListOfJobs[2]}}</li>
+          <button *ngIf="jobsEntered[2]" (click)="removeJobWithIndex(2)">Remove</button>
+        </ul>
 
         <!-- Go Back and Continue Buttons -->
         <div class="button">

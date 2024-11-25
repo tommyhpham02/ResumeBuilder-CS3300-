@@ -35,4 +35,9 @@ export class AuthService {
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.post<any>(`${this.actualUrl}submit/jobs/${sessionStorage.getItem("userId")}`, jobInfo)
   }
+
+  deleteJob(id: number){
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.delete<any>(`${this.actualUrl}delete/jobs/${id}`)
+  }
 }

@@ -15,9 +15,5 @@ namespace RsumeBuilder_Team_9_.Models
         public string? PhoneNumber { get; set; }
         public string? Website { get; set; }
         public string? Summary { get; set; }
-        public ICollection<Degree>? Degrees { get; set; }
-        public ICollection<Language>? Languages { get; set; }
-
-        public ICollection<Job>? Jobs { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResumeInputId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("YearGraduated")
@@ -53,7 +53,7 @@ namespace RsumeBuilder_Team_9_.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ResumeInputId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Degree", (string)null);
                 });
@@ -85,16 +85,16 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResumeInputId")
-                        .HasColumnType("int");
-
                     b.Property<string>("StartDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ResumeInputId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Job", (string)null);
                 });
@@ -115,12 +115,12 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResumeInputId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ResumeInputId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Language");
                 });
@@ -197,27 +197,27 @@ namespace RsumeBuilder_Team_9_.Migrations
 
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.Degree", b =>
                 {
-                    b.HasOne("RsumeBuilder_Team_9_.Models.ResumeInput", null)
+                    b.HasOne("RsumeBuilder_Team_9_.Models.User", null)
                         .WithMany("Degrees")
-                        .HasForeignKey("ResumeInputId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.Job", b =>
                 {
-                    b.HasOne("RsumeBuilder_Team_9_.Models.ResumeInput", null)
+                    b.HasOne("RsumeBuilder_Team_9_.Models.User", null)
                         .WithMany("Jobs")
-                        .HasForeignKey("ResumeInputId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.Language", b =>
                 {
-                    b.HasOne("RsumeBuilder_Team_9_.Models.ResumeInput", null)
+                    b.HasOne("RsumeBuilder_Team_9_.Models.User", null)
                         .WithMany("Languages")
-                        .HasForeignKey("ResumeInputId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -231,17 +231,14 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RsumeBuilder_Team_9_.Models.ResumeInput", b =>
+            modelBuilder.Entity("RsumeBuilder_Team_9_.Models.User", b =>
                 {
                     b.Navigation("Degrees");
 
                     b.Navigation("Jobs");
 
                     b.Navigation("Languages");
-                });
 
-            modelBuilder.Entity("RsumeBuilder_Team_9_.Models.User", b =>
-                {
                     b.Navigation("ResumeInput")
                         .IsRequired();
                 });
