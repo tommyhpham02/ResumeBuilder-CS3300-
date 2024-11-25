@@ -23,8 +23,17 @@ export class WorkExperienceComponent {
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    // Get the user ID from the session storage
+    const userLoggedIn = sessionStorage.getItem('userId');
+
+    // If there is no user ID in the session storage
+    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
+      this.router.navigate(['login']); // Go to login page if user is not logged in
+    }
+
     this.setFormGroup('', '', '', '', '');
 
+    // If editing the resume (set up variable later) takes already stored jobs from database to put into list
     if (this.editingResume) {
       this.auth.getListOfEnteredJobs()
       .subscribe(data => {
@@ -40,7 +49,7 @@ export class WorkExperienceComponent {
             this.editMode = true;
       });
     }
-
+    // Or if not editing, deletes all jobs associated with the user.
     else {
       this.auth.deleteAllJobs()
       .subscribe({
@@ -55,6 +64,7 @@ export class WorkExperienceComponent {
     }
   }
 
+  // Sets the form to have certain values as well as the checkbox
   setFormGroup(name: string, pos: string, start: string, end: string, res: string) : void {
     if (end == `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`)
       this.currentJob = true;
@@ -71,6 +81,7 @@ export class WorkExperienceComponent {
     });
   }
 
+  // When recieving from the API, takes the string and replaces capitalized letters with lowercase ones in JSON string.
   makeKeysLowercase(jsonData: string): string {
     jsonData = jsonData.replace("\"Id\":", "\"id\":");
     jsonData = jsonData.replace("\"UserId\":", "\"userId\":");
@@ -83,6 +94,7 @@ export class WorkExperienceComponent {
     return jsonData;
   }
 
+  // For when the current checkbox is clicked.
   onCurrentChange(): void {
     this.currentJob = !this.currentJob;
     if (this.currentJob) {
@@ -94,6 +106,7 @@ export class WorkExperienceComponent {
     }
   }
 
+  // For when the current checkbox is clicked, but edits are made to the date.
   checkIfCurrent(): void {
     if ((this.workExperienceForm.controls['endDate'].value != 
         `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`) &&
@@ -103,6 +116,7 @@ export class WorkExperienceComponent {
         }
   }
 
+  // Adds job to database if form is valid and no more than three already in database.
   addJob(): void {
     if (this.jobList.size < 3) {
       if (this.workExperienceForm.valid) {
@@ -120,6 +134,7 @@ export class WorkExperienceComponent {
     }
   }
 
+  // Replaces input fields with specified job wanting to edit, removes original from database. 
   editJob(index: number) {
     this.editMode = false;
     let jobToEdit = this.jobList.get(Array.from(this.jobList.keys())[index]);
@@ -129,6 +144,7 @@ export class WorkExperienceComponent {
     this.removeJobWithIndex(index);
   }
 
+  // Saves job to database and adds to appropriate lists.
   saveJobToDatbase(value: any) {
     this.auth.submitJobsInfo(value)
     .subscribe({
@@ -147,11 +163,13 @@ export class WorkExperienceComponent {
     });
   }
 
+  // Adds job information needed for displaying on frontend.
   addToHtmlList(htmlInsert: string) {
     this.htmlListOfJobs[this.jobList.size] = htmlInsert;
     this.jobsEntered[this.jobList.size] = true;
   }
 
+  // Removes job from database and lists with specified index.
   removeJobWithIndex(index: number): void {
     console.log(this.jobList.get(Array.from(this.jobList.keys())[index]))
     this.auth.deleteJob(Array.from(this.jobList.keys())[index])
@@ -172,6 +190,7 @@ export class WorkExperienceComponent {
       this.editMode = false;
   }
 
+  // Continues to next page
   continueButtonPushed(): void {
     if (this.jobList.size >= 1) {
       this.workExperienceForm.reset();
@@ -183,6 +202,7 @@ export class WorkExperienceComponent {
     }
   }
 
+  // Goes back to previous page.
   goBackButtonPushed(): void {
     this.workExperienceForm.reset();
     this.router.navigate(['skills']);
