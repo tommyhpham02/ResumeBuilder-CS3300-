@@ -27,27 +27,47 @@ export class AuthService {
   }
 
   submitPersonalInfo(infoObj: any){
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.put<any>(`${this.actualUrl}submit/personalInfo/${sessionStorage.getItem("userId")}`, infoObj)
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.put<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, infoObj)
   }
 
   submitJobsInfo(jobInfo: any){
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.post<any>(`${this.actualUrl}submit/jobs/${sessionStorage.getItem("userId")}`, jobInfo)
+    this.actualUrl = this.baseUrl + "Jobs/"
+    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, jobInfo)
   }
 
   deleteJob(id: number){
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.delete<any>(`${this.actualUrl}delete/jobs/${id}`)
+    this.actualUrl = this.baseUrl + "Jobs/"
+    return this.http.delete<any>(`${this.actualUrl}delete/${id}`)
   }
 
   deleteAllJobs() {
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.delete<any>(`${this.actualUrl}delete/jobs/all/${sessionStorage.getItem("userId")}`)
+    this.actualUrl = this.baseUrl + "Jobs/"
+    return this.http.delete<any>(`${this.actualUrl}delete/all/${sessionStorage.getItem("userId")}`)
   }
 
   getListOfEnteredJobs() {
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.get<any>(`${this.actualUrl}get/jobs/all/${sessionStorage.getItem("userId")}`)
+    this.actualUrl = this.baseUrl + "Jobs/"
+    return this.http.get<any>(`${this.actualUrl}get/all/${sessionStorage.getItem("userId")}`)
+  }
+
+  submitDegreesInfo(degreeInfo: any){
+    this.actualUrl = this.baseUrl + "Degrees/"
+    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`,degreeInfo)
+  }
+
+  deleteDegree(id: number){
+    this.actualUrl = this.baseUrl + "Degrees/"
+    return this.http.delete<any>(`${this.actualUrl}delete/${id}`)
+  }
+
+  deleteAllDegrees() {
+    this.actualUrl = this.baseUrl + "Degrees/"
+    return this.http.delete<any>(`${this.actualUrl}delete/all/${sessionStorage.getItem("userId")}`)
+  }
+
+  getListOfEnteredDegrees() {
+    this.actualUrl = this.baseUrl + "Degrees/"
+    return this.http.get<any>(`${this.actualUrl}get/all/${sessionStorage.getItem("userId")}`)
   }
 }

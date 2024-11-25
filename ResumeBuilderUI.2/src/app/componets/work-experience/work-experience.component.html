@@ -39,7 +39,7 @@
               <div class="input-box" [class.error]="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')">
                 <span class="details">End Date</span>
                 <div class="end-date-container">
-                  <input formControlName="endDate" type="date" id="endDate" required>
+                  <input (change)="checkIfCurrent()"formControlName="endDate" type="date" id="endDate" required>
                   <small *ngIf="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')" class="text-danger">End Date is Required</small>
                   <label for="currentCheckbox">
                     <input (change)="onCurrentChange()" formControlName="checkBox" type="checkbox" id="currentCheckbox">
@@ -78,7 +78,7 @@
 
         <!-- Go Back and Continue Buttons -->
         <div class="button">
-          <input type="button" value="Go Back">
+          <input (click)="goBackButtonPushed()"type="button" value="Go Back">
           <input (click)="continueButtonPushed()" type="button" value="Continue">
         </div>
       </form>

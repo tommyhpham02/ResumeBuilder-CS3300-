@@ -55,7 +55,7 @@ export class WorkExperienceComponent {
     }
   }
 
-  setFormGroup(name: string, pos: string, start: string, end: string, res: string) {
+  setFormGroup(name: string, pos: string, start: string, end: string, res: string) : void {
     if (end == `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`)
       this.currentJob = true;
     else
@@ -94,6 +94,15 @@ export class WorkExperienceComponent {
     }
   }
 
+  checkIfCurrent(): void {
+    if ((this.workExperienceForm.controls['endDate'].value != 
+        `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`) &&
+        (this.currentJob == true)) {
+          this.currentJob = false;
+          this.workExperienceForm.controls['checkBox'].setValue(this.currentJob);
+        }
+  }
+
   addJob(): void {
     if (this.jobList.size < 3) {
       if (this.workExperienceForm.valid) {
@@ -128,10 +137,6 @@ export class WorkExperienceComponent {
         this.workExperienceForm.removeControl('checkBox');
         this.addToHtmlList(this.workExperienceForm.controls['companyName'].value + ' - ' + this.workExperienceForm.controls['position'].value)
         this.jobList.set(data, value);
-        console.log("List of Jobs: " + "\n" + "--------------" + "\n");
-        this.jobList.forEach((value, key) => {
-          console.log(value);
-        });
         this.setFormGroup('', '', '', '', '');
         this.currentJob = false;
       },
@@ -147,7 +152,7 @@ export class WorkExperienceComponent {
     this.jobsEntered[this.jobList.size] = true;
   }
 
-  removeJobWithIndex(index: number) {
+  removeJobWithIndex(index: number): void {
     console.log(this.jobList.get(Array.from(this.jobList.keys())[index]))
     this.auth.deleteJob(Array.from(this.jobList.keys())[index])
     .subscribe({
@@ -167,7 +172,7 @@ export class WorkExperienceComponent {
       this.editMode = false;
   }
 
-  continueButtonPushed(){
+  continueButtonPushed(): void {
     if (this.jobList.size >= 1) {
       this.workExperienceForm.reset();
       this.router.navigate(['download']);
@@ -176,6 +181,11 @@ export class WorkExperienceComponent {
       alert("No jobs entered. Proceeding")
       this.router.navigate(['download']);
     }
+  }
+
+  goBackButtonPushed(): void {
+    this.workExperienceForm.reset();
+    this.router.navigate(['skills']);
   }
 }
 
