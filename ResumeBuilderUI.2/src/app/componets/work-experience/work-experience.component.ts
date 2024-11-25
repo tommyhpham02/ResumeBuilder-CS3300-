@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -13,8 +13,105 @@ import { Router } from '@angular/router';
 
 export class WorkExperienceComponent {
   workExperienceForm!: FormGroup;
+  jobList = new Map<number, any>;
+  htmlListOfJobs: string[] = ['', '', ''];
+  jobsEntered: Boolean[] = [false, false, false];
+  currentJob: Boolean = false;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.workExperienceForm = this.fb.group({
+      companyName: ['', Validators.required],
+      position: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      currentJobValue: [false],
+      jobResponsibilities: ['', Validators.required]
+    });
+  }
+
+  onCurrentChange(): void {
+    this.currentJob = !this.currentJob;
+    console.log("Truth Value: " + this.currentJob);
+  }
+
+  addJob(): void {
+    if (this.jobList.size < 3) {
+      if (this.workExperienceForm.valid) {
+        if (this.currentJob)
+          this.workExperienceForm.get('currentJobValue')?.setValue(true);
+
+        this.saveJobToDatbase(this.workExperienceForm.value);
+        console.log("List of Jobs: " + "\n" + "--------------" + "\n");
+        this.jobList.forEach(element => {
+          console.log(element);
+        });
+      }
+      else {
+        alert("Form is invalid!")
+      }
+    }
+    else {
+      alert("Cannot have more than 3 jobs!");
+    }
+  }
+
+  editJob(index: number) {
+    this.workExperienceForm = this.jobList.get(Array.from(this.jobList.keys())[index]);
+    this.removeJobWithIndex(index);
+  }
+
+  saveJobToDatbase(value: any){
+    console.log(value);
+    this.auth.submitJobsInfo(value)
+    .subscribe({
+      next:(data) => {
+        this.addToHtmlList(this.workExperienceForm.get('companyName')?.value + ' - ' + this.workExperienceForm.get('position')?.value)
+        this.jobList.set(data, this.workExperienceForm);
+        alert("Job has been saved.")
+        this.workExperienceForm.reset();
+        this.currentJob = false;
+      },
+      error: (err) => {
+        console.error('Full Error Response:', err);
+        alert(err?.error.message);
+      }
+    })
+  }
+
+  addToHtmlList(htmlInsert: string) {
+    this.htmlListOfJobs[this.jobList.size] = htmlInsert;
+    this.jobsEntered[this.jobList.size] = true;
+  }
+
+  removeJobWithIndex(index: number) {
+    this.auth.deleteJob(Array.from(this.jobList.keys())[index])
+    .subscribe({
+      next:(res) => {
+        alert(res.message)
+      },
+      error: (err) => {
+        console.error('Full Error Response:', err);
+        alert(err?.error.message);
+      }
+    })
+    this.jobList.delete(Array.from(this.jobList.keys())[index]);
+    this.htmlListOfJobs.splice(index, 1);
+    this.jobsEntered.splice(index, 1);
+  }
+
+  continueButtonPushed(){
+    if (this.jobList.size >= 1) {
+      this.workExperienceForm.reset();
+      this.router.navigate(['download']);
+    }
+    else {
+      alert("No jobs entered. Proceeding")
+      this.router.navigate(['download']);
+    }
+  }
 }
+
 /*
 const MAX_JOBS = 3;
 

@@ -41,16 +41,14 @@ export class LoginComponent implements OnInit{
       this.auth.login(this.loginForm.value)
       .subscribe({
         next: (res)=>{
-          alert(res.message);
           this.saveUserId(true);
-          this.saveResumeInputId(true);
+          alert(res.message);
           this.loginForm.reset();
           this.router.navigate(['dashboard'])
         },
         error:(err)=>{
-          alert(err?.error.message)
           this.saveUserId(false);
-          this.saveResumeInputId(false);
+          alert(err?.error.message)
         }
       })
     }
@@ -74,21 +72,6 @@ export class LoginComponent implements OnInit{
     }
     else{
       sessionStorage.setItem('userId', '-1');
-    }
-  }
-
-  saveResumeInputId(valid: Boolean){
-    if (valid){
-      this.auth.getResumeInputId().subscribe
-      (data => 
-        {
-          sessionStorage.setItem('resumeInputId', data);
-        }
-      );
-      this.loginSuccess = false;
-    }
-    else{
-      sessionStorage.setItem('resumeInputId', '-1');
     }
   }
 }

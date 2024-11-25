@@ -16,7 +16,7 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPut("submit/personalInfo/{id}")]
-        public async Task<IActionResult> RegisterUser([FromBody] ResumeInput inputObj, string id)
+        public async Task<IActionResult> SubmitPersonlInfo([FromBody] ResumeInput inputObj, string id)
         {
             var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
 
@@ -36,15 +36,84 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
-        [HttpGet("resumeInputId/{userId}")]
-        public IActionResult GetIdByUsername(string userId)
-        {
-            var resumeInput = _authContext.ResumeInputs.FirstOrDefault(x => x.UserId.ToString() == userId);
-
-            if (resumeInput == null)
+        /// <summary>
+        /// Submits a degree to the Degrees table in the database.
+        /// </summary>
+        /// <param name="degree"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("submit/degrees/{id}")]
+        public async Task<IActionResult> SubmitDegreeList(Degree degree, string id)
+        { 
+            if (degree == null)
                 return BadRequest();
 
-            return Ok(resumeInput.Id.ToString());
+            if (id == "0")
+                return BadRequest();
+
+            degree.UserId = int.Parse(id);
+            await _authContext.Degrees.AddAsync(degree); 
+            await _authContext.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = "Degree saved."
+            });
+        }
+        /// <summary>
+        /// Submits a job to the Jobs table in the database.
+        /// </summary>
+        /// <param name="job"></param>
+        /// <param name="id"></param>
+        /// <returns>Error message or primary key id of entered job</returns>
+        [HttpPost("submit/jobs/{id}")]
+        public async Task<IActionResult> SubmitJobList(Job job, string id)
+        {
+            if (job == null)
+                return BadRequest();
+            else if (id == "0")
+                return BadRequest();
+
+            if ((_authContext.Jobs.Where(x => x.UserId.ToString() == id)).ToList().Count < 3)
+            {
+                job.UserId = int.Parse(id);
+                await _authContext.Jobs.AddAsync(job);
+                await _authContext.SaveChangesAsync();
+
+                int jobId = job.Id;
+
+                return Ok(jobId);
+            }
+            else
+            { 
+                return BadRequest("Already three entries saved.");
+            }
+        }
+
+        [HttpDelete("delete/jobs/{id}")]
+        public async Task<IActionResult> RemoveJobFromList(int id)
+        { 
+            if (id == 0)
+                return BadRequest();
+
+            var jobToRemove = _authContext.Jobs.SingleOrDefault(x => x.Id == id);
+
+            if (jobToRemove == null)
+                return NotFound();
+
+            _authContext.Jobs.Remove(jobToRemove);
+            await _authContext.SaveChangesAsync();
+
+            return Ok(new { Message = "Job successfully removed." });
+
+        }
+
+        private int FindResumeInputIdFromUserID(string id)
+        {
+            var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
+            int resumeInputId = ((input == null) ? 0 : input.Id);
+
+            return resumeInputId;
         }
     }
 }

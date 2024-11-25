@@ -1,3 +1,4 @@
+/*
 const MAX_EDUCATIONS = 3;
 
 const educationContainer = document.getElementById("educationContainer") as HTMLElement;
@@ -87,5 +88,5 @@ function addEducationToPreview(educationEntry: HTMLElement): void {
 
 // Attach event listener to the Add edu button
 addEducationButton.addEventListener("click", addEducation);
-
+*/
 

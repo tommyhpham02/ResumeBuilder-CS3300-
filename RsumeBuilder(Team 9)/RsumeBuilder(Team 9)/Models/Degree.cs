@@ -7,8 +7,8 @@ namespace RsumeBuilder_Team_9_.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("ResumeInput")]
-        public int ResumeInputId { get; set; }
+        [ForeignKey("User")]
+        public int UserId { get; set; }
         public string College { get; set; }
         public string CityAndState { get; set; }
         public string DegreeType { get; set; }
