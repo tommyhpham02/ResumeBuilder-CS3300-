@@ -11,7 +11,7 @@ body, html {
     font-family: 'Poppins', sans-serif; /* Applying Poppins as the main font */
     background: linear-gradient(135deg, #2f8687, #0f034d);
     color: #fff;
-    overflow: hidden; /* Prevents scroll from any body overflow */
+    overflow: hidden;
 }
 
 

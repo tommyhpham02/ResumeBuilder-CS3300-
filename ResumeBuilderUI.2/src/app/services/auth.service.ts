@@ -30,6 +30,10 @@ export class AuthService {
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.put<any>(`${this.actualUrl}submit/personalInfo/${sessionStorage.getItem("userId")}`, infoObj)
   }
+  submitSkillsInfo(infoObj: any){
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.put<any>(`${this.actualUrl}submit/skillsInfo/${sessionStorage.getItem("userId")}`, infoObj)
+  }
 
   submitJobsInfo(jobInfo: any){
     this.actualUrl = this.baseUrl + "Input/"
