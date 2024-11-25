@@ -9,20 +9,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="main-container">
-    <!-- Main Title -->
-    <h1 class="title">Resume Creation Options</h1>
+  <div class="container">
+    
+    <!-- Check if user is logged in -->
+    
+    <!-- Title section -->
+    <h1 class="title">Welcome to ResuMy</h1>
+
+    <!-- Message text -->
+    <div class="container">
+      Please pick what you would like to do.
+    </div>
     
     <!-- Button Group -->
     <div class="button-group">
-      <button (click)="onEdit()">Edit Resume</button>
-      <button (click)="onNewresume()">New Resume</button>
+      <input type="button" class="old-resume" value="Continue With Old Resume"(click)="onEdit()">
+      <input type="button" class="new-resume" value="Start New Resume" (click)="onNewresume()">
+      <input type="button" class="download-resume" value="Resume Export Page" (click)="onExportResume()">
+      <input type="button" class="logout-option" value="Logout" (click)="onLogout()" >
     </div>
-    
-    <!-- Create Resume Button -->
-    <div class="create-resume">
-      <button (click)="onLogout()">Logout</button>
-    </div>
+
   </div>
 </body>
 </html>

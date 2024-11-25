@@ -1,85 +1,127 @@
 /* Importing Google Fonts - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
-/* Universal reset */
+/* Basic Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-body, html {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins', sans-serif; /* Applying Poppins as the main font */
-    background: linear-gradient(135deg, #2f8687, #0f034d);
-    color: #fff;
-    overflow: auto; /* Prevents scroll from any body overflow */
+/* Background styling */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(135deg, #68d0cd, #1c0455);
 }
 
-/* Main Container Centering */
-.main-container {
-    text-align: center;
-    outline: none; /* Ensures no outlines */
-    border: none;  /* Removes any default borders */
-    min-height: 100vh; /* Ensures the container is at least the height of the viewport */
-}
-
-/* Title Styling */
-.title {
-    font-size: 65px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    font-family: 'Poppins', sans-serif; /* Ensures title uses Poppins */
-    border: none; /* Removes any default borders */
-    outline: none; /* Removes any outlines */
-    box-shadow: none; /* Removes any shadows */
-}
-
-/* Button Group Styling for Register and Log In */
-.button-group {
-  display: inline-flex;
-  gap: 15px;
-  margin-bottom: 40px;
-}
-
-.button-group button {
-  padding: 15px 35px; /* Consistent padding */
-  min-width: 150px; /* Ensures both buttons are the same width */
-  font-size: 18px;
-  font-weight: bold;
-  color: #9b59b6;
-  background-color: #f8f9fa;
-  border: 2px solid #9b59b6;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* Main container box */
+.container {
+  max-width: 600px;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
-.button-group button:hover {
-  background-color: #e2e3e5;
-  color: #5a3d71;
-  border-color: #5a3d71;
+/* Title section */
+.title {
+  font-size: 26px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Subtitle text styling */
+.subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+/* Button group styling */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between buttons */
+}
+
+/* Button styling */
+.button-group input {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Go Back button style */
+/*.go-back {
+  background-color: #7f8c8d;
+}
+
+.go-back:hover {
+  background-color: #95a5a6;
+}
+*/
+/* Resume Download button style */
+.old-resume {
+  background: linear-gradient(135deg, #71b7e6, #1c0455);
+}
+
+.old-resume:hover {
+  background: linear-gradient(-135deg, #71b7e6, #1c0455);
+}
+
+/* New Resume button style */
+.new-resume {
+  background: linear-gradient(135deg, #9b59b6, #6f1d9b);
+}
+
+.new-resume:hover {
+  background: linear-gradient(-135deg, #9b59b6, #6f1d9b);
+}
+
+/* Download Resume button style */
+.download-resume {
+  background: linear-gradient(135deg, #9f96d8, #7e69e8);
+}
+
+.new-resume:hover {
+  background: linear-gradient(-135deg, #9f96d8, #7e69e8);
+}
+
+.logout-option {
+  background: linear-gradient(135deg, #2f2f32, #a3a2a8);
+}
+
+.logout-option:hover {
+  background: linear-gradient(-135deg, #2f2f32, #a3a2a8);
 }
 
 
-/* Large Create a Resume Button */
-.create-resume button {
-    padding: 20px 50px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    background: linear-gradient(135deg, #71b7e6, #9b59b6);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
 
-.create-resume button:hover {
-    background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+/* Responsive Design for small screens */
+@media (max-width: 600px) {
+  .container {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .button-group input {
+    height: 45px;
+    font-size: 16px;
+  }
 }
