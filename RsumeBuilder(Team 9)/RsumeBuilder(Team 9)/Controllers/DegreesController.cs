@@ -46,50 +46,50 @@ namespace RsumeBuilder_Team_9_.Controllers
             if (id == 0)
                 return BadRequest();
 
-            var jobToRemove = _authContext.Jobs.SingleOrDefault(x => x.Id == id);
+            var degreeToRemove = _authContext.Degrees.SingleOrDefault(x => x.Id == id);
 
-            if (jobToRemove == null)
+            if (degreeToRemove == null)
                 return NotFound();
 
-            _authContext.Jobs.Remove(jobToRemove);
+            _authContext.Degrees.Remove(degreeToRemove);
             await _authContext.SaveChangesAsync();
 
-            return Ok(new { Message = "Job successfully removed." });
+            return Ok(new { Message = "Degree successfully removed." });
 
         }
 
         [HttpDelete("delete/all/{id}")]
         public async Task<IActionResult> RemoveDegreesFromList(int id)
         {
-            List<Job> jobListToDelete = _authContext.Jobs.Where(x => x.UserId == id).ToList();
+            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId == id).ToList();
 
-            if (jobListToDelete.Count > 0)
+            if (degreeListToDelete.Count > 0)
             {
-                foreach (Job job in jobListToDelete)
+                foreach (Degree degree in degreeListToDelete)
                 {
-                    _authContext.Jobs.Remove(job);
+                    _authContext.Degrees.Remove(degree);
                 }
                 await _authContext.SaveChangesAsync();
 
-                return Ok(new { Message = "Jobs were found and removed" });
+                return Ok(new { Message = "Degrees were found and removed" });
             }
             else
             {
-                return Ok(new { Message = "No jobs required removing" });
+                return Ok(new { Message = "No Degrees required removing" });
             }
         }
 
         [HttpGet("get/all/{id}")]
         public IActionResult GetJobsFromList(int id)
         {
-            List<Job> jobListToGet = _authContext.Jobs.Where(x => x.UserId == id).ToList();
+            List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId == id).ToList();
             List<string> jsonStrings = new List<string>();
 
-            if (jobListToGet.Count > 0)
+            if (degreeListToGet.Count > 0)
             {
-                foreach (Job job in jobListToGet)
+                foreach (Degree degree in degreeListToGet)
                 {
-                    string jsonString = JsonSerializer.Serialize<Job>(job);
+                    string jsonString = JsonSerializer.Serialize<Degree>(degree);
                     jsonStrings.Add(jsonString);
                 }
 
@@ -97,7 +97,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
             else
             {
-                return Ok(new { Message = "No jobs required getting" });
+                return Ok(new { Message = "No degrees required getting" });
             }
         }
     }
