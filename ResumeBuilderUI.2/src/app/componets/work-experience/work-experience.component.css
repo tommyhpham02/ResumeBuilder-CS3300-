@@ -270,10 +270,22 @@ form .button-group .continue:hover {
 /* Individual degree item styling */
 .degree-list li {
   background-color: #f7f7f7;
+  display:-moz-inline-box;
   margin: 10px 0;
   padding: 15px;
   border-radius: 5px;
   border: 1px solid #ddd;
+}
+
+.degree-list input {
+  float: right;
+  background-color: royalblue;
+  margin: 0px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  align-self: end;
+  justify-content: end;
 }
 
 /* Responsive layout for screens up to 584px */

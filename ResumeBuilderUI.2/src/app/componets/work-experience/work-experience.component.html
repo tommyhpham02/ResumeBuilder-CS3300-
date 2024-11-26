@@ -62,25 +62,30 @@
           <input (click)="addJob()" type="button" value="Add Job" id="addJobButton">
         </div>
 
-        <!-- Job Preview Section -->
-        <div [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" class="title">Job List</div>
-        <ul [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" id="jobList" class="job-preview">
-          <div [attr.style]="jobsEntered[0] ? displayString : hideString">
-            <li class="input-field">{{htmlListOfJobs[0]}}</li>
-            <input type="Button" (click)="editJob(0)" value="Edit">
-            <input type="Button" (click)="removeJobWithIndex(0)" value="Remove">
-          </div>
-          <div [attr.style]="jobsEntered[1] ? displayString : hideString">
-            <li class="input-field">{{htmlListOfJobs[1]}}</li>
-            <input type="Button" (click)="editJob(1)" value="Edit">
-            <input type="Button" (click)="removeJobWithIndex(1)" value="Remove">
-          </div>
-          <div [attr.style]="jobsEntered[2] ? displayString : hideString">
-            <li class="input-field">{{htmlListOfJobs[2]}}</li>
-            <input type="Button" (click)="editJob(2)" value="Edit">
-            <input type="Button" (click)="removeJobWithIndex(2)" value="Remove">
-          </div>
-        </ul>
+        <div class="degree-list">
+          <div [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" class="title">Job List</div>
+          <ul [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" id="jobList" class="degree-list">
+            <div [attr.style]="jobsEntered[0] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfJobs[0]}}
+                <input type="button" class="degree-list" (click)="editJob(0)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeJobWithIndex(0)" value="Remove">
+              </li>
+            </div>
+            <div [attr.style]="jobsEntered[1] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfJobs[1]}}
+                <input type="button" class="degree-list" (click)="editJob(1)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeJobWithIndex(1)" value="Remove">
+              </li>
+            </div>
+            <div [attr.style]="jobsEntered[2] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfJobs[2]}}
+                <input type="button" class="degree-list" (click)="editJob(2)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeJobWithIndex(2)" value="Remove">
+              </li>
+            </div>
+          </ul>
+        </div>
+
 
         <!-- Make Edit and Cancel Buttons -->
         <div [attr.style]="editMode ? displayString : hideString" class="button grey-button" display="none">
