@@ -86,8 +86,8 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
-  deleteDegree(id: number){
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.delete<any>(`${this.actualUrl}delete/degree/${id}`)
-  }
+  // deleteDegree(id: number){
+  //   this.actualUrl = this.baseUrl + "Input/"
+  //   return this.http.delete<any>(`${this.actualUrl}delete/degree/${id}`)
+  // }
 }

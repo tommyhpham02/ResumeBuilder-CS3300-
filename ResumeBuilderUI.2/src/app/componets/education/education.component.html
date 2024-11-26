@@ -17,14 +17,14 @@
           <!-- Input for College -->
           <div class="input-box">
             <span class="details">College</span>
-            <input formControlName="collegeName" type="text" placeholder="Enter your Full College Name" required>
-            <small *ngIf="educationForm.controls['collegeName'].dirty && educationForm.hasError('required','collegeName')" class="text-danger">College name is required</small>
+            <input formControlName="College" type="text" placeholder="Enter your Full College Name" required>
+            <small *ngIf="educationForm.controls['College'].dirty && educationForm.hasError('required','College')" class="text-danger">College name is required</small>
           </div>
           <!-- Input for City/State -->
           <div class="input-box">
             <span class="details">City/State</span>
-            <input formControlName="collegeCity" type="text" placeholder="Enter the City and State" required>
-            <small *ngIf="educationForm.controls['collegeCity'].dirty && educationForm.hasError('required','collegeCity')" class="text-danger">College city and state is required</small>
+            <input formControlName="CityAndState" type="text" placeholder="Enter the City and State" required>
+            <small *ngIf="educationForm.controls['CityAndState'].dirty && educationForm.hasError('required','CityAndState')" class="text-danger">College city and state is required</small>
           </div>
           <!-- Degree Type Dropdown -->
           <div class="input-box">
@@ -43,51 +43,56 @@
           <!-- Input for Degree -->
           <div class="input-box">
             <span class="details">Degree</span>
-            <input formControlName="collegeDegreeName" type="text" placeholder="Enter your degree" required>
-            <small *ngIf="educationForm.controls['collegeDegreeName'].dirty && educationForm.hasError('required','collegeDegreeName')" class="text-danger">College Degree Name</small>
+            <input formControlName="DegreeName" type="text" placeholder="Enter your degree" required>
+            <small *ngIf="educationForm.controls['DegreeName'].dirty && educationForm.hasError('required','DegreeName')" class="text-danger">College Degree Name</small>
           </div>
           <!-- Input for Year Graduated -->
           <div class="input-box">
             <span class="details">Year Graduated</span>
-            <input formControlName="collegeYear" type="text" placeholder="Enter the year you graduated" required>
-            <small *ngIf="educationForm.controls['collegeYear']?.touched && educationForm.controls['collegeYear']?.hasError('required')" class="text-danger">
+            <input formControlName="YearGraduated" type="text" placeholder="Enter the year you graduated" required>
+            <small *ngIf="educationForm.controls['YearGraduated']?.touched && educationForm.controls['YearGraduated']?.hasError('required')" class="text-danger">
               Graduation year is required.
             </small>
-            <small *ngIf="educationForm.controls['collegeYear']?.touched && educationForm.controls['collegeYear']?.hasError('invalidYear')" class="text-danger">
+            <small *ngIf="educationForm.controls['YearGraduated']?.touched && educationForm.controls['YearGraduated']?.hasError('invalidYear')" class="text-danger">
               Graduation year must be a 4-digit number.
             </small>
           </div>
         </div>
         
-           <!-- Add Another Degree Button -->
-           <div class="button grey-button">
-            <input (click)="addDegree()"type="button" value="Add Another Degree" id="addDegreeButton">
-            
-          </div>
+        <!-- Add Another Degree Button -->
+        <div class="button grey-button">
+          <input (click)="addDegree()" type="button" value="Add Another Degree" id="addDegreeButton">
+        </div>
 
         <!-- List of Degrees -->
         <div class="degree-list">
-          <h3>Degrees Entered:</h3>
-          <ul id="degreeList">
-            <!-- Added degrees will appear here -->
+          <div [attr.style]="degreeListViewable ? displayString : hideString" *ngIf="degreeListViewable" class="title">Degree List</div>
+          <ul [attr.style]="degreeListViewable ? displayString : hideString" *ngIf="degreeListViewable" id="degreeList" class="degree-list">
+            <div [attr.style]="degreesEntered[0] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfDegrees[0]}}
+                <input type="button" class="degree-list" (click)="editDegree(0)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeDegreeWithIndex(0)" value="Remove">
+              </li>
+            </div>
+            <div [attr.style]="degreesEntered[1] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfDegrees[1]}}
+                <input type="button" class="degree-list" (click)="editDegree(1)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeDegreeWithIndex(1)" value="Remove">
+              </li>
+            </div>
+            <div [attr.style]="degreesEntered[2] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfDegrees[2]}}
+                <input type="button" class="degree-list" (click)="editDegree(2)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeDegreeWithIndex(2)" value="Remove">
+              </li>
+            </div>
           </ul>
         </div>
 
-        <!-- Degree Preview Section -->
-        <div class="title">Degree List (Click to edit)</div>
-        <ul id="DegreeList" class="Degree-preview">
-          <li class="input-field" *ngIf="degreeEntered[0]" (click)="editDegree(0)">{{htmlListOfDegree[0]}}</li>
-          <button *ngIf="degreeEntered[0]" (click)="removeDegreeWithIndex(0)">Remove</button>
-          <li class="input-field" *ngIf="degreeEntered[1]" (click)="editDegree(1)">{{htmlListOfDegree[1]}}</li>
-          <button *ngIf="degreeEntered[1]" (click)="removeDegreeWithIndex(1)">Remove</button>
-          <li class="input-field" *ngIf="degreeEntered[2]" (click)="editDegree(2)">{{htmlListOfDegree[2]}}</li>
-          <button *ngIf="degreeEntered[2]" (click)="removeDegreeWithIndex(2)">Remove</button>
-        </ul>
-
         <!-- Go Back and Continue Buttons -->
         <div class="button-group">
-          <input type="button" value="Go Back">
-          <input type="submit" value="Continue">
+          <input type="button" (click)="goBackButtonPushed()" value="Go Back">
+          <input type="submit" (click)="continueButtonPushed()" value="Continue">
         </div>
       </form>
     </div>
