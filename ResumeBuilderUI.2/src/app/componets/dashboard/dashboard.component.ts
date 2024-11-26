@@ -42,7 +42,7 @@ export class DashboardComponent {
       })
     }
     else{
-      console.log("Form is Invalis");
+      console.log("Form is Invalid");
       //throw error
       ValidatorForm.validateAllFormFileds(this.dashboardForm);
       alert("Your Form is invalid")
