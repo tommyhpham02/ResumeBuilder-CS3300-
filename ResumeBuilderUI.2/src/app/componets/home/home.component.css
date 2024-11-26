@@ -3,25 +3,26 @@
 
 
 body, html {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Poppins', sans-serif; /* Applying Poppins as the main font */
-  background: linear-gradient(135deg, #2f8687, #0f034d);
-  color: #fff;
-  overflow: hidden; /* Prevents scroll from any body overflow */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif; /* Applying Poppins as the main font */
+    background: linear-gradient(135deg, #2f8687, #0f034d);
+    color: #fff;
+    overflow: hidden;
 }
 
 
 .main-container {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-min-height: 100vh
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
 }
 
 /* Title Styling */

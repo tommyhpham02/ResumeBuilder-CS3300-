@@ -14,6 +14,7 @@ namespace RsumeBuilder_Team_9_.Context
         public DbSet<ResumeInput> ResumeInputs { get; set; }
         public DbSet<Degree> Degrees { get; set; }
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<SkillsLanguagesCertifications> SLC { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +22,7 @@ namespace RsumeBuilder_Team_9_.Context
             modelBuilder.Entity<ResumeInput>().ToTable("ResumeInput");
             modelBuilder.Entity<Degree>().ToTable("Degree");
             modelBuilder.Entity<Job>().ToTable("Job");
+            modelBuilder.Entity<SkillsLanguagesCertifications>().ToTable("SkillsLanguagesCertifications");
         }
     }
 }
