@@ -28,7 +28,12 @@ export class AuthService {
 
   submitPersonalInfo(infoObj: any){
     this.actualUrl = this.baseUrl + "PersonalInformation/"
-    return this.http.put<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, infoObj)
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, infoObj)
+  }
+
+  submitSLC(slcObj: any){
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, slcObj)
   }
   submitSkillsInfo(infoObj: any){
     this.actualUrl = this.baseUrl + "Input/"
