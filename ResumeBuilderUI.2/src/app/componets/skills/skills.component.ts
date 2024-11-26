@@ -23,12 +23,12 @@ export class SkillsComponent implements OnInit {
 
   ngOnInit(): void {
     this.skillsForm = this.fb.group({
-      languageName: [''],  // Not required
-      proficiency: [''],   // Not required
-      certificationName: [''],  // Not required
-      certificationDate: [''],  // Not required
-      skills: [''],  // Not required
-      projects: ['']  // Not required
+      languageName: [''],
+      proficiency: [''],
+      certificationName: [''],
+      certificationDate: [''],
+      skills: [''],
+      projects: [''] 
     });
   }
 
