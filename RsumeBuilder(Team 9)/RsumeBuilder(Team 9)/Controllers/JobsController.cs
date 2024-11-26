@@ -23,7 +23,7 @@ namespace RsumeBuilder_Team_9_.Controllers
         /// <param name="id"></param>
         /// <returns>Error message or primary key id of entered job</returns>
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitJob(Job job, string id)
+        public async Task<IActionResult> SubmitJob([FromBody] Job job, string id)
         {
             if (job == null)
                 return BadRequest();
@@ -105,6 +105,27 @@ namespace RsumeBuilder_Team_9_.Controllers
             {
                 return Ok(new { Message = "No jobs required getting." });
             }
+        }
+
+        [HttpPut("edit/{jobId}")]
+        public async Task<IActionResult> editJobInfo([FromBody] Job jobObj, int jobId)
+        {
+            var job = _authContext.Jobs.SingleOrDefault(x => x.Id == jobId);
+
+            if (jobObj == null)
+                return BadRequest();
+            else if (job == null)
+                return BadRequest();
+
+            jobObj.Id = job.Id;
+            jobObj.UserId = job.UserId;
+
+            _authContext.Entry(job).CurrentValues.SetValues(jobObj);
+            await _authContext.SaveChangesAsync();
+            return Ok(new
+            {
+                Message = "Job values updated"
+            });
         }
     }
 }

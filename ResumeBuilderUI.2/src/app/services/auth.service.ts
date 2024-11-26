@@ -51,9 +51,14 @@ export class AuthService {
     return this.http.get<any>(`${this.actualUrl}get/all/${sessionStorage.getItem("userId")}`)
   }
 
+  editJob(jobInfo: any, jobId: number) {
+    this.actualUrl = this.baseUrl + "Jobs/"
+    return this.http.put<any>(`${this.actualUrl}edit/${jobId}`, jobInfo)
+  }
+
   submitDegreesInfo(degreeInfo: any){
     this.actualUrl = this.baseUrl + "Degrees/"
-    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`,degreeInfo)
+    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
   deleteDegree(id: number){
@@ -69,5 +74,10 @@ export class AuthService {
   getListOfEnteredDegrees() {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.get<any>(`${this.actualUrl}get/all/${sessionStorage.getItem("userId")}`)
+  }
+
+  editDegree(degreeInfo: any, degreeId: number) {
+    this.actualUrl = this.baseUrl + "Degrees/"
+    return this.http.put<any>(`${this.actualUrl}edit/${degreeId}`, degreeInfo)
   }
 }
