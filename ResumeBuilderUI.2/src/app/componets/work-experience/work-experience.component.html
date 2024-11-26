@@ -58,28 +58,40 @@
         </div> <!-- Closing for jobContainer -->
 
         <!-- Add Another Job Button -->
-        <div class="button grey-button">
-          <input (click)="(addJob())"type="button" value="Add Job" id="addJobButton">
+        <div [attr.style]="!editMode ? displayString : hideString" class="button grey-button">
+          <input (click)="addJob()" type="button" value="Add Job" id="addJobButton">
         </div>
 
         <!-- Job Preview Section -->
-        <div *ngIf="editMode" class="title">Job List</div>
-        <ul *ngIf="editMode" id="jobList" class="job-preview">
-          <li class="input-field" *ngIf="jobsEntered[0]">{{htmlListOfJobs[0]}}</li>
-          <input type="Button" *ngIf="jobsEntered[0]" (click)="editJob(0)" value="Edit">
-          <input type="Button" *ngIf="jobsEntered[0]" (click)="removeJobWithIndex(0)" value="Remove">
-          <li class="input-field" *ngIf="jobsEntered[1]">{{htmlListOfJobs[1]}}</li>
-          <input type="Button" *ngIf="jobsEntered[1]" (click)="editJob(1)" value="Edit">
-          <input type="Button" *ngIf="jobsEntered[1]" (click)="removeJobWithIndex(1)" value="Remove">
-          <li class="input-field" *ngIf="jobsEntered[2]">{{htmlListOfJobs[2]}}</li>
-          <input type="Button" *ngIf="jobsEntered[2]" (click)="editJob(2)" value="Edit">
-          <input type="Button" *ngIf="jobsEntered[2]" (click)="removeJobWithIndex(2)" value="Remove">
+        <div [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" class="title">Job List</div>
+        <ul [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" id="jobList" class="job-preview">
+          <div [attr.style]="jobsEntered[0] ? displayString : hideString">
+            <li class="input-field">{{htmlListOfJobs[0]}}</li>
+            <input type="Button" (click)="editJob(0)" value="Edit">
+            <input type="Button" (click)="removeJobWithIndex(0)" value="Remove">
+          </div>
+          <div [attr.style]="jobsEntered[1] ? displayString : hideString">
+            <li class="input-field">{{htmlListOfJobs[1]}}</li>
+            <input type="Button" (click)="editJob(1)" value="Edit">
+            <input type="Button" (click)="removeJobWithIndex(1)" value="Remove">
+          </div>
+          <div [attr.style]="jobsEntered[2] ? displayString : hideString">
+            <li class="input-field">{{htmlListOfJobs[2]}}</li>
+            <input type="Button" (click)="editJob(2)" value="Edit">
+            <input type="Button" (click)="removeJobWithIndex(2)" value="Remove">
+          </div>
         </ul>
 
+        <!-- Make Edit and Cancel Buttons -->
+        <div [attr.style]="editMode ? displayString : hideString" class="button grey-button" display="none">
+          <input (click)="editJobInDatabase()" type="button" value="Make Edit" id="editButton">
+          <input (click)="cancelEdit()" type="button" value="Cancel" id="cancelButton">
+        </div>
+
         <!-- Go Back and Continue Buttons -->
-        <div class="button">
-          <input (click)="goBackButtonPushed()"type="button" value="Go Back">
-          <input (click)="continueButtonPushed()" type="button" value="Continue">
+        <div [attr.style]="!editMode ? displayString : hideString" class="button">
+          <input *ngIf="!editMode" (click)="goBackButtonPushed()"type="button" value="Go Back">
+          <input *ngIf="!editMode" (click)="continueButtonPushed()" type="button" value="Continue">
         </div>
       </form>
     </div>

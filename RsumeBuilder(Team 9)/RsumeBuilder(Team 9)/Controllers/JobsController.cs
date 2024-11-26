@@ -106,5 +106,26 @@ namespace RsumeBuilder_Team_9_.Controllers
                 return Ok(new { Message = "No jobs required getting." });
             }
         }
+
+        [HttpPut("edit/{jobId}")]
+        public async Task<IActionResult> SubmitPersonlInfo([FromBody] Job inputObj, int jobId)
+        {
+            var input = _authContext.Jobs.SingleOrDefault(x => x.Id == jobId);
+
+            if (inputObj == null)
+                return BadRequest();
+            else if (input == null)
+                return BadRequest();
+
+            inputObj.Id = input.Id;
+            inputObj.UserId = input.UserId;
+
+            _authContext.Entry(input).CurrentValues.SetValues(inputObj);
+            await _authContext.SaveChangesAsync();
+            return Ok(new
+            {
+                Message = "Job values updated"
+            });
+        }
     }
 }
