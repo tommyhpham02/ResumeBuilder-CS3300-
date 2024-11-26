@@ -270,7 +270,6 @@ form .button-group .continue:hover {
 /* Individual degree item styling */
 .degree-list li {
   background-color: #f7f7f7;
-  display:-moz-inline-box;
   margin: 10px 0;
   padding: 15px;
   border-radius: 5px;

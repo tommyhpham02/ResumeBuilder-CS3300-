@@ -23,7 +23,7 @@ namespace RsumeBuilder_Team_9_.Controllers
         /// <param name="id"></param>
         /// <returns>Error message or primary key id of entered job</returns>
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitJob(Job job, string id)
+        public async Task<IActionResult> SubmitJob([FromBody] Job job, string id)
         {
             if (job == null)
                 return BadRequest();
@@ -108,19 +108,19 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPut("edit/{jobId}")]
-        public async Task<IActionResult> SubmitPersonlInfo([FromBody] Job inputObj, int jobId)
+        public async Task<IActionResult> editJobInfo([FromBody] Job jobObj, int jobId)
         {
-            var input = _authContext.Jobs.SingleOrDefault(x => x.Id == jobId);
+            var job = _authContext.Jobs.SingleOrDefault(x => x.Id == jobId);
 
-            if (inputObj == null)
+            if (jobObj == null)
                 return BadRequest();
-            else if (input == null)
+            else if (job == null)
                 return BadRequest();
 
-            inputObj.Id = input.Id;
-            inputObj.UserId = input.UserId;
+            jobObj.Id = job.Id;
+            jobObj.UserId = job.UserId;
 
-            _authContext.Entry(input).CurrentValues.SetValues(inputObj);
+            _authContext.Entry(job).CurrentValues.SetValues(jobObj);
             await _authContext.SaveChangesAsync();
             return Ok(new
             {

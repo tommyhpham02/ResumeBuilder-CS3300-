@@ -22,7 +22,7 @@ namespace RsumeBuilder_Team_9_.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitDegree(Degree degree, string id)
+        public async Task<IActionResult> SubmitDegree([FromBody] Degree degree, string id)
         {
             if (degree == null)
                 return BadRequest();
@@ -99,6 +99,27 @@ namespace RsumeBuilder_Team_9_.Controllers
             {
                 return Ok(new { Message = "No degrees required getting" });
             }
+        }
+
+        [HttpPut("edit/{degreeId}")]
+        public async Task<IActionResult> editDegreeInfo([FromBody] Degree degreeObj, int degreeId)
+        {
+            var degree = _authContext.Degrees.SingleOrDefault(x => x.Id == degreeId);
+
+            if (degreeObj == null)
+                return BadRequest();
+            else if (degree == null)
+                return BadRequest();
+
+            degreeObj.Id = degree.Id;
+            degreeObj.UserId = degree.UserId;
+
+            _authContext.Entry(degree).CurrentValues.SetValues(degreeObj);
+            await _authContext.SaveChangesAsync();
+            return Ok(new
+            {
+                Message = "Degree values updated"
+            });
         }
     }
 }

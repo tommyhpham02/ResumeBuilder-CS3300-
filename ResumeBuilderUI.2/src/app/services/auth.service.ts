@@ -75,4 +75,9 @@ export class AuthService {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.get<any>(`${this.actualUrl}get/all/${sessionStorage.getItem("userId")}`)
   }
+
+  editDegree(degreeInfo: any, degreeId: number) {
+    this.actualUrl = this.baseUrl + "Degrees/"
+    return this.http.put<any>(`${this.actualUrl}edit/${degreeId}`, degreeInfo)
+  }
 }
