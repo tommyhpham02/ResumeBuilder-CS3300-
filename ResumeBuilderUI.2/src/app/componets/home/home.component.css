@@ -11,14 +11,18 @@ body, html {
     font-family: 'Poppins', sans-serif; /* Applying Poppins as the main font */
     background: linear-gradient(135deg, #2f8687, #0f034d);
     color: #fff;
-    overflow: hidden; /* Prevents scroll from any body overflow */
+    overflow: hidden;
 }
 
-/* Main Container Centering */
+
 .main-container {
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    outline: none; /* Ensures no outlines */
-    border: none;  /* Removes any default borders */
+    min-height: 100vh;
 }
 
 /* Title Styling */
