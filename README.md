@@ -130,9 +130,9 @@ SQL Server Managment Studio 20.
 In the repository you to run the backend you will need to go into the RsumeBuilder(Team 9) folder and find the solution file. Then run the program like normal.
 
 In the repository you to run the frontend you will need to go into the ResumeBuilderUI.2 folder in VS Code. Then open a terminal in VS code and uses this command:
-     ```bash
-     ng serve -o
-     ```
+    ```bash
+    ng serve -o
+    ```
 The application should open the Swagger UI and the Front Page.
 
 
