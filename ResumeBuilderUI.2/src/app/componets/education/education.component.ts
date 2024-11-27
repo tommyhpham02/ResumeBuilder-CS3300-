@@ -157,7 +157,6 @@ export class EducationComponent {
         // Reset the form
         this.setFormGroup('', '', '', '', '');
         this.currentDegree = false;
-        //alert(data.Message);
       },
       error: (err) => {
         console.error("Error response from backend:", err);
