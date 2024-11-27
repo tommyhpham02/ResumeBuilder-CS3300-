@@ -1,0 +1,241 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Background Styling */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(135deg, #68d0cd, #1c0455);
+}
+
+/* Main Container */
+.container {
+  max-width: 800px;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Title Section */
+.container .title {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+}
+
+.container .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #71b7e6, #1c0455);
+}
+
+/* Form Layout */
+.content form .user-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+
+form .user-details .input-box {
+  margin-bottom: 15px;
+  width: calc(50% - 20px); /* Two-column layout */
+}
+
+/* Label Styling */
+form .input-box span.details {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+/* Input Fields */
+.user-details .input-box input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.user-details .input-box input:focus,
+.user-details .input-box input:valid {
+  border-color: #9b59b6;
+}
+
+/* End Date & Current Checkbox */
+.end-date-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.end-date-container input[type="checkbox"] {
+  width: auto;
+  height: auto;
+  margin-left: 5px;
+}
+
+.end-date-container label {
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+/* Summary Box */
+form .summary-box {
+  width: 100%;
+  margin-top: 20px;
+}
+
+form .summary-box .details {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+form .summary-box textarea {
+  width: 100%;
+  height: 150px;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+form .summary-box textarea:focus,
+form .summary-box textarea:valid {
+  border-color: #9b59b6;
+}
+
+/* Add Another Job Button */
+.grey-button input[type="button"] {
+  height: 40px;
+  width: 100%;
+  background-color: #ccc;
+  color: #ffffff;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.grey-button input[type="button"]:hover {
+  background-color: #bbb;
+}
+
+/* Job Preview Section */
+.job-preview ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.job-preview li {
+  margin: 5px 0;
+}
+
+.job-preview a.job-link {
+  text-decoration: none;
+  color: #1c0455;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.job-preview a.job-link:hover {
+  text-decoration: underline;
+  color: #71b7e6;
+}
+
+/* Button styling */
+.button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .button input {
+    height: 45px;
+    width: 48%;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #71b7e6, #1c0455);
+  }
+  
+  .button input:hover {
+    background: linear-gradient(-135deg, #71b7e6, #1c0455);
+  }
+
+
+  /* Dropdown styling */
+form .input-box select {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  }
+  
+  form .input-box select:focus {
+    border-color: #9b59b6;
+  }
+
+/* Responsive Layout */
+@media(max-width: 584px) {
+  .container {
+    max-width: 100%;
+  }
+
+  form .user-details .input-box {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  form .summary-box textarea {
+    width: 100%;
+  }
+
+  .content form .user-details {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
+  .user-details::-webkit-scrollbar {
+    width: 5px;
+  }
+}
