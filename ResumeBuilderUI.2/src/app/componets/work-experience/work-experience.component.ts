@@ -242,19 +242,13 @@ export class WorkExperienceComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if (this.jobList.size >= 1) {
       this.workExperienceForm.reset();
-      this.router.navigate(['download']);
-    }
-    else {
-      alert("No jobs entered. Proceeding")
-      this.router.navigate(['download']);
-    }
+      this.router.navigate(['skills']);
   }
 
   // Goes back to previous page.
   goBackButtonPushed(): void {
     this.workExperienceForm.reset();
-    this.router.navigate(['skills']);
+    this.router.navigate(['education']);
   }
 }

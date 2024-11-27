@@ -213,19 +213,13 @@ export class EducationComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if (this.degreeList.size >= 1) {
       this.educationForm.reset();
-      this.router.navigate(['download']);
-    }
-    else {
-      alert("No degrees entered. Proceeding")
-      this.router.navigate(['download']);
-    }
+      this.router.navigate(['workexperience']);
   }
 
   // Goes back to previous page.
   goBackButtonPushed(): void {
     this.educationForm.reset();
-    this.router.navigate(['skills']);
+    this.router.navigate(['education']);
   }
 }
