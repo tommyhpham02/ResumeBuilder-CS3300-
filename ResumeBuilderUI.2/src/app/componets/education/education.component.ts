@@ -31,6 +31,8 @@ export class EducationComponent {
     // Get the user ID from the session storage
     const userLoggedIn = sessionStorage.getItem('userId');
 
+  console.log("User ID from session storage:", userLoggedIn);
+
     // If there is no user ID in the session storage
     if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
       this.router.navigate(['login']); // Go to login page if user is not logged in
@@ -39,7 +41,7 @@ export class EducationComponent {
     this.setFormGroup('', '', '', '', '');
 
     // If editing the resume (set up variable later) takes already stored jobs from database to put into list
-    if (this.editingResume) {
+    if (sessionStorage.getItem('editMode') == 'yes') {
       this.auth.getListOfEnteredDegrees()
       .subscribe(data => {
           for (let i = 0; i < data.length; i++){
@@ -117,7 +119,6 @@ export class EducationComponent {
     let degreeToEdit = this.degreeList.get(Array.from(this.degreeList.keys())[index]);
     this.setFormGroup(degreeToEdit[`college`], degreeToEdit[`cityAndState`], degreeToEdit[`degreeType`], degreeToEdit[`degreeName`],
       degreeToEdit[`yearGraduated`]);
-
       this.degreeListViewable = false;
       this.editMode = true;
       this.degreeIdToEdit = Array.from(this.degreeList.keys())[index];
@@ -213,13 +214,19 @@ export class EducationComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
+    if (this.degreeList.size >= 1) {
       this.educationForm.reset();
-      this.router.navigate(['workexperience']);
+      this.router.navigate(['download']);
+    }
+    else {
+      alert("No degrees entered. Proceeding")
+      this.router.navigate(['download']);
+    }
   }
 
   // Goes back to previous page.
   goBackButtonPushed(): void {
     this.educationForm.reset();
-    this.router.navigate(['education']);
+    this.router.navigate(['skills']);
   }
 }

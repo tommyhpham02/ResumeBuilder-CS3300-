@@ -60,7 +60,7 @@
         </div>
         
         <!-- Add Another Degree Button -->
-        <div class="button grey-button">
+        <div [attr.style]="!editMode ? displayString : hideString" class="button grey-button">
           <input (click)="addDegree()" type="button" value="Add Another Degree" id="addDegreeButton">
         </div>
 
@@ -98,7 +98,7 @@
         <!-- Go Back and Continue Buttons -->
         <div [attr.style]="!editMode ? displayString : hideString" class="button-group">
           <input type="button" (click)="goBackButtonPushed()" value="Go Back">
-          <input type="submit" (click)="continueButtonPushed()" value="Continue">
+          <input type="button" (click)="continueButtonPushed()" value="Continue">
         </div>
       </form>
     </div>
