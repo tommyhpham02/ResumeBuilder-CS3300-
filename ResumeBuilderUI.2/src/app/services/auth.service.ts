@@ -73,6 +73,7 @@ export class AuthService {
 
   deleteAllDegrees() {
     this.actualUrl = this.baseUrl + "Degrees/"
+    console.log(sessionStorage.getItem("userId"));
     return this.http.delete<any>(`${this.actualUrl}delete/all/${sessionStorage.getItem("userId")}`)
   }
 
