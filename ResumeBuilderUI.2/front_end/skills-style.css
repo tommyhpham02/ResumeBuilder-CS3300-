@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Title section */
+.container .title {
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+  }
+  
+/* Decorative line under the title */
+.container .title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #71b7e6, #1c0455);
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(135deg, #68d0cd, #1c0455);
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.input-box-group, .summary-box {
+  margin-bottom: 15px;
+}
+
+.input-box-group .details {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.input-box-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between input fields */
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, textarea:focus {
+  border-color: #9b59b6;
+}
+/* Button styling */
+.button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button input {
+  height: 45px;
+  width: 48%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #71b7e6, #1c0455);
+}
+
+.button input:hover {
+  background: linear-gradient(-135deg, #71b7e6, #1c0455);
+}
+button, .button-group input[type="button"], .button-group input[type="submit"] {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button {
+  background-color: #9b59b6;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-group input[type="button"] {
+  background-color: #ddd;
+}
+
+.button-group input[type="submit"] {
+  background: linear-gradient(135deg, #71b7e6, #1c0455);
+  color: #fff;
+}

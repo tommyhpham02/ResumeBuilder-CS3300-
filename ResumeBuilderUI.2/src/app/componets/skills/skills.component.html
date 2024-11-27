@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="skills.component.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Title section -->
+    <div class="title">Skills, Languages, and Certifications</div>
+    <div class="content">
+      <!-- Skills Form -->
+      <form [formGroup]="skillsForm">
+        
+        <!-- Languages Section -->
+        <div class="input-box-group">
+          <span class="details">Languages</span>
+          <input formControlName="languageName" type="text" placeholder="Enter a language name">
+          <input formControlName="proficiency" type="text" placeholder="Enter your proficiency">
+        </div>
+        
+        <!-- Certifications Section -->
+        <div class="input-box-group">
+          <span class="details">Certifications</span>
+          <input formControlName="certificationName" type="text" placeholder="Enter a Certification Name">
+          <input formControlName="certificationDate" type="text" placeholder="Enter the date received">
+        </div>
+
+        <!-- Skills Section -->
+        <div class="summary-box">
+          <span class="details">Skills</span>
+          <textarea formControlName="skills" placeholder="Add your skills"></textarea>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="summary-box">
+          <span class="details">Projects</span>
+          <textarea formControlName="projects" placeholder="Add your projects"></textarea>
+        </div>
+
+        <!-- Button Group -->
+        <div class="button">
+          <input type="button" value="Go Back" (click)="goBack()">
+          <input type="button" value="Continue" (click)="onSubmit()">
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

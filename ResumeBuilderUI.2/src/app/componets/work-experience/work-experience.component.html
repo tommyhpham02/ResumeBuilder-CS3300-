@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="work-experience.component.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Title section -->
+    <div class="title">Work Experience</div>
+    <div class="content">
+      <!-- Work Experience Form -->
+      <form [formGroup]="workExperienceForm" id="jobForm" action="#">
+        <div id="jobContainer">
+          <!-- Initial Job Input Section -->
+          <div class="job-entry">
+            <div class="user-details">
+              <!-- Input for Company Name -->
+              <div class="input-box" [class.error]="workExperienceForm.controls['companyName'].dirty && workExperienceForm.hasError('required','companyName')">
+                <span class="details">Company Name</span>
+                <input formControlName="companyName" type="text" placeholder="Enter the Company Name" required>
+                <small *ngIf="workExperienceForm.controls['companyName'].dirty && workExperienceForm.hasError('required','companyName')" class="text-danger">Company Name is Required</small>
+              </div>
+              <!-- Input for Position -->
+              <div class="input-box" [class.error]="workExperienceForm.controls['position'].dirty && workExperienceForm.hasError('required','position')">
+                <span class="details">Position</span>
+                <input formControlName="position" type="text" placeholder="Position" class="position-input" required>
+                <small *ngIf="workExperienceForm.controls['position'].dirty && workExperienceForm.hasError('required','position')" class="text-danger">Position is Required</small>
+              </div>
+              <!-- Input for Start Date -->
+              <div class="input-box" [class.error]="workExperienceForm.controls['startDate'].dirty && workExperienceForm.hasError('required','startDate')">
+                <span class="details">Start Date</span>
+                <input formControlName="startDate" type="date" required>
+                <small *ngIf="workExperienceForm.controls['startDate'].dirty && workExperienceForm.hasError('required','startDate')" class="text-danger">Start Date is Required</small>
+              </div>
+              <!-- Input for End Date -->
+              <div class="input-box" [class.error]="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')">
+                <span class="details">End Date</span>
+                <div class="end-date-container">
+                  <input (change)="checkIfCurrent()"formControlName="endDate" type="date" id="endDate" required>
+                  <small *ngIf="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')" class="text-danger">End Date is Required</small>
+                  <label for="currentCheckbox">
+                    <input (change)="onCurrentChange()" formControlName="checkBox" type="checkbox" id="currentCheckbox">
+                    Current
+                  </label>
+                </div>
+              </div>
+              <!-- Summary Box -->
+              <div class="summary-box" [class.error]="workExperienceForm.controls['jobResponsibilities'].dirty && workExperienceForm.hasError('required','jobResponsibilities')">
+                <span class="details">Job Responsibilities</span>
+                <textarea formControlName="jobResponsibilities" placeholder="Add your responsibilities summary" required></textarea>
+                <small *ngIf="workExperienceForm.controls['jobResponsibilities'].dirty && workExperienceForm.hasError('required','jobResponsibilities')" class="text-danger">Summary is Required</small>
+              </div>
+            </div> <!-- Closing for user-details -->
+          </div> <!-- Closing for job-entry -->
+        </div> <!-- Closing for jobContainer -->
+
+        <!-- Add Another Job Button -->
+        <div [attr.style]="!editMode ? displayString : hideString" class="button grey-button">
+          <input (click)="addJob()" type="button" value="Add Job" id="addJobButton">
+        </div>
+
+        <div class="degree-list">
+          <div [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" class="title">Job List</div>
+          <ul [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" id="jobList" class="degree-list">
+            <div [attr.style]="jobsEntered[0] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfJobs[0]}}
+                <input type="button" class="degree-list" (click)="editJob(0)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeJobWithIndex(0)" value="Remove">
+              </li>
+            </div>
+            <div [attr.style]="jobsEntered[1] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfJobs[1]}}
+                <input type="button" class="degree-list" (click)="editJob(1)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeJobWithIndex(1)" value="Remove">
+              </li>
+            </div>
+            <div [attr.style]="jobsEntered[2] ? displayString : hideString">
+              <li class="degree-list">{{htmlListOfJobs[2]}}
+                <input type="button" class="degree-list" (click)="editJob(2)" value="Edit">
+                <input type="button" class="degree-list" (click)="removeJobWithIndex(2)" value="Remove">
+              </li>
+            </div>
+          </ul>
+        </div>
+
+
+        <!-- Make Edit and Cancel Buttons -->
+        <div [attr.style]="editMode ? displayString : hideString" class="button grey-button" display="none">
+          <input (click)="editJobInDatabase()" type="button" value="Make Edit" id="editButton">
+          <input (click)="cancelEdit()" type="button" value="Cancel" id="cancelButton">
+        </div>
+
+        <!-- Go Back and Continue Buttons -->
+        <div [attr.style]="!editMode ? displayString : hideString" class="button">
+          <input *ngIf="!editMode" (click)="goBackButtonPushed()"type="button" value="Go Back">
+          <input *ngIf="!editMode" (click)="continueButtonPushed()" type="button" value="Continue">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
