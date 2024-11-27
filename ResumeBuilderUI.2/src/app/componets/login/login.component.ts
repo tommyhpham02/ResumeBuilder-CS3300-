@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit{
       this.loginSuccess = false;
     }
     else{
-      sessionStorage.setItem('userId', '-1');
+      sessionStorage.setItem('userId', '');
     }
   }
 }
