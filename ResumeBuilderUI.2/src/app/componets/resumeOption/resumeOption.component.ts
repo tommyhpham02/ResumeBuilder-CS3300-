@@ -33,7 +33,7 @@ export class ResumeOptionComponent {
     const userLoggedIn = sessionStorage.getItem('userId');
 
     // If there is no user ID in the session storage
-    if (userLoggedIn == '' || userLoggedIn == '-1') {
+    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
       this.router.navigate(['login']); // Go to login page if user is not logged in
     }
   }
