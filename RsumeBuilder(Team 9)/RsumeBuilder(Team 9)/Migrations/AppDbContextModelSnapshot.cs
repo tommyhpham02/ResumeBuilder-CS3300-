@@ -174,7 +174,7 @@ namespace RsumeBuilder_Team_9_.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("SkillsLanguagesCertifications", (string)null);
+                    b.ToTable("SkillsLanguagesCertifications");
                 });
 
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.User", b =>

@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit{
       username:['',Validators.required],
       password:['',Validators.required]
     })
-    sessionStorage.setItem('editMode', 'yes');
   }
 
   hideShowPass(){
@@ -45,7 +44,7 @@ export class LoginComponent implements OnInit{
           this.saveUserId(true);
           alert(res.message);
           this.loginForm.reset();
-          this.router.navigate(['resumeOption'])
+          this.router.navigate(['resumeOption']);
         },
         error:(err)=>{
           this.saveUserId(false);

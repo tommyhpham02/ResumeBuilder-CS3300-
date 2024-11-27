@@ -26,24 +26,25 @@ namespace RsumeBuilder_Team_9_.Controllers
         {
             if (degree == null)
                 return BadRequest();
-            else if (id == "0")
+
+            if (id == "0")
                 return BadRequest();
 
-            if ((_authContext.Degrees.Where(x => x.UserId.ToString() == id)).ToList().Count < 3)
-            {
-                degree.UserId = int.Parse(id);
-                await _authContext.Degrees.AddAsync(degree);
-                await _authContext.SaveChangesAsync();
+            degree.UserId = int.Parse(id);
+            await _authContext.Degrees.AddAsync(degree);
+            await _authContext.SaveChangesAsync();
 
-                int jobId = degree.Id;
+            // Retrieve the saved degree with its assigned ID
+            var savedDegree = await _authContext.Degrees.FindAsync(degree.Id);
 
-                return Ok(jobId);
-            }
-            else
+            // Return the saved degree object
+            return Ok(new
             {
-                return BadRequest("Already three entries saved.");
-            }
+                Message = "Degree saved.",
+                Degree = savedDegree
+            });
         }
+
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> RemoveDegreeFromList(int id)
@@ -64,9 +65,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpDelete("delete/all/{id}")]
-        public async Task<IActionResult> RemoveDegreesFromList(string id)
+        public async Task<IActionResult> RemoveDegreesFromList(int id)
         {
-            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId.ToString() == id).ToList();
+            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId == id).ToList();
 
             if (degreeListToDelete.Count > 0)
             {
@@ -85,9 +86,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpGet("get/all/{id}")]
-        public IActionResult GetDegreesFromList(string id)
+        public IActionResult GetDegreeFromList(int id)
         {
-            List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId.ToString() == id).ToList();
+            List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId == id).ToList();
             List<string> jsonStrings = new List<string>();
 
             if (degreeListToGet.Count > 0)

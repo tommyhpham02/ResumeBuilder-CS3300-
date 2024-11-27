@@ -41,7 +41,7 @@ export class EducationComponent {
     this.setFormGroup('', '', '', '', '');
 
     // If editing the resume (set up variable later) takes already stored jobs from database to put into list
-    if (sessionStorage.getItem('editMode') == 'yes') {
+    if (this.editingResume) {
       this.auth.getListOfEnteredDegrees()
       .subscribe(data => {
           for (let i = 0; i < data.length; i++){
@@ -119,6 +119,7 @@ export class EducationComponent {
     let degreeToEdit = this.degreeList.get(Array.from(this.degreeList.keys())[index]);
     this.setFormGroup(degreeToEdit[`college`], degreeToEdit[`cityAndState`], degreeToEdit[`degreeType`], degreeToEdit[`degreeName`],
       degreeToEdit[`yearGraduated`]);
+
       this.degreeListViewable = false;
       this.editMode = true;
       this.degreeIdToEdit = Array.from(this.degreeList.keys())[index];
@@ -214,19 +215,13 @@ export class EducationComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if (this.degreeList.size >= 1) {
       this.educationForm.reset();
-      this.router.navigate(['download']);
-    }
-    else {
-      alert("No degrees entered. Proceeding")
-      this.router.navigate(['download']);
-    }
+      this.router.navigate(['workexperience']);
   }
 
   // Goes back to previous page.
   goBackButtonPushed(): void {
     this.educationForm.reset();
-    this.router.navigate(['skills']);
+    this.router.navigate(['education']);
   }
 }

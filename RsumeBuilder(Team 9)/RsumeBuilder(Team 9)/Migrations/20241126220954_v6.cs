@@ -13,14 +13,6 @@ namespace RsumeBuilder_Team_9_.Migrations
             migrationBuilder.DropTable(
                 name: "Language");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "YearGraduated",
-                table: "Degree",
-                type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
-
             migrationBuilder.CreateTable(
                 name: "SkillsLanguagesCertifications",
                 columns: table => new
@@ -58,14 +50,6 @@ namespace RsumeBuilder_Team_9_.Migrations
         {
             migrationBuilder.DropTable(
                 name: "SkillsLanguagesCertifications");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "YearGraduated",
-                table: "Degree",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
 
             migrationBuilder.CreateTable(
                 name: "Language",

@@ -11,7 +11,7 @@ using RsumeBuilder_Team_9_.Context;
 namespace RsumeBuilder_Team_9_.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241127064913_v6")]
+    [Migration("20241126220954_v6")]
     partial class v6
     {
         /// <inheritdoc />
@@ -51,9 +51,8 @@ namespace RsumeBuilder_Team_9_.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("YearGraduated")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("YearGraduated")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -177,7 +176,7 @@ namespace RsumeBuilder_Team_9_.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("SkillsLanguagesCertifications", (string)null);
+                    b.ToTable("SkillsLanguagesCertifications");
                 });
 
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.User", b =>
