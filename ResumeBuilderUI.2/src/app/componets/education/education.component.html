@@ -17,14 +17,14 @@
           <!-- Input for College -->
           <div class="input-box">
             <span class="details">College</span>
-            <input formControlName="College" type="text" placeholder="Enter your Full College Name" required>
-            <small *ngIf="educationForm.controls['College'].dirty && educationForm.hasError('required','College')" class="text-danger">College name is required</small>
+            <input formControlName="college" type="text" placeholder="Enter your Full College Name" required>
+            <small *ngIf="educationForm.controls['college'].dirty && educationForm.hasError('required','college')" class="text-danger">College name is required</small>
           </div>
           <!-- Input for City/State -->
           <div class="input-box">
             <span class="details">City/State</span>
-            <input formControlName="CityAndState" type="text" placeholder="Enter the City and State" required>
-            <small *ngIf="educationForm.controls['CityAndState'].dirty && educationForm.hasError('required','CityAndState')" class="text-danger">College city and state is required</small>
+            <input formControlName="cityAndState" type="text" placeholder="Enter the City and State" required>
+            <small *ngIf="educationForm.controls['cityAndState'].dirty && educationForm.hasError('required','cityAndState')" class="text-danger">College city and state is required</small>
           </div>
           <!-- Degree Type Dropdown -->
           <div class="input-box">
@@ -43,17 +43,17 @@
           <!-- Input for Degree -->
           <div class="input-box">
             <span class="details">Degree</span>
-            <input formControlName="DegreeName" type="text" placeholder="Enter your degree" required>
-            <small *ngIf="educationForm.controls['DegreeName'].dirty && educationForm.hasError('required','DegreeName')" class="text-danger">College Degree Name</small>
+            <input formControlName="degreeName" type="text" placeholder="Enter your degree" required>
+            <small *ngIf="educationForm.controls['degreeName'].dirty && educationForm.hasError('required','degreeName')" class="text-danger">College Degree Name</small>
           </div>
           <!-- Input for Year Graduated -->
           <div class="input-box">
             <span class="details">Year Graduated</span>
-            <input formControlName="YearGraduated" type="text" placeholder="Enter the year you graduated" required>
-            <small *ngIf="educationForm.controls['YearGraduated']?.touched && educationForm.controls['YearGraduated']?.hasError('required')" class="text-danger">
+            <input formControlName="yearGraduated" type="text" placeholder="Enter the year you graduated" required>
+            <small *ngIf="educationForm.controls['yearGraduated']?.touched && educationForm.controls['yearGraduated']?.hasError('required')" class="text-danger">
               Graduation year is required.
             </small>
-            <small *ngIf="educationForm.controls['YearGraduated']?.touched && educationForm.controls['YearGraduated']?.hasError('invalidYear')" class="text-danger">
+            <small *ngIf="educationForm.controls['yearGraduated']?.touched && educationForm.controls['yearGraduated']?.hasError('invalidYear')" class="text-danger">
               Graduation year must be a 4-digit number.
             </small>
           </div>
@@ -89,8 +89,14 @@
           </ul>
         </div>
 
+        <!-- Make Edit and Cancel Buttons -->
+        <div [attr.style]="editMode ? displayString : hideString" class="button grey-button" display="none">
+          <input (click)="editDegreeInDatabase()" type="button" value="Make Edit" id="editButton">
+          <input (click)="cancelEdit()" type="button" value="Cancel" id="cancelButton">
+        </div>
+
         <!-- Go Back and Continue Buttons -->
-        <div class="button-group">
+        <div [attr.style]="!editMode ? displayString : hideString" class="button-group">
           <input type="button" (click)="goBackButtonPushed()" value="Go Back">
           <input type="submit" (click)="continueButtonPushed()" value="Continue">
         </div>
