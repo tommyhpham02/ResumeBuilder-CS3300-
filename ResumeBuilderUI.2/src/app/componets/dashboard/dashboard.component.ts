@@ -34,7 +34,7 @@ export class DashboardComponent {
         next: (res)=>{
           alert(res.message);
           this.dashboardForm.reset();
-          this.router.navigate(['workexperience'])
+          this.router.navigate(['education'])
         },
         error:(err)=>{
           alert(err?.error.message)

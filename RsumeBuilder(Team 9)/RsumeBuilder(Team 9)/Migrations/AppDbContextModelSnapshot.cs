@@ -48,8 +48,9 @@ namespace RsumeBuilder_Team_9_.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("YearGraduated")
-                        .HasColumnType("int");
+                    b.Property<string>("YearGraduated")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

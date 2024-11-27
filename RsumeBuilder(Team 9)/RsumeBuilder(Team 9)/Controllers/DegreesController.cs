@@ -34,11 +34,17 @@ namespace RsumeBuilder_Team_9_.Controllers
             await _authContext.Degrees.AddAsync(degree);
             await _authContext.SaveChangesAsync();
 
+            // Retrieve the saved degree with its assigned ID
+            var savedDegree = await _authContext.Degrees.FindAsync(degree.Id);
+
+            // Return the saved degree object
             return Ok(new
             {
-                Message = "Degree saved."
+                Message = "Degree saved.",
+                Degree = savedDegree
             });
         }
+
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> RemoveDegreeFromList(int id)
@@ -80,7 +86,7 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpGet("get/all/{id}")]
-        public IActionResult GetJobsFromList(int id)
+        public IActionResult GetDegreeFromList(int id)
         {
             List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId == id).ToList();
             List<string> jsonStrings = new List<string>();
