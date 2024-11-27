@@ -49,7 +49,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             if (user == null)
                 return BadRequest($"{username} is not a user");
 
-            return Ok(user.Id.ToString());
+            return Ok(user.Id);
         }
 
         [HttpPost("register")]

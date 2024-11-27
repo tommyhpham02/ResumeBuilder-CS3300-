@@ -24,8 +24,6 @@ export class SignupComponent implements OnInit {
       username: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
-      resumeInput: {},
-      languages: {}
     })
   }
 
