@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit{
       username:['',Validators.required],
       password:['',Validators.required]
     })
+    sessionStorage.setItem('editMode', 'yes');
   }
 
   hideShowPass(){
@@ -71,7 +72,7 @@ export class LoginComponent implements OnInit{
       this.loginSuccess = false;
     }
     else{
-      sessionStorage.setItem('userId', '-1');
+      sessionStorage.setItem('userId', '');
     }
   }
 }

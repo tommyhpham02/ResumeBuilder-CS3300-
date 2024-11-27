@@ -247,7 +247,7 @@ export class WorkExperienceComponent {
     }
     else {
       alert("No jobs entered. Proceeding")
-      this.router.navigate(['download']);
+      this.router.navigate(['education']);
     }
   }
 
