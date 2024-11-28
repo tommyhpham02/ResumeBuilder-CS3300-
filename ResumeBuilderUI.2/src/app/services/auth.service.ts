@@ -126,10 +126,12 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
-  downloadResume(templateID: any){
+  downloadResume(templateID: string) {
+    const userId = sessionStorage.getItem("userId");
+    const payload = { templateID, userId }; // Create a payload containing the template ID and user ID
     this.actualUrl = this.baseUrl + "ResumeCreating/";
-    return this.http.post<any>(`${this.actualUrl}submit/download/${sessionStorage.getItem("userId")}`, '');
-}
+    return this.http.post<any>(`${this.actualUrl}submit/download`, payload); // Send the payload
+  }
 
 
   // deleteDegree(id: number){
