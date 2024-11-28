@@ -52,6 +52,42 @@ namespace RsumeBuilder_Team_9_.Controllers
             return Ok(user.Id.ToString());
         }
 
+        [HttpDelete("deleteAllInputs/{id}")]
+        public async Task<IActionResult> DeleteAllUserInputs(int id)
+        {
+            string log = "Entities that were never found: \n";
+            var personalInfo = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId == id);
+            var skills = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
+
+            if (personalInfo != null)
+                _authContext.ResumeInputs.Remove(personalInfo);
+            else
+                log += "Personal Info \n";
+
+            if (skills != null)
+                _authContext.SLC.Remove(skills);
+            else
+                log += "Skills, Languages, and Cetifications \n";
+
+            if (_authContext.Degrees.Where(x => x.UserId == id).ToList().Count > 0)
+                _authContext.RemoveRange(_authContext.Degrees.Where(x => x.UserId == id));
+            else
+                log += "Degrees \n";
+
+            if (_authContext.Jobs.Where(x => x.UserId == id).ToList().Count > 0)
+                _authContext.RemoveRange(_authContext.Jobs.Where(x => x.UserId == id));
+            else
+                log += "Jobs \n";
+
+            await _authContext.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = log
+            });
+        }
+
+
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] User userObj)
         {

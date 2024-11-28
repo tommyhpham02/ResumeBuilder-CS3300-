@@ -4,6 +4,8 @@ using RsumeBuilder_Team_9_.Models;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SkillsLanguagesCertificationsController : ControllerBase
     {
         private readonly AppDbContext _authContext;
@@ -14,10 +16,12 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, string id)
+        public async Task<IActionResult> SubmitSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, int id)
         {
             if (slcObj == null)
                 return BadRequest();
+
+            slcObj.UserId = id;
 
             await _authContext.SLC.AddAsync(slcObj);
             await _authContext.SaveChangesAsync();
@@ -28,9 +32,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> editSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, string id)
+        public async Task<IActionResult> editSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, int id)
         {
-            var input = _authContext.SLC.SingleOrDefault(x => x.UserId.ToString() == id);
+            var input = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
 
             if (slcObj == null)
                 return BadRequest();
@@ -46,6 +50,20 @@ namespace RsumeBuilder_Team_9_.Controllers
             {
                 Message = "Input values updated"
             });
+        }
+
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> getPersonalInfo(int id)
+        {
+            if (id == 0)
+                return BadRequest("No ID given");
+
+            var personalInfo = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
+
+            if (personalInfo == null)
+                return BadRequest("User has no input");
+
+            return Ok(personalInfo);
         }
 
         [HttpDelete("delete/{id}")]

@@ -16,10 +16,12 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitPersonalInfo([FromBody] ResumeInput personalObj, string id)
+        public async Task<IActionResult> SubmitPersonalInfo([FromBody] ResumeInput personalObj, int id)
         {
             if (personalObj == null)
                 return BadRequest();
+
+            personalObj.UserId = id;
 
             await _authContext.ResumeInputs.AddAsync(personalObj);
             await _authContext.SaveChangesAsync();
@@ -31,9 +33,9 @@ namespace RsumeBuilder_Team_9_.Controllers
 
         
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> EditPersonalInfo([FromBody] ResumeInput inputObj, string id)
+        public async Task<IActionResult> EditPersonalInfo([FromBody] ResumeInput inputObj, int id)
         {
-            var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
+            var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId == id);
 
             if (inputObj == null)
                 return BadRequest();
@@ -49,6 +51,20 @@ namespace RsumeBuilder_Team_9_.Controllers
             {
                 Message = "Input values updated"
             });
+        }
+
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> getPersonalInfo(int id)
+        {
+            if (id == 0)
+                return BadRequest("No ID given");
+
+            var personalInfo = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId == id);
+
+            if (personalInfo == null)
+                return BadRequest("User has no input");
+
+            return Ok(personalInfo);
         }
 
         [HttpDelete("delete/{id}")]
