@@ -26,18 +26,23 @@ namespace RsumeBuilder_Team_9_.Controllers
         {
             if (degree == null)
                 return BadRequest();
-
-            if (id == "0")
+            else if (id == "0")
                 return BadRequest();
 
-            degree.UserId = int.Parse(id);
-            await _authContext.Degrees.AddAsync(degree);
-            await _authContext.SaveChangesAsync();
-
-            return Ok(new
+            if ((_authContext.Degrees.Where(x => x.UserId.ToString() == id)).ToList().Count < 3)
             {
-                Message = "Degree saved."
-            });
+                degree.UserId = int.Parse(id);
+                await _authContext.Degrees.AddAsync(degree);
+                await _authContext.SaveChangesAsync();
+
+                int jobId = degree.Id;
+
+                return Ok(jobId);
+            }
+            else
+            {
+                return BadRequest("Already three entries saved.");
+            }
         }
 
         [HttpDelete("delete/{id}")]
@@ -59,9 +64,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpDelete("delete/all/{id}")]
-        public async Task<IActionResult> RemoveDegreesFromList(int id)
+        public async Task<IActionResult> RemoveDegreesFromList(string id)
         {
-            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId == id).ToList();
+            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId.ToString() == id).ToList();
 
             if (degreeListToDelete.Count > 0)
             {
@@ -80,9 +85,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpGet("get/all/{id}")]
-        public IActionResult GetJobsFromList(int id)
+        public IActionResult GetDegreesFromList(string id)
         {
-            List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId == id).ToList();
+            List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId.ToString() == id).ToList();
             List<string> jsonStrings = new List<string>();
 
             if (degreeListToGet.Count > 0)

@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Option Menu</title>
+  <link rel="stylesheet" href="resumeOption.component.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Check if user is logged in -->
+    
+    <!-- Title section -->
+    <h1 class="title">Welcome to ResuMy</h1>
+
+    <!-- Message text -->
+    <div class="container">
+      Please pick what you would like to do.
+    </div>
+    
+    <!-- Button Group -->
+    <div class="button-group">
+      <input type="button" class="old-resume" value="Continue With Old Resume"(click)="onEdit()">
+      <input type="button" class="new-resume" value="Start New Resume" (click)="onNewresume()">
+      <input type="button" class="download-resume" value="Resume Export Page" (click)="onExportResume()">
+      <input type="button" class="logout-option" value="Logout" (click)="onLogout()" >
+    </div>
+
+  </div>
+</body>
+</html>
+

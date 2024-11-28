@@ -11,7 +11,7 @@
 
 /* Background styling */
 body {
-  height: 100vh;
+  height: 200vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -222,11 +222,11 @@ form .button-group input {
 
 /* 'Go Back' button styling */
 form .button-group .go-back {
-  background: linear-gradient(-135deg, #71b7e6, #1c0455);
+  background: #ccc;
 }
 
 form .button-group .go-back:hover {
-  background: linear-gradient(-135deg, #71b7e6, #1c0455);
+  background: #b5b5b5;
 }
 
 /* 'Continue' button styling */
@@ -242,7 +242,7 @@ form .button-group .continue:hover {
 .grey-button input[type="button"] {
   height: 40px;
   width: 100%;
-  background-color: #1c0455;
+  background-color: #ccc;
   color: #ffffff;
   border-radius: 5px;
   border: none;

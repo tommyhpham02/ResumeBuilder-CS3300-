@@ -28,12 +28,12 @@ export class AuthService {
 
   submitPersonalInfo(infoObj: any){
     this.actualUrl = this.baseUrl + "PersonalInformation/"
-    return this.http.put<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, infoObj)
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, infoObj)
   }
 
-  submitSkillsInfo(skillsObj: any){
-    this.actualUrl = this.baseUrl + "Input/"
-    return this.http.put<any>(`${this.actualUrl}submit/skillsInfo/${sessionStorage.getItem("userId")}`, skillsObj)
+  submitSLC(slcObj: any){
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, slcObj)
   }
 
   submitJobsInfo(jobInfo: any){
@@ -73,6 +73,7 @@ export class AuthService {
 
   deleteAllDegrees() {
     this.actualUrl = this.baseUrl + "Degrees/"
+    console.log(sessionStorage.getItem("userId"));
     return this.http.delete<any>(`${this.actualUrl}delete/all/${sessionStorage.getItem("userId")}`)
   }
 
@@ -85,4 +86,14 @@ export class AuthService {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.put<any>(`${this.actualUrl}edit/${degreeId}`, degreeInfo)
   }
+
+  submitDegreeInfo(degreeInfo: any){
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
+  }
+
+  // deleteDegree(id: number){
+  //   this.actualUrl = this.baseUrl + "Input/"
+  //   return this.http.delete<any>(`${this.actualUrl}delete/degree/${id}`)
+  // }
 }

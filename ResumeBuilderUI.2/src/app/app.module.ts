@@ -10,7 +10,7 @@ import { DashboardComponent } from './componets/dashboard/dashboard.component';
 import { EducationComponent } from './componets/education/education.component';
 import { HomeComponent } from './componets/home/home.component';
 import { SkillsComponent } from './componets/skills/skills.component';
-import { jwtDecode } from 'jwt-decode';
+//import { jwtDecode } from 'jwt-decode';
 import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
 
 

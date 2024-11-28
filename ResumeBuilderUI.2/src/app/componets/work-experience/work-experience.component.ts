@@ -19,7 +19,6 @@ export class WorkExperienceComponent {
   currentJob: Boolean = false;
   jobListViewable: Boolean = false;
   editMode: Boolean = false;
-  editingResume: Boolean = true;
   jobIdToEdit: number = -1;
   jobIndexToEdit: number = -1;
   todayDate: Date = new Date();
@@ -41,7 +40,7 @@ export class WorkExperienceComponent {
     this.setFormGroup('', '', '', '', '');
 
     // If editing the resume (set up variable later) takes already stored jobs from database to put into list
-    if (this.editingResume) {
+    if (sessionStorage.getItem('editMode') == 'yes') {
       this.auth.getListOfEnteredJobs()
       .subscribe(data => {
           for (let i = 0; i < data.length; i++){
@@ -248,7 +247,7 @@ export class WorkExperienceComponent {
     }
     else {
       alert("No jobs entered. Proceeding")
-      this.router.navigate(['download']);
+      this.router.navigate(['education']);
     }
   }
 

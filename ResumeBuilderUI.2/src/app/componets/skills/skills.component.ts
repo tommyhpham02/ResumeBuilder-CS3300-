@@ -37,7 +37,7 @@ export class SkillsComponent implements OnInit {
     console.log("Form Values on Submit:", this.skillsForm.value);
   
     if (this.skillsForm.valid) {
-      this.auth.submitSkillsInfo(this.skillsForm.value).subscribe({
+      this.auth.submitSLC(this.skillsForm.value).subscribe({
         next: (res) => {
           console.log("Response:", res);
           alert(res.message);

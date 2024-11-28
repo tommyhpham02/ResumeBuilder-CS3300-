@@ -13,6 +13,6 @@ namespace RsumeBuilder_Team_9_.Models
         public string CityAndState { get; set; }
         public string DegreeType { get; set; }
         public string DegreeName {  get; set; }
-        public int YearGraduated { get; set; }
+        public string YearGraduated { get; set; }
     }
 }
