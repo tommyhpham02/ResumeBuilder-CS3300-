@@ -64,9 +64,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpDelete("delete/all/{id}")]
-        public async Task<IActionResult> RemoveDegreesFromList(string id)
+        public async Task<IActionResult> RemoveDegreesFromList(int id)
         {
-            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId.ToString() == id).ToList();
+            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId == id).ToList();
 
             if (degreeListToDelete.Count > 0)
             {
@@ -85,9 +85,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpGet("get/all/{id}")]
-        public IActionResult GetDegreesFromList(string id)
+        public IActionResult GetDegreesFromList(int id)
         {
-            List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId.ToString() == id).ToList();
+            List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId == id).ToList();
             List<string> jsonStrings = new List<string>();
 
             if (degreeListToGet.Count > 0)

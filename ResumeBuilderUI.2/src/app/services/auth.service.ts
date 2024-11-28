@@ -26,14 +26,39 @@ export class AuthService {
     return this.http.get<any>(`${this.actualUrl}userId/${username}`)
   }
 
-  submitPersonalInfo(infoObj: any){
+  deleteAllUsersInfo(){
+    this.actualUrl = this.baseUrl + "User/"
+    return this.http.delete<any>(`${this.actualUrl}deleteAllInputs/${sessionStorage.getItem("userId")}`)
+  }
+
+  editPersonalInfo(infoObj: any){
     this.actualUrl = this.baseUrl + "PersonalInformation/"
     return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, infoObj)
   }
 
-  submitSLC(slcObj: any){
+  addPersonalInfo(infoObj: any){
     this.actualUrl = this.baseUrl + "PersonalInformation/"
-    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, slcObj)
+    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, infoObj)
+  }
+
+  getPersonalInfo() {
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.get<any>(`${this.actualUrl}get/${sessionStorage.getItem("userId")}`)
+  }
+
+  editSkills(skillsObj: any){
+    this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, skillsObj)
+  }
+
+  addSkills(skillsObj: any){
+    this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
+    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, skillsObj)
+  }
+
+  getSkills() {
+    this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
+    return this.http.get<any>(`${this.actualUrl}get/${sessionStorage.getItem("userId")}`)
   }
 
   submitJobsInfo(jobInfo: any){
@@ -91,9 +116,4 @@ export class AuthService {
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
-
-  // deleteDegree(id: number){
-  //   this.actualUrl = this.baseUrl + "Input/"
-  //   return this.http.delete<any>(`${this.actualUrl}delete/degree/${id}`)
-  // }
 }

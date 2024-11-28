@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'resumeOption-root',
@@ -8,14 +9,24 @@ import { Router } from '@angular/router';
 })
 export class ResumeOptionComponent {
   title = 'ResumeBuilderUI.2';
-  constructor (private router: Router) {}
+  constructor (private router: Router, private auth: AuthService) {}
 
   onEdit(){
+    sessionStorage.setItem('editing', 'yes');
     this.router.navigate(['dashboard']);
   }
 
   onNewresume(){
-
+    sessionStorage.setItem('editing', 'no');
+    this.auth.deleteAllUsersInfo()
+    .subscribe({
+      next: (res)=>{
+        console.log(res.message);
+      },
+      error: (err)=>{
+        console.log(err.message);
+      }
+    });
     this.router.navigate(['dashboard']);
   }
 
