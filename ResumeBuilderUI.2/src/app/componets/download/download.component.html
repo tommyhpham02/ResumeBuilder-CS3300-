@@ -16,12 +16,38 @@
       Please click the button to download your resume or go back if you want to edit.
     </div>
   
+
+    <!-- ResumeTemplate Dropdown -->
+    <div class="input-box">
+      <span class="details">Resume Template</span>
+      <select 
+        formControlName="resumeTemplate" 
+        required 
+        (change)="onTemplateChange($event)">
+        <option value="">Select Resume Template</option>
+        <option value="1">Basic Resume (Online scanable)</option>
+        <option value="2">Resume Row Structure</option>
+        <option value="3">Resume Columns Right</option>
+        <option value="4">Resume Columns Left</option>
+      </select>
+      <small *ngIf="downloadForm.get('resumeTemplate')?.touched && downloadForm.get('resumeTemplate')?.hasError('required')" class="text-danger">
+        Resume template is required.
+      </small>
+      
+    </div>
+
     <!-- Button Group -->
     <div class="button-group">
-      <input type="button" class="go-back" value="Go Back" (click)="goBack()">
       <input type="button" class="download-resume" value="Resume Download" (click)="downloadResumePress()">
+      <input type="button" class="download-resume" value="Resume Preview" (click)="previewResumePress()">
+      <input type="button" class="go-back" value="Go Back" (click)="goBack()">
       <input type="button" class="new-resume" value="Options Page" (click)="optionsPage()">
+      <input type="button" class="logout-option" value="Logout" (click)="onLogout()" >
     </div>
+
+    
+
+
   </div>
 </body>
 </html>

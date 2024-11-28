@@ -126,7 +126,7 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
-  downloadResume() {
+  downloadResume(templateID: any){
     this.actualUrl = this.baseUrl + "ResumeCreating/";
     return this.http.post<any>(`${this.actualUrl}submit/download/${sessionStorage.getItem("userId")}`, '');
 }

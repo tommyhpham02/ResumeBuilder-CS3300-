@@ -11,7 +11,7 @@ namespace ResumeBuilder
     {
         internal string[] titles = { "", "", "", "", "", "", "" };
 
-        public void NewLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string interests, string skills, string summary)
+        public void NewLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string skills, string summary)
         {
             try
             {
@@ -50,7 +50,6 @@ namespace ResumeBuilder
                             AddSection(x, titles[1], educations);
                             AddSection(x, titles[2], certifications);
                             AddSection(x, titles[3], personalProjects);
-                            AddSection(x, titles[4], languages);
 
                             // Add the last two sections in a row
                             x.Item().Row(row =>
@@ -60,13 +59,13 @@ namespace ResumeBuilder
                                 // Left column for 'interests'
                                 row.RelativeItem().Column(column =>
                                 {
-                                    AddSection(column, titles[5], interests);
+                                    AddSection(column, titles[4], languages);
                                 });
 
                                 // Right column for 'skills'
                                 row.RelativeItem().Column(column =>
                                 {
-                                    AddSection(column, titles[6], skills);
+                                    AddSection(column, titles[5], skills);
                                 });
                             });
                         });

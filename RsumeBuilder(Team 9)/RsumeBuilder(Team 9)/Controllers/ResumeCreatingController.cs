@@ -22,7 +22,7 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPost("submit/download/{id}")]
-        public async Task<IActionResult> SubmitResumeCreating(int id)
+        public async Task<IActionResult> SubmitResumeCreating(int id, int templateID)
         {
 
             string filePath = "C:\\Users\\tarek\\Documents\\ResumeProjectTest\\Resume5.pdf";
@@ -68,20 +68,47 @@ namespace RsumeBuilder_Team_9_.Controllers
             string skillsContent = string.Join(", ", skillsLanguagesCertifications.Select(skill => skill.Skills));
             string personalProjectsContent = string.Join("\n", skillsLanguagesCertifications.Select(proj => proj.Projects));
 
-            // Call ClassicLayout
-            var resumeLayout = new ResumeLayouts();
-            resumeLayout.ClassicLayout(
-                filePath,
-                name,
-                personDetails,
-                jobsContent,
-                educationContent,
-                certificationsContent,
-                personalProjectsContent,
-                languagesContent,
-                skillsContent,
-                summary
-            );
+            switch(templateID)
+            {
+                case 1:
+                    //Creat a post to send to front end consol
+
+                    // Call ClassicLayout
+                    var resumeLayout = new ResumeLayouts();
+                    resumeLayout.ClassicLayout(
+                        filePath,
+                        name,
+                        personDetails,
+                        jobsContent,
+                        educationContent,
+                        certificationsContent,
+                        personalProjectsContent,
+                        languagesContent,
+                        skillsContent,
+                        summary
+                    );
+                    break;
+                case 2:
+                    // Call ClassicLayout
+                    var resumeLayouts = new ResumeLayouts2();
+                    resumeLayouts.NewLayout(
+                        filePath,
+                        name,
+                        personDetails,
+                        jobsContent,
+                        educationContent,
+                        certificationsContent,
+                        personalProjectsContent,
+                        languagesContent,
+                        skillsContent,
+                        summary
+                    );
+                    break;
+                default:
+                    Console.WriteLine($"Unhandled templateID = {templateID}");
+                    break;
+            }
+            
 
             return Ok(new { Message = "PDF successfully generated.", FilePath = filePath });
         }
