@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class WorkExperienceComponent {
   currentJob: Boolean = false;
   jobListViewable: Boolean = false;
   editMode: Boolean = false;
+  cameBack: Boolean = sessionStorage.getItem('goBack') == 'yes' ? true: false;
   jobIdToEdit: number = -1;
   jobIndexToEdit: number = -1;
   todayDate: Date = new Date();
@@ -29,18 +30,20 @@ export class WorkExperienceComponent {
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Get the user ID from the session storage
-    const userLoggedIn = sessionStorage.getItem('userId');
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Popstate navigation detected!');
+          sessionStorage.setItem('goBack', 'yes');
+        }
+      }
+    });
 
-    // If there is no user ID in the session storage
-    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
-      this.router.navigate(['login']); // Go to login page if user is not logged in
-    }
-
+    this.checkIfUserIsLoggedInAndOptionChoosen();
     this.setFormGroup('', '', '', '', '');
 
     // If editing the resume (set up variable later) takes already stored jobs from database to put into list
-    if (sessionStorage.getItem('editMode') == 'yes') {
+    if (sessionStorage.getItem('editing') == 'yes' || this.cameBack) {
       this.auth.getListOfEnteredJobs()
       .subscribe(data => {
           for (let i = 0; i < data.length; i++){
@@ -57,18 +60,22 @@ export class WorkExperienceComponent {
             this.jobListViewable = true;
       });
     }
-    // Or if not editing, deletes all jobs associated with the user.
-    else {
-      this.auth.deleteAllJobs()
-      .subscribe({
-        next:(res) => {
-          console.log(res.message)
-        },
-        error: (err) => {
-          console.error('Full Error Response:', err);
-          alert(err?.error.message);
-        }
-      });
+  }
+
+  checkIfUserIsLoggedInAndOptionChoosen(): void {
+    const userLoggedIn = sessionStorage.getItem('userId');
+
+    console.log("User ID from session storage:", userLoggedIn);
+
+    // If there is no user ID in the session storage
+    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
+      this.router.navigate(['login']); // Go to login page if user is not logged in
+    }
+
+    const editing = sessionStorage.getItem('editing');
+
+    if (editing == null) {
+      this.router.navigate(['resumeOption']); // Go to login page if user is not logged in
     }
   }
 
@@ -243,7 +250,7 @@ export class WorkExperienceComponent {
   continueButtonPushed(): void {
     if (this.jobList.size >= 1) {
       this.workExperienceForm.reset();
-      this.router.navigate(['download']);
+      this.router.navigate(['education']);
     }
     else {
       alert("No jobs entered. Proceeding")
@@ -253,7 +260,8 @@ export class WorkExperienceComponent {
 
   // Goes back to previous page.
   goBackButtonPushed(): void {
+    sessionStorage.setItem('goBack', 'yes');
     this.workExperienceForm.reset();
-    this.router.navigate(['skills']);
+    this.router.navigate(['dashboard']);
   }
 }

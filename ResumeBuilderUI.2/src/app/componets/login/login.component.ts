@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit{
       username:['',Validators.required],
       password:['',Validators.required]
     })
-    sessionStorage.setItem('editMode', 'yes');
   }
 
   hideShowPass(){
