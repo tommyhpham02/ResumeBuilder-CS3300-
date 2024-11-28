@@ -9,7 +9,7 @@ namespace ResumeBuilder
 {
     internal class ResumeLayouts
     {
-        public string[] titles = { "", "", "", "", "", "", "" };
+        public string[] titles = { "Work Experaince", "Education", "Certificates", "Projects", "Languages", "Skills"};
 
         public void ClassicLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string skills, string summary)
         {
@@ -30,6 +30,7 @@ namespace ResumeBuilder
                             {
                                 if (!string.IsNullOrEmpty(name)) column.Item().Text(name).FontSize(18).FontColor(Colors.Blue.Medium).Bold();
                                 if (!string.IsNullOrEmpty(personDetails)) column.Item().Text(personDetails);
+                                column.Spacing(15);
                                 if (!string.IsNullOrEmpty(summary)) column.Item().Text(summary);
                             });
                         });
@@ -44,7 +45,7 @@ namespace ResumeBuilder
                             AddSection(x, titles[2], certifications);
                             AddSection(x, titles[3], personalProjects);
                             AddSection(x, titles[4], languages);
-                            AddSection(x, titles[6], skills);
+                            AddSection(x, titles[5], skills);
                         });
                     });
                 }).GeneratePdfAndShow();

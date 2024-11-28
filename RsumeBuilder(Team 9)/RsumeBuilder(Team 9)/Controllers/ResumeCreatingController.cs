@@ -48,8 +48,9 @@ namespace RsumeBuilder_Team_9_.Controllers
                 return BadRequest("No personal resume input found for this user.");
 
             // Extract variables for ResumeLayouts
-            string name = $"{resumeInput.FirstName} | {resumeInput.LastName}";
+            string name = $"{resumeInput.FirstName} {resumeInput.LastName}";
             string personDetails = $"{resumeInput.Email} | {resumeInput.PhoneNumber} | {resumeInput.Website}";
+            
             string summary = resumeInput.Summary ?? "";
 
 
