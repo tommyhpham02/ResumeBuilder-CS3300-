@@ -91,6 +91,12 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
+  downloadResume() {
+    this.actualUrl = this.baseUrl + "ResumeCreating/";
+    return this.http.post<any>(`${this.actualUrl}submit/download/${sessionStorage.getItem("userId")}`, '');
+}
+
+
   // deleteDegree(id: number){
   //   this.actualUrl = this.baseUrl + "Input/"
   //   return this.http.delete<any>(`${this.actualUrl}delete/degree/${id}`)

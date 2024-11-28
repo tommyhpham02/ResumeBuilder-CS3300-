@@ -6,7 +6,8 @@
   <title>Resume Builder</title>
   <link rel="stylesheet" href="download.component.css">
 </head>
-<div class="container">
+<body>
+  <div class="container">
     <!-- Title section -->
     <div class="title">Download Your Resume</div>
   
@@ -17,9 +18,10 @@
   
     <!-- Button Group -->
     <div class="button-group">
-      <input type="button" class="go-back" value="Go Back">
-      <input type="button" class="download-resume" value="Resume Download">
-      <input type="button" class="new-resume" value="New Resume">
+      <input type="button" class="go-back" value="Go Back" (click)="goBack()">
+      <input type="button" class="download-resume" value="Resume Download" (click)="downloadResumePress()">
+      <input type="button" class="new-resume" value="Options Page" (click)="optionsPage()">
     </div>
   </div>
-  
+</body>
+</html>
