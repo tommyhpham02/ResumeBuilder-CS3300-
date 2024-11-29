@@ -43,9 +43,10 @@
                   <label for="currentCheckbox">
                     <input (change)="onCurrentChange()" formControlName="checkBox" type="checkbox" id="currentCheckbox"> Current
                   </label>
-                  <small *ngIf="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')" class="text-danger">End Date is Required</small>
                 </div>
+                <small *ngIf="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')" class="text-danger">End Date is Required</small>
               </div>
+              
               <!-- Summary Box -->
               <div class="summary-box" [class.error]="workExperienceForm.controls['jobResponsibilities'].dirty && workExperienceForm.hasError('required','jobResponsibilities')">
                 <span class="details">Job Responsibilities</span>
@@ -66,20 +67,26 @@
           <ul [attr.style]="jobListViewable ? displayString : hideString" *ngIf="jobListViewable" id="jobList" class="degree-list">
             <div [attr.style]="jobsEntered[0] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfJobs[0]}}
-                <input type="button" class="degree-list" (click)="editJob(0)" value="Edit">
-                <input type="button" class="degree-list" (click)="removeJobWithIndex(0)" value="Remove">
+                <div class="button-wrapper">
+                  <input type="button" class="degree-list" (click)="editJob(0)" value="Edit">
+                  <input type="button" class="degree-list" (click)="removeJobWithIndex(0)" value="Remove">
+                </div>
               </li>
             </div>
             <div [attr.style]="jobsEntered[1] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfJobs[1]}}
-                <input type="button" class="degree-list" (click)="editJob(1)" value="Edit">
-                <input type="button" class="degree-list" (click)="removeJobWithIndex(1)" value="Remove">
+                <div class="button-wrapper">
+                  <input type="button" class="degree-list" (click)="editJob(1)" value="Edit">
+                  <input type="button" class="degree-list" (click)="removeJobWithIndex(1)" value="Remove">
+                </div>
               </li>
             </div>
             <div [attr.style]="jobsEntered[2] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfJobs[2]}}
-                <input type="button" class="degree-list" (click)="editJob(2)" value="Edit">
-                <input type="button" class="degree-list" (click)="removeJobWithIndex(2)" value="Remove">
+                <div class="button-wrapper">
+                  <input type="button" class="degree-list" (click)="editJob(2)" value="Edit">
+                  <input type="button" class="degree-list" (click)="removeJobWithIndex(2)" value="Remove">
+                </div>
               </li>
             </div>
           </ul>
@@ -92,7 +99,7 @@
         </div>
 
         <!-- Go Back and Continue Buttons -->
-        <div [attr.style]="!editMode ? displayString : hideString" class="button">
+        <div [attr.style]="!editMode ? displayString : hideString" class="button-group">
           <input *ngIf="!editMode" (click)="goBackButtonPushed()"type="button" value="Go Back">
           <input *ngIf="!editMode" (click)="continueButtonPushed()" type="button" value="Continue">
         </div>
