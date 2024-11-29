@@ -37,23 +37,25 @@ export class DownloadComponent  {
   }
 
   downloadResumePress() {
-  const templateID = this.selectedTemplateID || sessionStorage.getItem('selectedTemplateID');
-  if (!templateID) {
-    alert('Please select a resume template before downloading.');
-    return;
-  }
-
-  this.auth.downloadResume(templateID).subscribe({
-    next: (response) => {
-      alert('Your resume has been successfully downloaded.');
-      console.log('Backend Response:', response);
-    },
-    error: (error) => {
-      alert('An error occurred while downloading the resume.');
-      console.error('Backend Error:', error);
+    const templateID = this.selectedTemplateID || sessionStorage.getItem('selectedTemplateID');
+  
+    if (!templateID) {
+      alert('Please select a resume template before downloading.');
+      return;
     }
-  });
-}
+  
+    this.auth.downloadResume(templateID).subscribe({
+      next: (response) => {
+        alert('Your resume has been successfully downloaded.');
+        console.log('Backend Response:', response);
+      },
+      error: (error) => {
+        alert('An error occurred while downloading the resume.');
+        console.error('Backend Error:', error);
+      }
+    });
+  }
+  
 
 
 

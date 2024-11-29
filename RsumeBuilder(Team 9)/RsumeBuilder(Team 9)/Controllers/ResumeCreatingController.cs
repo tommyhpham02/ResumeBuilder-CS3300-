@@ -24,6 +24,12 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpPost("submit/download/{id}")]
         public async Task<IActionResult> SubmitResumeCreating(int id, string templateID)
         {
+            if (string.IsNullOrWhiteSpace(templateID))
+            {
+                return BadRequest("Template ID is required.");
+            }
+
+            Console.WriteLine($"User ID: {id}, Template ID: {templateID}");
 
             string filePath = "C:\\Users\\tarek\\Documents\\ResumeProjectTest\\Resume5.pdf";
 

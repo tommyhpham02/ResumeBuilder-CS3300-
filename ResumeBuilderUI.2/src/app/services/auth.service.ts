@@ -127,11 +127,16 @@ export class AuthService {
   }
 
   downloadResume(templateID: string) {
-    const userId = sessionStorage.getItem("userId");
-    const payload = { templateID, userId }; // Create a payload containing the template ID and user ID
-    this.actualUrl = this.baseUrl + "ResumeCreating/";
-    return this.http.post<any>(`${this.actualUrl}submit/download`, payload); // Send the payload
+    const userId = sessionStorage.getItem("userId"); // Retrieve userId from session storage
+  
+    if (!userId) {
+      throw new Error("User ID is missing. Please log in again.");
+    }
+  
+    const apiUrl = `${this.baseUrl}ResumeCreating/submit/download/${userId}?templateID=${templateID}`;
+    return this.http.post<any>(apiUrl, null); // Pass `null` as the body since templateID is sent as a query parameter
   }
+  
 
 
   // deleteDegree(id: number){
