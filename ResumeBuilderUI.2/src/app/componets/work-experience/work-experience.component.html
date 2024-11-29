@@ -39,12 +39,11 @@
               <div class="input-box" [class.error]="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')">
                 <span class="details">End Date</span>
                 <div class="end-date-container">
-                  <input (change)="checkIfCurrent()"formControlName="endDate" type="date" id="endDate" required>
-                  <small *ngIf="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')" class="text-danger">End Date is Required</small>
+                  <input (change)="checkIfCurrent()" formControlName="endDate" type="date" id="endDate" required>
                   <label for="currentCheckbox">
-                    <input (change)="onCurrentChange()" formControlName="checkBox" type="checkbox" id="currentCheckbox">
-                    Current
+                    <input (change)="onCurrentChange()" formControlName="checkBox" type="checkbox" id="currentCheckbox"> Current
                   </label>
+                  <small *ngIf="workExperienceForm.controls['endDate'].dirty && workExperienceForm.hasError('required','endDate')" class="text-danger">End Date is Required</small>
                 </div>
               </div>
               <!-- Summary Box -->
@@ -85,7 +84,6 @@
             </div>
           </ul>
         </div>
-
 
         <!-- Make Edit and Cancel Buttons -->
         <div [attr.style]="editMode ? displayString : hideString" class="button grey-button" display="none">
