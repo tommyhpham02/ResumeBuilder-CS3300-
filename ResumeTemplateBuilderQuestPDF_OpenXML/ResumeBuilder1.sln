@@ -5,6 +5,11 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResumeBuilder1", "ResumeBuilder1.csproj", "{2EECF742-AB6A-45E8-AFFC-502F41E36424}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D314268C-2312-4342-ABD8-0BE7C6313246}"
+	ProjectSection(SolutionItems) = preProject
+		ResumeController.cs = ResumeController.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
