@@ -70,20 +70,26 @@
           <ul [attr.style]="degreeListViewable ? displayString : hideString" *ngIf="degreeListViewable" id="degreeList" class="degree-list">
             <div [attr.style]="degreesEntered[0] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfDegrees[0]}}
+                <div class="button-wrapper">
                 <input type="button" class="degree-list" (click)="editDegree(0)" value="Edit">
                 <input type="button" class="degree-list" (click)="removeDegreeWithIndex(0)" value="Remove">
+                </div>
               </li>
             </div>
             <div [attr.style]="degreesEntered[1] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfDegrees[1]}}
+                <div class="button-wrapper">
                 <input type="button" class="degree-list" (click)="editDegree(1)" value="Edit">
                 <input type="button" class="degree-list" (click)="removeDegreeWithIndex(1)" value="Remove">
+                </div>
               </li>
             </div>
             <div [attr.style]="degreesEntered[2] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfDegrees[2]}}
+                <div class="button-wrapper">
                 <input type="button" class="degree-list" (click)="editDegree(2)" value="Edit">
                 <input type="button" class="degree-list" (click)="removeDegreeWithIndex(2)" value="Remove">
+                </div>
               </li>
             </div>
           </ul>
