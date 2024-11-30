@@ -20,8 +20,8 @@ namespace ResumeBuilder
             string personalProjects,
             string languages,
             string skills,
-            string summary,
-            string previewOrDownload)
+            string summary
+            )
         {
             try
             {
@@ -78,7 +78,7 @@ namespace ResumeBuilder
                     });
                 });
 
-                GeneratePdfOrPreview(document, path, previewOrDownload);
+                GeneratePdfOrPreview(document, path);
             }
             catch (IOException ex)
             {
@@ -97,47 +97,11 @@ namespace ResumeBuilder
             }
         }
 
-        private void GeneratePdfOrPreview(IDocument document, string path, string previewOrDownload)
+        private void GeneratePdfOrPreview(IDocument document, string path)
         {
-            if (previewOrDownload == "1") // Download
-            {
+            
                 document.GeneratePdf(path);
                 Console.WriteLine($"PDF has been saved to {path}");
-            }
-            else if (previewOrDownload == "2") // Preview
-            {
-                using (var stream = new MemoryStream())
-                {
-                    document.GeneratePdf(stream);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    File.WriteAllBytes(path, stream.ToArray()); // Save to path for debugging or further use
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Invalid previewOrDownload value. Must be '1' (download) or '2' (preview).");
-            }
-        }
-
-        private void GeneratePdfAndShow(IDocument document)
-        {
-            using (var stream = new MemoryStream())
-            {
-                document.GeneratePdf(stream);
-
-                var tempFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.pdf");
-                File.WriteAllBytes(tempFile, stream.ToArray());
-
-                var process = new System.Diagnostics.Process
-                {
-                    StartInfo = new System.Diagnostics.ProcessStartInfo
-                    {
-                        FileName = tempFile,
-                        UseShellExecute = true
-                    }
-                };
-                process.Start();
-            }
         }
     }
 }

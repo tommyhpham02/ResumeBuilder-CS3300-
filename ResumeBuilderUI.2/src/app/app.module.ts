@@ -13,6 +13,7 @@ import { SkillsComponent } from './componets/skills/skills.component';
 //import { jwtDecode } from 'jwt-decode';
 import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
 import { DownloadComponent } from './componets/download/download.component';
+import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resumeTemplatePage.component';
 
 
 
@@ -26,7 +27,8 @@ import { DownloadComponent } from './componets/download/download.component';
     HomeComponent,
     SkillsComponent, 
     WorkExperienceComponent,
-    DownloadComponent
+    DownloadComponent,
+    ResumeTemplatePageComponent
   ],
   imports: [
     BrowserModule,

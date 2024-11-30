@@ -20,8 +20,8 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext = appDbContext;
         }
 
-        [HttpGet("submit/download/{id}/{templateID}/{previewOrDownload}")]
-        public async Task<IActionResult> SubmitResumeCreating(int id, string templateID, string previewOrDownload)
+        [HttpGet("submit/download/{id}/{templateID}")]
+        public async Task<IActionResult> SubmitResumeCreating(int id, string templateID)
         {
             
             if (string.IsNullOrWhiteSpace(templateID))
@@ -77,25 +77,25 @@ namespace RsumeBuilder_Team_9_.Controllers
                 {
                     var resumeLayout = new ResumeLayouts();
                     resumeLayout.ClassicLayout(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
                 }
                 else if (templateID == "2") // Template 2 Easy simple red with middle header
                 {
                     var resumeLayout2 = new ResumeLayouts2();
                     resumeLayout2.NewLayout(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
                 }
                 else if (templateID == "3") // Temp Needs work
                 {
                     var resumeLayout3 = new CustomResumeLayout3();
                     resumeLayout3.customResume3(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
                 }
                 else if (templateID == "4") // Temp nmeeds work
                 {
                     var resumeLayouts = new CustomResume4();
                     resumeLayouts.customResume4(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
                 }
                 else
                 {
@@ -103,20 +103,9 @@ namespace RsumeBuilder_Team_9_.Controllers
                 }
 
                 // Handle response based on preview or download
-                if (previewOrDownload == "1") // Download
-                {
+                
                     byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
                     return Ok(File(fileBytes, "application/pdf", Path.GetFileName(filePath)));
-                }
-                else if (previewOrDownload == "2") // Preview
-                {
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                    return File(fileBytes, "application/pdf");
-                }
-                else
-                {
-                    return BadRequest("Invalid value for previewOrDownload. Use '1' for download and '2' for preview.");
-                }
             }
             catch (Exception ex)
             {

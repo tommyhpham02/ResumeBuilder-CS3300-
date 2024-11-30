@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Template Selection</title>
+  <link rel="stylesheet" href="template-selection.component.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Title Section -->
+    <div class="title">Choose Your Template</div>
+    <div class="subtitle">Click on a button below to select a template.</div>
+
+    <!-- Template Grid -->
+    <div class="template-grid">
+      <div class="template-card">
+        <img src="template1.jpg" alt="Template 1" class="template-image">
+        <button class="select-template" (click)="selectTemplate(1)">Select Template 1</button>
+      </div>
+      <div class="template-card">
+        <img src="template2.jpg" alt="Template 2" class="template-image">
+        <button class="select-template" (click)="selectTemplate(2)">Select Template 2</button>
+      </div>
+      <div class="template-card">
+        <img src="template3.jpg" alt="Template 3" class="template-image">
+        <button class="select-template" (click)="selectTemplate(3)">Select Template 3</button>
+      </div>
+      <!-- Add more templates as needed -->
+    </div>
+  </div>
+</body>
+</html>

@@ -10,7 +10,17 @@ namespace ResumeBuilder
     {
         private readonly string[] sectionTitles = { "Summary", "Experience", "Education", "Certifications", "Skills", "Languages", "Interests", "Projects" };
 
-        public void customResume4(string path, string name, string contactInfo, string summary, string jobs, string education, string certifications, string skills, string languages, string projects, string previewOrDownload)
+        public void customResume4(string path,
+            string name,
+            string personDetails,
+            string jobs,
+            string educations,
+            string certifications,
+            string personalProjects,
+            string languages,
+            string skills,
+            string summary
+            )
         {
             try
             {
