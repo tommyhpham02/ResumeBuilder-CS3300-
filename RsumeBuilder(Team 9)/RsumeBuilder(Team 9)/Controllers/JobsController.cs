@@ -23,16 +23,15 @@ namespace RsumeBuilder_Team_9_.Controllers
         /// <param name="id"></param>
         /// <returns>Error message or primary key id of entered job</returns>
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitJob([FromBody] Job job, string id)
+        public async Task<IActionResult> SubmitJob([FromBody] Job job, int id)
         {
             if (job == null)
-                return BadRequest();
-            else if (id == "0")
-                return BadRequest();
+                return BadRequest("Incorrect Data Given.");
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
 
-            if ((_authContext.Jobs.Where(x => x.UserId.ToString() == id)).ToList().Count < 3)
+            if ((_authContext.Jobs.Where(x => x.UserId == id)).ToList().Count < 3)
             {
-                job.UserId = int.Parse(id);
                 await _authContext.Jobs.AddAsync(job);
                 await _authContext.SaveChangesAsync();
 
@@ -47,12 +46,12 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> RemoveJobFromList(int id)
+        public async Task<IActionResult> RemoveJobFromList(int jobId)
         {
-            if (id == 0)
-                return BadRequest();
+            if (_authContext.Jobs.SingleOrDefault(x => x.Id == jobId) == null)
+                return BadRequest("No Job found.");
 
-            var jobToRemove = _authContext.Jobs.SingleOrDefault(x => x.Id == id);
+            var jobToRemove = _authContext.Jobs.SingleOrDefault(x => x.Id == jobId);
 
             if (jobToRemove == null)
                 return NotFound();
@@ -67,6 +66,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpDelete("delete/all/{id}")]
         public async Task<IActionResult> RemoveJobsFromList(int id)
         {
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
             List<Job> jobListToDelete = _authContext.Jobs.Where(x => x.UserId == id).ToList();
 
             if (jobListToDelete.Count > 0)
@@ -88,6 +90,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpGet("get/all/{id}")]
         public IActionResult GetJobsFromList(int id)
         {
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
             List<Job> jobListToGet = _authContext.Jobs.Where(x => x.UserId == id).ToList();
             List<string> jsonStrings = new List<string>();
 
@@ -110,6 +115,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpPut("edit/{jobId}")]
         public async Task<IActionResult> editJobInfo([FromBody] Job jobObj, int jobId)
         {
+            if (_authContext.Jobs.SingleOrDefault(x => x.Id == jobId) == null)
+                return BadRequest("No Job found.");
+
             var job = _authContext.Jobs.SingleOrDefault(x => x.Id == jobId);
 
             if (jobObj == null)

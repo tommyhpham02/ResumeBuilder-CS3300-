@@ -28,14 +28,6 @@ export class SkillsComponent implements OnInit {
 
   // Called when form is initialized
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        if (event.navigationTrigger === 'popstate') {
-          console.log('Popstate navigation detected!');
-          sessionStorage.setItem('goBack', 'yes');
-        }
-      }
-    });
     
     // Checks to see if User is logged in and resume option is choosen
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {

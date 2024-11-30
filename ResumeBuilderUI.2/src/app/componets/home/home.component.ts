@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   onLogin() {
     this.router.navigate(['login']);
@@ -18,6 +19,20 @@ export class HomeComponent {
   }
 
   onCreate() {
-    this.router.navigate(['dashboard']);
+    sessionStorage.setItem('tempUser', 'yes');
+    this.auth.createTempUser()
+    .subscribe({
+      next: (data)=>{
+        this.setUpTempUserId(data);
+        this.router.navigate(['dashboard']);
+      },
+      error: (err)=>{
+        alert(err.error);
+      }
+    })
+  }
+
+  setUpTempUserId(data: any) {
+    sessionStorage.setItem('userId', data);
   }
 }

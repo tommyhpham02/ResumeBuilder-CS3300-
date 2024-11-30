@@ -34,15 +34,6 @@ export class WorkExperienceComponent {
 
   // Called When form is initialized.
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        if (event.navigationTrigger === 'popstate') {
-          console.log('Popstate navigation detected!');
-          sessionStorage.setItem('goBack', 'yes');
-        }
-      }
-    });
-
     // Checks if user is logged in and if resumeOption is choosen.
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
       this.router.navigate(['login']);

@@ -33,15 +33,6 @@ export class EducationComponent {
 
   // Called when form is initialized.
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        if (event.navigationTrigger === 'popstate') {
-          console.log('Popstate navigation detected!');
-          sessionStorage.setItem('goBack', 'yes');
-        }
-      }
-    });
-
     // Checks if the User is logged in and resumeOption is choosen.
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
       this.router.navigate(['login']);

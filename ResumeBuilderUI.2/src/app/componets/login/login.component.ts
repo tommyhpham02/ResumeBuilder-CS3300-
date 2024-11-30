@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +15,16 @@ export class LoginComponent implements OnInit{
   isText: Boolean = false;
   eyeIcon: string = "fa-eye-slash";
   userId: any = "";
-  loginSuccess: Boolean = false;
   buttonDisabled: Boolean = false;
   loginForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   // Called when the form is initialized.
   ngOnInit(): void {
+    if (sessionStorage.getItem('userId') != null && sessionStorage.getItem('userId') != '-1') {
+      this.router.navigate(['resumeOptions'])
+    }
+
     this.loginForm = this.fb.group({
       username:['',Validators.required],
       password:['',Validators.required]
@@ -40,6 +43,7 @@ export class LoginComponent implements OnInit{
   onLogin(){
     if(this.loginForm.valid)
     {
+      this.createBackButtonEvent();
       this.buttonDisabled = true;
       console.log(this.loginForm.value);
       //send obj to database
@@ -76,10 +80,21 @@ export class LoginComponent implements OnInit{
           sessionStorage.setItem('userId', data);
         }
       );
-      this.loginSuccess = false;
     }
     else{
       sessionStorage.setItem('userId', '');
     }
   }
+
+  createBackButtonEvent(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Popstate navigation detected!');
+          sessionStorage.setItem('goBack', 'yes');
+        }
+      }
+    });
+  }
 }
+
