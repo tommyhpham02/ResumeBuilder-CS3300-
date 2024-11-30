@@ -154,10 +154,6 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Proficiency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Projects")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

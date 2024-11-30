@@ -48,7 +48,7 @@ namespace ResumeBuilder
                             AddSection(x, titles[5], skills);
                         });
                     });
-                }).GeneratePdfAndShow();
+                }).GeneratePdf(path);
             }
             catch (IOException ex)
             {

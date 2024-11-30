@@ -20,9 +20,10 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext = appDbContext;
         }
 
-        [HttpPost("submit/download/{id}")]
+        [HttpGet("submit/download/{id}/{templateID}/{previewOrDownload}")]
         public async Task<IActionResult> SubmitResumeCreating(int id, string templateID, string previewOrDownload)
         {
+            
             if (string.IsNullOrWhiteSpace(templateID))
             {
                 return BadRequest("Template ID is required.");
@@ -76,13 +77,13 @@ namespace RsumeBuilder_Team_9_.Controllers
                 {
                     var resumeLayout = new ResumeLayouts();
                     resumeLayout.ClassicLayout(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, "1");
                 }
                 else if (templateID == "2")
                 {
                     var resumeLayouts = new ResumeLayouts2();
                     resumeLayouts.NewLayout(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, "1");
                 }
                 else
                 {
@@ -93,11 +94,13 @@ namespace RsumeBuilder_Team_9_.Controllers
                 if (previewOrDownload == "1") // Download
                 {
                     byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                    return File(fileBytes, "application/pdf", Path.GetFileName(filePath));
+                    return Ok(File(fileBytes, "application/pdf", Path.GetFileName(filePath)));
                 }
-                else if (previewOrDownload == "2") // Preview
+                if (previewOrDownload == "2") // Preview
                 {
-                    return Ok(new { filePath = $"http://localhost:7039/generatedPdfs/{Path.GetFileName(filePath)}" });
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    return Ok(new { filePath = $"/generatedPdfs/{Path.GetFileName(filePath)}" });
+
                 }
                 else
                 {
@@ -110,5 +113,32 @@ namespace RsumeBuilder_Team_9_.Controllers
                 return StatusCode(500, "An error occurred while generating the PDF.");
             }
         }
+        [HttpGet("get-resume/{id}/{fileName}")]
+        public IActionResult GetResume(int id, string fileName)
+        {
+            // Define the server directory where resumes are stored
+            string directoryPath = @"C:\GeneratedPdfs";
+            string filePath = Path.Combine(directoryPath, fileName);
+
+            try
+            {
+                if (!System.IO.File.Exists(filePath))
+                {
+                    return NotFound(new { Message = "File not found on the server." });
+                }
+
+                // Read the file and return it as a FileResult
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return File(fileBytes, "application/pdf", fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving file: {ex.Message}");
+                return StatusCode(500, new { Message = "An error occurred while retrieving the file." });
+            }
+        }
+
+
+
     }
 }

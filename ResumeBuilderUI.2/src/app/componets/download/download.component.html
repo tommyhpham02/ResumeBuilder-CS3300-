@@ -38,7 +38,8 @@
       <!-- Button Group -->
       <div class="button-group">
         <input type="button" class="download-resume" value="Resume Download" (click)="downloadResumePress('1')">
-        <input type="button" class="preview-resume" value="Resume preview" (click)="downloadResumePress('2')">
+        <input type="button" class="preview-resume" value="Resume preview" (click)="previewResumePress()">
+        <!-- <button (click)="fetchResume('Resume_12345_20231128093500.pdf')">Download Resume</button> -->
         <input type="button" class="go-back" value="Go Back" (click)="goBack()">
         <input type="button" class="logout-option" value="Logout" (click)="onLogout()">
       </div>

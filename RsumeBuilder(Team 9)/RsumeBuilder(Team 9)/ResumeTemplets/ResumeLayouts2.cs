@@ -99,15 +99,19 @@ namespace ResumeBuilder
 
         private void GeneratePdfOrPreview(IDocument document, string path, string previewOrDownload)
         {
-            if (previewOrDownload == "1")
+            if (previewOrDownload == "1") // Download
             {
                 document.GeneratePdf(path);
                 Console.WriteLine($"PDF has been saved to {path}");
             }
-            else if (previewOrDownload == "2")
+            else if (previewOrDownload == "2") // Preview
             {
-                GeneratePdfAndShow(document);
-                Console.WriteLine("PDF is being previewed.");
+                using (var stream = new MemoryStream())
+                {
+                    document.GeneratePdf(stream);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    File.WriteAllBytes(path, stream.ToArray()); // Save to path for debugging or further use
+                }
             }
             else
             {

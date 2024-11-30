@@ -38,79 +38,79 @@ export class DownloadComponent  {
 
   async downloadResumePress(previewOrDownload: string) {
     const templateID = this.selectedTemplateID || sessionStorage.getItem('selectedTemplateID');
-    
+  
     if (!templateID) {
       alert('Please select a resume template before proceeding.');
       return;
     }
   
     try {
-      let fileHandle: any;
-  
-      if (previewOrDownload === '1') { // For download
-        // Step 1: Prompt user to select a path for saving the file
-        fileHandle = await (window as any).showSaveFilePicker({
-          suggestedName: 'Resume.pdf',
-          types: [
-            {
-              description: 'PDF Files',
-              accept: { 'application/pdf': ['.pdf'] }
-            }
-          ]
-        });
-  
-        console.log('File handle:', fileHandle);
-      }
-  
-      // Step 2: Call backend to fetch resume content
-      this.auth.downloadResume(templateID, previewOrDownload, fileHandle?.name || '').subscribe({
-        next: async (response) => {
-          console.log('Backend Response:', response);
-  
-          if (previewOrDownload === '1') { // For download
-            // Step 3: Write response content to the selected file
-            const writableStream = await fileHandle.createWritable();
-            const fileContent = response.fileContent; // Assuming backend returns Blob or Base64
-            if (fileContent) {
-              const blob = new Blob([fileContent], { type: 'application/pdf' });
-              await writableStream.write(blob);
-              await writableStream.close();
-              alert('Your resume has been successfully downloaded.');
-            } else {
-              alert('Failed to retrieve the file content from the server.');
-            }
-          } else if (previewOrDownload === '2') { // For preview
-            const filePath = response.filePath; // Backend should return filePath
+      // Call backend to generate the resume
+      this.auth.downloadResume(templateID, previewOrDownload).subscribe({
+        next: (response: any) => {
+          if (previewOrDownload === '1') {
+            // For download
+            const fileName = response.fileDownloadName; // Get the file name from the response
+            console.log(fileName);
+            console.log("Response: ", response.fileDownloadName);
+            this.fetchResume(fileName); // Trigger fetch to download the file
+          } else if (previewOrDownload === '2') {
+            // For preview
+            const filePath = response.filePath; // Get the file path from the response
             if (filePath) {
-              window.open(filePath, '_blank'); // Open the preview in a new tab
-              alert('Your resume is ready for preview.');
+              window.open(filePath, '_blank'); // Open the file in a new tab
             } else {
-              alert('Failed to retrieve the preview file path from the server.');
+              alert('Failed to retrieve the preview file path.');
             }
           }
         },
         error: (error) => {
-          console.error('Backend Error:', error);
+          console.error('Error:', error);
           alert('An error occurred while processing your request.');
-        }
+        },
       });
     } catch (error) {
-      console.error('An unexpected error occurred:', error);
-      alert('An error occurred while processing your request.');
+      console.error('Unexpected error:', error);
+      alert('An unexpected error occurred.');
     }
   }
   
+  async fetchResume(fileName: string) {
+    this.auth.getResume(fileName).subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName; // Use the file name from the backend
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error fetching file:', error);
+        alert('Failed to download the file.');
+      },
+    });
+  }
   
-
-
 
   previewResumePress() {
     const templateID = sessionStorage.getItem('selectedTemplateID');
-    alert("you pressed it");
-
-    if (templateID == "") {
-      alert("Please select a resume template before previewing.");
+    if (!templateID) {
+      alert('Please select a resume template before previewing.');
+      return;
     }
+  
+    this.auth.downloadResume(templateID, '2').subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        window.open(url, '_blank'); // Open in a new tab for preview
+        window.URL.revokeObjectURL(url); // Clean up URL after use
+      },
+      error: (error) => {
+        console.error('Error fetching preview:', error);
+        alert('Failed to fetch the preview.');
+      },
+    });
   }
 
   // Method to handle dropdown value change

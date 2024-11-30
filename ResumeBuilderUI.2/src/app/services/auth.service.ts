@@ -126,15 +126,26 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
-  downloadResume(templateID: string, previewOrDownload: string, fileHandle: string) {
-    const userId = sessionStorage.getItem("userId"); // Retrieve userId from session storage
-  
+  downloadResume(templateID: string, previewOrDownload: string) {
+    const userId = sessionStorage.getItem('userId');
     if (!userId) {
-      throw new Error("User ID is missing. Please log in again.");
+      throw new Error('User ID is missing.');
     }
   
-    const apiUrl = `${this.baseUrl}ResumeCreating/submit/download/${userId}?templateID=${templateID}&previewOrDownload=${previewOrDownload}&fileHandle=${fileHandle}`;
-    return this.http.post<any>(apiUrl, null); // Pass `null` as the body since templateID is sent as a query parameter
+    //const payload = { templateID, previewOrDownload };
+    //console.log(payload);
+    return this.http.get<any>(`${this.baseUrl}ResumeCreating/submit/download/${userId}/${templateID}/${previewOrDownload}`);
+  }
+  
+  getResume(fileName: string) {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      throw new Error('User ID is missing.');
+    }
+  
+    return this.http.get(`${this.baseUrl}ResumeCreating/get-resume/${userId}/${fileName}`, {
+      responseType: 'blob',
+    });
   }
   
 
