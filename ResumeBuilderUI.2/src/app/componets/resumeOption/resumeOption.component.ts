@@ -18,6 +18,7 @@ export class ResumeOptionComponent {
 
   onNewresume(){
     sessionStorage.setItem('editing', 'no');
+    sessionStorage.setItem('goBack', 'no');
     this.auth.deleteAllUsersInfo()
     .subscribe({
       next: (res)=>{
