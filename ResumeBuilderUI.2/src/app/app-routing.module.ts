@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { HomeComponent} from './componets/home/home.component'
 import { LoginComponent } from './componets/login/login.component';
 import { SignupComponent } from './componets/signup/signup.component';
@@ -10,6 +9,7 @@ import { DownloadComponent } from './componets/download/download.component';
 import { SkillsComponent } from './componets/skills/skills.component';
 import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
 import { ResumeOptionComponent } from './componets/resumeOption/resumeOption.component';
+import { KeywordsComponent } from './componets/keywords/keywords.component'
 
 export const routes: Routes = [
   {path:'', component: HomeComponent },
@@ -20,7 +20,8 @@ export const routes: Routes = [
   {path:'download', component: DownloadComponent},
   {path:'skills', component: SkillsComponent},
   {path:'workexperience', component: WorkExperienceComponent},
-  {path:'resumeOption', component: ResumeOptionComponent}
+  {path:'resumeOption', component: ResumeOptionComponent},
+  {path:'keywords', component: KeywordsComponent}
 ];
 
 @NgModule({
