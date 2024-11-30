@@ -3,14 +3,14 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System;
 
-
 namespace ResumeBuilder
 {
-    public class CustomResume4
+    public class ResumeLayouts4
     {
-        private readonly string[] sectionTitles = { "Summary", "Experience", "Education", "Certifications", "Skills", "Languages", "Interests", "Projects" };
+        public string[] titles = { "Summary", "Experience", "Education", "Certifications", "Skills", "Languages", "Projects" };
 
-        public void customResume4(string path,
+        public void customResume4(
+            string path,
             string name,
             string personDetails,
             string jobs,
@@ -19,8 +19,7 @@ namespace ResumeBuilder
             string personalProjects,
             string languages,
             string skills,
-            string summary
-            )
+            string summary)
         {
             try
             {
@@ -28,61 +27,35 @@ namespace ResumeBuilder
                 {
                     container.Page(page =>
                     {
-                        // Page settings
                         page.Size(PageSizes.A4);
-                        page.Margin(1.5f, Unit.Centimetre);
+                        page.Margin(1, Unit.Centimetre);
                         page.PageColor(Colors.White);
+                        page.DefaultTextStyle(x => x.FontSize(12));
 
-                        // Main content
-                        page.Content().Column(content =>
+                        // Simple Header
+                        page.Header().Column(header =>
                         {
-                            content.Spacing(20);
+                            if (!string.IsNullOrEmpty(name))
+                                header.Item().Text(name).FontSize(18).Bold().FontColor(Colors.Green.Medium);
 
-                            // Header: Name and Contact Information
-                            content.Item().Column(column =>
-                            {
-                                column.Item().Text(name)
-                                    .FontSize(26)
-                                    .Bold()
-                                    .FontColor(Colors.Green.Medium);
-                                column.Item().Text(contactInfo)
-                                    .FontSize(12)
-                                    .Italic()
-                                .FontColor(Colors.Grey.Darken3);
+                            if (!string.IsNullOrEmpty(personDetails))
+                                header.Item().Text(personDetails).FontSize(12).Italic().FontColor(Colors.Grey.Darken3);
 
-                                column.Spacing(15);
-                                // Horizontal line below the header
-                                column.Item().LineHorizontal(1).LineColor(Colors.Grey.Darken2);
-                            });
-
-                            // Main Body: Multi-Column Layout
-                            content.Item().Row(row =>
-                            {
-                                // Left Column
-                                row.RelativeItem(2).Column(column =>
-                                {
-                                    AddSection(column, sectionTitles[0], summary, Colors.Green.Accent3);  // Summary
-                                    AddSection(column, sectionTitles[1], jobs, Colors.Green.Accent3);  // Experience
-                                    AddSection(column, sectionTitles[2], education, Colors.Green.Accent3); // Education
-                                    AddSection(column, sectionTitles[3], certifications, Colors.Green.Accent3); // Certifications
-                                    AddSection(column, sectionTitles[7], projects, Colors.Green.Accent3); // Projects
-                                });
-
-                                // Right Column
-                                row.RelativeItem(1).Column(column =>
-                                {
-                                    AddSection(column, sectionTitles[4], skills, Colors.Green.Accent3); // Skills
-                                    AddSection(column, sectionTitles[5], languages, Colors.Green.Accent3); // Languages
-                                    
-                                });
-                            });
+                            header.Item().PaddingVertical(10).LineHorizontal(1).LineColor(Colors.Grey.Darken2);
                         });
 
-                        // Footer on all pages
-                        page.Footer().PaddingTop(10).Column(footer =>
+                        // Simple Content
+                        page.Content().Column(content =>
                         {
-                            footer.Item().LineHorizontal(1).LineColor(Colors.Grey.Darken2);
-                            footer.Item().AlignCenter().Text("Generated with QuestPDF").FontSize(9).FontColor(Colors.Grey.Darken3);
+                            content.Spacing(10);
+
+                            AddSection(content, titles[0], summary);
+                            AddSection(content, titles[1], jobs);
+                            AddSection(content, titles[2], educations);
+                            AddSection(content, titles[3], certifications);
+                            AddSection(content, titles[4], skills);
+                            AddSection(content, titles[5], languages);
+                            AddSection(content, titles[6], personalProjects);
                         });
                     });
                 }).GeneratePdf(path);
@@ -94,32 +67,13 @@ namespace ResumeBuilder
             }
         }
 
-        private void AddSection(ColumnDescriptor container, string title, string content, string color)
+        private void AddSection(ColumnDescriptor container, string title, string content)
         {
             if (!string.IsNullOrEmpty(content))
             {
-                container.Item().Column(column =>
-                {
-                    // Title of the section
-                    column.Item().Element(e =>
-                    {
-                        e.Text(title)
-                            .Bold()
-                            .FontSize(14)
-                            .FontColor(color);
-                    });
-
-                    // Add content
-                    column.Item().PaddingTop(5).Element(e =>
-                    {
-                        e.Text(content)
-                            .FontSize(11)
-                            .FontColor(Colors.Grey.Darken3);
-                    });
-
-                    // Add spacing below each section
-                    column.Item().PaddingBottom(15);
-                });
+                container.Item().PaddingVertical(5).LineHorizontal(1).LineColor(Colors.Grey.Medium);
+                container.Item().Text(title).Bold().FontSize(13);
+                container.Item().Text(content);
             }
         }
     }

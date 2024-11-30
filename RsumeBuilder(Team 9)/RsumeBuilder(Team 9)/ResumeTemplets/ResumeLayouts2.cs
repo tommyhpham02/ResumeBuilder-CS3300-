@@ -8,7 +8,7 @@ namespace ResumeBuilder
 {
     public class ResumeLayouts2
     {
-        internal string[] titles = { "", "", "", "", "", "", "" };
+        public string[] titles = { "Work Experience", "Education", "Certificates", "Projects", "Languages", "Skills" };
 
         public void NewLayout(
             string path,
@@ -34,33 +34,30 @@ namespace ResumeBuilder
                         page.PageColor(Colors.White);
                         page.DefaultTextStyle(x => x.FontSize(12));
 
-                        page.Header().Row(row =>
+                        page.Content().Column(content =>
                         {
-                            row.Spacing(15);
-                            row.RelativeItem().AlignCenter().Column(column =>
+                            content.Spacing(15);
+
+                            // Add name and contact information
+                            content.Item().Column(column =>
                             {
                                 if (!string.IsNullOrEmpty(name))
-                                    column.Item().Text(name).FontSize(30).FontColor(Colors.Red.Lighten4).Bold().AlignCenter();
+                                    column.Item().Text(name).FontSize(18).FontColor(Colors.Blue.Medium).Bold();
 
                                 if (!string.IsNullOrEmpty(personDetails))
-                                    column.Item().Text(personDetails).AlignCenter();
+                                    column.Item().Text(personDetails);
 
-                                column.Item().PaddingVertical(10);
                                 if (!string.IsNullOrEmpty(summary))
-                                    column.Item().EnsureSpace(100).Text(summary).AlignCenter();
+                                    column.Item().Text(summary);
                             });
-                        });
 
-                        page.Content().PaddingVertical(1, Unit.Centimetre).Column(x =>
-                        {
-                            x.Spacing(5);
+                            // Add sections dynamically
+                            AddSection(content, titles[0], jobs);
+                            AddSection(content, titles[1], educations);
+                            AddSection(content, titles[2], certifications);
+                            AddSection(content, titles[3], personalProjects);
 
-                            AddSection(x, titles[0], jobs);
-                            AddSection(x, titles[1], educations);
-                            AddSection(x, titles[2], certifications);
-                            AddSection(x, titles[3], personalProjects);
-
-                            x.Item().Row(row =>
+                            content.Item().Row(row =>
                             {
                                 row.Spacing(15);
 
@@ -99,9 +96,8 @@ namespace ResumeBuilder
 
         private void GeneratePdfOrPreview(IDocument document, string path)
         {
-            
-                document.GeneratePdf(path);
-                Console.WriteLine($"PDF has been saved to {path}");
+            document.GeneratePdf(path);
+            Console.WriteLine($"PDF has been saved to {path}");
         }
     }
 }

@@ -22,10 +22,6 @@ export class ResumeTemplatePageComponent  {
     });
   }
 
-  goBack(){
-    this.router.navigate(['skills']);
-  }
-
   optionsPage()
   {
     this.router.navigate(['resumeOption']);
@@ -36,9 +32,7 @@ export class ResumeTemplatePageComponent  {
     this.router.navigate(['']);
   }
 
-  async downloadResumePress(previewOrDownload: string) {
-    const templateID = this.selectedTemplateID || sessionStorage.getItem('selectedTemplateID');
-  
+  async downloadResumePress(templateID: string) {  
     if (!templateID) {
       alert('Please select a resume template before proceeding.');
       return;
@@ -46,7 +40,7 @@ export class ResumeTemplatePageComponent  {
   
     try {
       // Call backend to generate the resume
-      this.auth.downloadResume(templateID, previewOrDownload).subscribe({
+      this.auth.downloadResume(templateID).subscribe({
         next: (response: any) => {
             // For download
             const fileName = response.fileDownloadName; // Get the file name from the response
@@ -89,7 +83,12 @@ export class ResumeTemplatePageComponent  {
     console.log('Selected Template ID:', this.selectedTemplateID); // Debugging
   }
 
-  previewResumePress() {
-    this.router.navigate(['resumeTemplatePage']);
+  selectTemplate(templateID: string)
+  {
+    this.selectedTemplateID = templateID;
+  }
+
+  goBack(){
+    this.router.navigate(['download']);
   }
 }

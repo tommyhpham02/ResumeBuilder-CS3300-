@@ -126,7 +126,7 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
-  downloadResume(templateID: string, previewOrDownload: string) {
+  downloadResume(templateID: string) {
     const userId = sessionStorage.getItem('userId');
     if (!userId) {
       throw new Error('User ID is missing.');
@@ -134,7 +134,7 @@ export class AuthService {
   
     //const payload = { templateID, previewOrDownload };
     //console.log(payload);
-    return this.http.get<any>(`${this.baseUrl}ResumeCreating/submit/download/${userId}/${templateID}/${previewOrDownload}`);
+    return this.http.get<any>(`${this.baseUrl}ResumeCreating/submit/download/${userId}/${templateID}`);
   }
   
   getResume(fileName: string) {

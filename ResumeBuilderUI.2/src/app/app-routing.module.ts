@@ -22,7 +22,8 @@ export const routes: Routes = [
   {path:'skills', component: SkillsComponent},
   {path:'workexperience', component: WorkExperienceComponent},
   {path:'resumeOption', component: ResumeOptionComponent},
-  {path:'resumeTemplatePageComponent', component: ResumeTemplatePageComponent}
+  { path: 'resumeTemplate', component: ResumeTemplatePageComponent }
+
 ];
 
 @NgModule({

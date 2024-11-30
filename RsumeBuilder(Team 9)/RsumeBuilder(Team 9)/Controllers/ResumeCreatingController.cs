@@ -93,7 +93,7 @@ namespace RsumeBuilder_Team_9_.Controllers
                 }
                 else if (templateID == "4") // Temp nmeeds work
                 {
-                    var resumeLayouts = new CustomResume4();
+                    var resumeLayouts = new ResumeLayouts4();
                     resumeLayouts.customResume4(filePath, name, personDetails, jobsContent, educationContent,
                         certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
                 }

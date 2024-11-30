@@ -36,7 +36,7 @@ export class DownloadComponent  {
     this.router.navigate(['']);
   }
 
-  async downloadResumePress(previewOrDownload: string) {
+  async downloadResumePress() {
     const templateID = this.selectedTemplateID || sessionStorage.getItem('selectedTemplateID');
   
     if (!templateID) {
@@ -46,7 +46,7 @@ export class DownloadComponent  {
   
     try {
       // Call backend to generate the resume
-      this.auth.downloadResume(templateID, previewOrDownload).subscribe({
+      this.auth.downloadResume(templateID).subscribe({
         next: (response: any) => {
             // For download
             const fileName = response.fileDownloadName; // Get the file name from the response
@@ -90,6 +90,10 @@ export class DownloadComponent  {
   }
 
   previewResumePress() {
-    this.router.navigate(['resumeTemplatePage']);
+    this.router.navigate(['resumeTemplate']);
+  }
+
+  goToOptions(){
+    this.router.navigate(['resumeOption']);
   }
 }

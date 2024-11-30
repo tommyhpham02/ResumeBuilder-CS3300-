@@ -56,13 +56,6 @@ namespace ResumeBuilder
                             AddSection(content, sectionTitles[5], languages);       // Languages
                             AddSection(content, sectionTitles[6], skills);          // Skills
                         });
-
-                        // Footer on all pages
-                        page.Footer().PaddingTop(10).Column(footer =>
-                        {
-                            footer.Item().LineHorizontal(1).LineColor(Colors.Grey.Medium);
-                            footer.Item().AlignCenter().Text("Generated with QuestPDF").FontSize(9).FontColor(Colors.Grey.Darken2);
-                        });
                     });
                 }).GeneratePdf(path);
             }
