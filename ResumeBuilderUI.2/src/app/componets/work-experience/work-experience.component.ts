@@ -3,6 +3,7 @@ import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Vali
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router, NavigationStart } from '@angular/router';
+import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
 
 
 @Component({
@@ -12,6 +13,8 @@ import { Router, NavigationStart } from '@angular/router';
 })
 
 export class WorkExperienceComponent {
+  // Form vales as well as boolean flags trigged by events.
+  // Also holds list of information of each degree, and list of if a degree has been entered.
   workExperienceForm!: FormGroup;
   jobList = new Map<number, any>;
   htmlListOfJobs: string[] = ['', '', ''];
@@ -29,6 +32,7 @@ export class WorkExperienceComponent {
   hideString: string = "display:none;";
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
+  // Called When form is initialized.
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -39,10 +43,16 @@ export class WorkExperienceComponent {
       }
     });
 
-    this.checkIfUserIsLoggedInAndOptionChoosen();
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+      this.router.navigate(['login']);
+    }
+    if (!ValidatorLogin.checkIfOptionChoosen()) {
+      this.router.navigate(['resumeOption']);
+    }
     this.setFormGroup('', '', '', '', '');
 
-    // If editing the resume (set up variable later) takes already stored jobs from database to put into list
+    // If editing the resume takes already stored jobs from database to put into list.
     if (sessionStorage.getItem('editing') == 'yes' || this.cameBack) {
       this.auth.getListOfEnteredJobs()
       .subscribe(data => {
@@ -59,23 +69,6 @@ export class WorkExperienceComponent {
           if (this.jobList.size > 0)
             this.jobListViewable = true;
       });
-    }
-  }
-
-  checkIfUserIsLoggedInAndOptionChoosen(): void {
-    const userLoggedIn = sessionStorage.getItem('userId');
-
-    console.log("User ID from session storage:", userLoggedIn);
-
-    // If there is no user ID in the session storage
-    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
-      this.router.navigate(['login']); // Go to login page if user is not logged in
-    }
-
-    const editing = sessionStorage.getItem('editing');
-
-    if (editing == null) {
-      this.router.navigate(['resumeOption']); // Go to login page if user is not logged in
     }
   }
 
@@ -238,6 +231,7 @@ export class WorkExperienceComponent {
         alert(err?.error.message);
       }
     })
+    // Removes job from each list.
     this.jobList.delete(Array.from(this.jobList.keys())[index]);
     this.htmlListOfJobs.splice(index, 1);
     this.jobsEntered.splice(index, 1);
