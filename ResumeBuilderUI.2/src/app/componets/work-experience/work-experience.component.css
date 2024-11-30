@@ -11,12 +11,16 @@
 
 /* Background styling */
 body {
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
   background: linear-gradient(135deg, #68d0cd, #1c0455);
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
 }
 
 /* Main container box */
@@ -164,13 +168,10 @@ form .button-group {
   justify-content: space-between; /* Distribute buttons with space between them */
   align-items: center; /* Align items vertically to the center of the container */
   gap: 10px; /* Add space between buttons */
-  column-gap: 10px;
 }
 
 form .button-group input {
-  flex: 1; /* Allow buttons to grow and take up available space */
-  width: 50%; /* Ensure the container spans its parent element */
-  gap: 10px; /* Add space between buttons */
+  width: 50%;
   padding: 10px; /* Add internal space for better touch/click area */
   font-size: 18px; /* Adjust text size for readability */
   text-align: center; /* Center-align text inside buttons */
@@ -189,7 +190,6 @@ form .button {
   height: 45px;
   margin: 35px 0;
 }
-
 
 /* Main button layout and hover effects */
 form .button input {
@@ -275,7 +275,8 @@ form .input-box select:focus {
   background: linear-gradient(135deg, #71b7e6, #1c0455);
   color: white; /* Text color */
   padding: 10px 15px; /* Button padding */
-  border-radius: 5px;
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add rounded corners */
   cursor: pointer;
   margin-left: 10px; /* Adds spacing between buttons */
 }

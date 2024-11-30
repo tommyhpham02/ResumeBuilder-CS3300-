@@ -17,6 +17,10 @@ body {
   align-items: center;
   padding: 10px;
   background: linear-gradient(135deg, #68d0cd, #1c0455);
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
 }
 
 /* Main container box */

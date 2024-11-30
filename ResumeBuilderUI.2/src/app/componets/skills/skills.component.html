@@ -15,16 +15,15 @@
       <form [formGroup]="skillsForm">
         
         <!-- Languages Section -->
-        <div class="input-box-group">
+        <div class="summary-box">
           <span class="details">Languages</span>
-          <input formControlName="languageName" type="text" placeholder="Enter a language name">
+          <textarea formControlName="skills" placeholder="Add your languages"></textarea>
         </div>
         
         <!-- Certifications Section -->
-        <div class="input-box-group">
+        <div class="summary-box">
           <span class="details">Certifications</span>
-          <input formControlName="certificationName" type="text" placeholder="Enter a Certification Name">
-          <input formControlName="certificationDate" type="date" placeholder="Enter the date received">
+          <textarea formControlName="skills" placeholder="Enter your certifications"></textarea>
         </div>
 
         <!-- Skills Section -->
