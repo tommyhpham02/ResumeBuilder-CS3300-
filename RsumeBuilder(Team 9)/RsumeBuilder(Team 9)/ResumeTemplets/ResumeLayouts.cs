@@ -11,7 +11,7 @@ namespace ResumeBuilder
     {
         public string[] titles = { "Work Experaince", "Education", "Certificates", "Projects", "Languages", "Skills"};
 
-        public void ClassicLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string skills, string summary)
+        public void ClassicLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string skills, string summary, string previewOrDownload)
         {
             try
             {

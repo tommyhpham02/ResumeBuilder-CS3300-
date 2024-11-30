@@ -36,25 +36,70 @@ export class DownloadComponent  {
     this.router.navigate(['']);
   }
 
-  downloadResumePress() {
+  async downloadResumePress(previewOrDownload: string) {
     const templateID = this.selectedTemplateID || sessionStorage.getItem('selectedTemplateID');
-  
+    
     if (!templateID) {
-      alert('Please select a resume template before downloading.');
+      alert('Please select a resume template before proceeding.');
       return;
     }
   
-    this.auth.downloadResume(templateID).subscribe({
-      next: (response) => {
-        alert('Your resume has been successfully downloaded.');
-        console.log('Backend Response:', response);
-      },
-      error: (error) => {
-        alert('An error occurred while downloading the resume.');
-        console.error('Backend Error:', error);
+    try {
+      let fileHandle: any;
+  
+      if (previewOrDownload === '1') { // For download
+        // Step 1: Prompt user to select a path for saving the file
+        fileHandle = await (window as any).showSaveFilePicker({
+          suggestedName: 'Resume.pdf',
+          types: [
+            {
+              description: 'PDF Files',
+              accept: { 'application/pdf': ['.pdf'] }
+            }
+          ]
+        });
+  
+        console.log('File handle:', fileHandle);
       }
-    });
+  
+      // Step 2: Call backend to fetch resume content
+      this.auth.downloadResume(templateID, previewOrDownload, fileHandle?.name || '').subscribe({
+        next: async (response) => {
+          console.log('Backend Response:', response);
+  
+          if (previewOrDownload === '1') { // For download
+            // Step 3: Write response content to the selected file
+            const writableStream = await fileHandle.createWritable();
+            const fileContent = response.fileContent; // Assuming backend returns Blob or Base64
+            if (fileContent) {
+              const blob = new Blob([fileContent], { type: 'application/pdf' });
+              await writableStream.write(blob);
+              await writableStream.close();
+              alert('Your resume has been successfully downloaded.');
+            } else {
+              alert('Failed to retrieve the file content from the server.');
+            }
+          } else if (previewOrDownload === '2') { // For preview
+            const filePath = response.filePath; // Backend should return filePath
+            if (filePath) {
+              window.open(filePath, '_blank'); // Open the preview in a new tab
+              alert('Your resume is ready for preview.');
+            } else {
+              alert('Failed to retrieve the preview file path from the server.');
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Backend Error:', error);
+          alert('An error occurred while processing your request.');
+        }
+      });
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      alert('An error occurred while processing your request.');
+    }
   }
+  
   
 
 

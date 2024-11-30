@@ -3,7 +3,6 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System;
 using System.IO;
-//using System.Windows.Forms;
 
 namespace ResumeBuilder
 {
@@ -11,33 +10,44 @@ namespace ResumeBuilder
     {
         internal string[] titles = { "", "", "", "", "", "", "" };
 
-        public void NewLayout(string path, string name, string personDetails, string jobs, string educations, string certifications, string personalProjects, string languages, string skills, string summary)
+        public void NewLayout(
+            string path,
+            string name,
+            string personDetails,
+            string jobs,
+            string educations,
+            string certifications,
+            string personalProjects,
+            string languages,
+            string skills,
+            string summary,
+            string previewOrDownload)
         {
             try
             {
-                Document.Create(container =>
+                var document = Document.Create(container =>
                 {
                     container.Page(page =>
                     {
                         page.Size(PageSizes.A4);
                         page.Margin(1, Unit.Centimetre);
                         page.PageColor(Colors.White);
-                        page.DefaultTextStyle(x => x.FontSize(12)); // Default font size set to 12
+                        page.DefaultTextStyle(x => x.FontSize(12));
+
                         page.Header().Row(row =>
                         {
                             row.Spacing(15);
                             row.RelativeItem().AlignCenter().Column(column =>
                             {
-                                //column.AlignCenter(); // Center the entire column content
-
                                 if (!string.IsNullOrEmpty(name))
-                                    column.Item().Text(name).FontSize(30).FontColor(Colors.Red.Lighten4).Bold().AlignCenter(); // Center the name
+                                    column.Item().Text(name).FontSize(30).FontColor(Colors.Red.Lighten4).Bold().AlignCenter();
 
                                 if (!string.IsNullOrEmpty(personDetails))
-                                    column.Item().Text(personDetails).AlignCenter(); // Center the personal details
+                                    column.Item().Text(personDetails).AlignCenter();
+
                                 column.Item().PaddingVertical(10);
                                 if (!string.IsNullOrEmpty(summary))
-                                    column.Item().EnsureSpace(100).Text(summary).AlignCenter(); // Center the summary
+                                    column.Item().EnsureSpace(100).Text(summary).AlignCenter();
                             });
                         });
 
@@ -45,42 +55,35 @@ namespace ResumeBuilder
                         {
                             x.Spacing(5);
 
-                            // Add main content sections
                             AddSection(x, titles[0], jobs);
                             AddSection(x, titles[1], educations);
                             AddSection(x, titles[2], certifications);
                             AddSection(x, titles[3], personalProjects);
 
-                            // Add the last two sections in a row
                             x.Item().Row(row =>
                             {
                                 row.Spacing(15);
 
-                                // Left column for 'interests'
                                 row.RelativeItem().Column(column =>
                                 {
                                     AddSection(column, titles[4], languages);
                                 });
 
-                                // Right column for 'skills'
                                 row.RelativeItem().Column(column =>
                                 {
                                     AddSection(column, titles[5], skills);
                                 });
                             });
                         });
-                        page.Footer().Row(row =>
-                        {
-                            
-                        });
                     });
-                }).GeneratePdf(path);
+                });
+
+                GeneratePdfOrPreview(document, path, previewOrDownload);
             }
             catch (IOException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                throw; // Re-throw the exception for debugging.
-                //MessageBox.Show(ex.Message + " Please close the file and retry!");
+                throw;
             }
         }
 
@@ -94,5 +97,43 @@ namespace ResumeBuilder
             }
         }
 
+        private void GeneratePdfOrPreview(IDocument document, string path, string previewOrDownload)
+        {
+            if (previewOrDownload == "1")
+            {
+                document.GeneratePdf(path);
+                Console.WriteLine($"PDF has been saved to {path}");
+            }
+            else if (previewOrDownload == "2")
+            {
+                GeneratePdfAndShow(document);
+                Console.WriteLine("PDF is being previewed.");
+            }
+            else
+            {
+                throw new ArgumentException("Invalid previewOrDownload value. Must be '1' (download) or '2' (preview).");
+            }
+        }
+
+        private void GeneratePdfAndShow(IDocument document)
+        {
+            using (var stream = new MemoryStream())
+            {
+                document.GeneratePdf(stream);
+
+                var tempFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.pdf");
+                File.WriteAllBytes(tempFile, stream.ToArray());
+
+                var process = new System.Diagnostics.Process
+                {
+                    StartInfo = new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = tempFile,
+                        UseShellExecute = true
+                    }
+                };
+                process.Start();
+            }
+        }
     }
 }
