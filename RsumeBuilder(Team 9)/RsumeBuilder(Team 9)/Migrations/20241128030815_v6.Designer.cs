@@ -11,7 +11,7 @@ using RsumeBuilder_Team_9_.Context;
 namespace RsumeBuilder_Team_9_.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241127064913_v6")]
+    [Migration("20241128030815_v6")]
     partial class v6
     {
         /// <inheritdoc />
