@@ -23,8 +23,6 @@ namespace RsumeBuilder_Team_9_.Context
             modelBuilder.Entity<Degree>().ToTable("Degree");
             modelBuilder.Entity<Job>().ToTable("Job");
             modelBuilder.Entity<SkillsLanguagesCertifications>().ToTable("SkillsLanguagesCertifications");
-
-            modelBuilder.Entity<User>().ToTable("#TempUsers");
         }
     }
 }
