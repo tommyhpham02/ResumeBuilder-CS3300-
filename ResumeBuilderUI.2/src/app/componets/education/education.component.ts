@@ -3,6 +3,7 @@ import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Vali
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router, NavigationStart } from '@angular/router';
+import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
 
 
 @Component({
@@ -12,6 +13,8 @@ import { Router, NavigationStart } from '@angular/router';
 })
 
 export class EducationComponent {
+  // Form vales as well as boolean flags trigged by events.
+  // Also holds list of information of each job, and list of if a job has been entered.
   educationForm!: FormGroup;
   degreeList = new Map<number, any>;
   htmlListOfDegrees: string[] = ['', '', ''];
@@ -28,6 +31,7 @@ export class EducationComponent {
   hideString: string = "display:none;";
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
+  // Called when form is initialized.
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -38,10 +42,16 @@ export class EducationComponent {
       }
     });
 
-    this.checkIfUserIsLoggedInAndOptionChoosen();
+    // Checks if the User is logged in and resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+      this.router.navigate(['login']);
+    }
+    if (!ValidatorLogin.checkIfOptionChoosen()) {
+      this.router.navigate(['resumeOption']);
+    }
     this.setFormGroup('', '', '', '', '');
 
-    // If editing the resume (set up variable later) takes already stored jobs from database to put into list
+    // If editing the resume takes already stored degrees from database to put into list
     if (sessionStorage.getItem('editing') == 'yes' || this.cameBack) {
       this.auth.getListOfEnteredDegrees()
       .subscribe(data => {
@@ -57,23 +67,6 @@ export class EducationComponent {
           if (this.degreeList.size > 0)
             this.degreeListViewable = true;
       });
-    }
-  }
-
-  checkIfUserIsLoggedInAndOptionChoosen(): void {
-    const userLoggedIn = sessionStorage.getItem('userId');
-
-    console.log("User ID from session storage:", userLoggedIn);
-
-    // If there is no user ID in the session storage
-    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
-      this.router.navigate(['login']); // Go to login page if user is not logged in
-    }
-
-    const editing = sessionStorage.getItem('editing');
-
-    if (editing == null) {
-      this.router.navigate(['resumeOption']); // Go to login page if user is not logged in
     }
   }
 
@@ -101,7 +94,7 @@ export class EducationComponent {
     return jsonData;
   }
 
-  // Adds job to database if form is valid and no more than three already in database.
+  // Adds degree to database if form is valid and no more than three already in database.
   addDegree(): void {
     if (this.degreeList.size < 3) {
       if (this.educationForm.valid) {
@@ -119,7 +112,7 @@ export class EducationComponent {
     }
   }
 
-  // Replaces input fields with specified job wanting to edit, removes original from database. 
+  // Replaces input fields with specified degree wanting to edit, removes original from database. 
   editDegree(index: number) {
     let degreeToEdit = this.degreeList.get(Array.from(this.degreeList.keys())[index]);
     this.setFormGroup(degreeToEdit[`college`], degreeToEdit[`cityAndState`], degreeToEdit[`degreeType`], degreeToEdit[`degreeName`],
@@ -130,7 +123,7 @@ export class EducationComponent {
       this.degreeIndexToEdit = index;
   }
 
-  // Edits job in the actual database, if the user makes edits and hits the make edits button.
+  // Edits degree in the actual database, if the user makes edits and hits the make edits button.
   editDegreeInDatabase(): void {
     if ((JSON.stringify(this.educationForm.value) != JSON.stringify(this.degreeList.get(this.degreeIdToEdit))) && this.educationForm.valid){
       this.auth.editDegree(this.educationForm.value, this.degreeIdToEdit)
@@ -172,7 +165,7 @@ export class EducationComponent {
     this.degreeIndexToEdit = -1; 
   }
 
-  // Saves job to database and adds to appropriate lists.
+  // Saves degree to database and adds to appropriate lists.
   saveDegreeToDatbase(value: any) {
     this.auth.submitDegreesInfo(value)
     .subscribe({
@@ -190,13 +183,13 @@ export class EducationComponent {
     });
   }
 
-  // Adds job information needed for displaying on frontend.
+  // Adds degree information needed for displaying on frontend.
   addToHtmlList(htmlInsert: string) {
     this.htmlListOfDegrees[this.degreeList.size] = htmlInsert;
     this.degreesEntered[this.degreeList.size] = true;
   }
 
-  // Removes job from database and lists with specified index.
+  // Removes degree from database and lists with specified index.
   removeDegreeWithIndex(index: number): void {
     console.log(this.degreeList.get(Array.from(this.degreeList.keys())[index]))
     this.auth.deleteDegree(Array.from(this.degreeList.keys())[index])
@@ -209,6 +202,7 @@ export class EducationComponent {
         alert(err?.error.message);
       }
     })
+    // Removes degree from each list.
     this.degreeList.delete(Array.from(this.degreeList.keys())[index]);
     this.htmlListOfDegrees.splice(index, 1);
     this.degreesEntered.splice(index, 1);
