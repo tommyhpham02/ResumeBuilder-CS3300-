@@ -39,10 +39,9 @@
             <small *ngIf="dashboardForm.controls['phoneNumber'].dirty && dashboardForm.hasError('required','phoneNumber')" class="text-danger">*Phone Number is required</small>
           </div>
           <!-- Input for Website -->
-          <div class="input-box" [class.error]="dashboardForm.controls['website'].dirty && dashboardForm.hasError('required','website')">
+          <div class="input-box">
             <span class="details">Website</span>
             <input formControlName="website" type="text" placeholder="Enter your Website">
-            <small *ngIf="dashboardForm.controls['website'].dirty && dashboardForm.hasError('required','website')" class="text-danger">*Website is required</small>
           </div>
         </div>
 
@@ -55,7 +54,7 @@
 
         <!-- Continue button -->
         <div class="button">
-          <input (click)="onSubmit()" type="submit" value="Continue">
+          <input (click)="onSubmit()" type="button" value="Continue">
         </div>
       </form>
     </div>

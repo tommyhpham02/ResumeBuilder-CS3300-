@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Location } from '@angular/common';  
 import ValidatorForm from '../../helpers/validateForm';
 import { ReactiveFormsModule } from '@angular/forms';
+import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
 
 @Component({
   selector: 'app-skills',
@@ -12,8 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./skills.component.css']
 })
 export class SkillsComponent implements OnInit {
+  // Values for page, for flagging events and the formGroup in general.
   skillsForm!: FormGroup;
   nothingToEdit: Boolean = false;
+  originalValues: string = '';
   cameBack: Boolean = sessionStorage.getItem('goBack') == 'yes' ? true: false;
 
   constructor(
@@ -23,6 +26,7 @@ export class SkillsComponent implements OnInit {
     private location: Location  // Inject Location service
   ) {}
 
+  // Called when form is initialized
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -33,8 +37,15 @@ export class SkillsComponent implements OnInit {
       }
     });
     
-    this.checkIfUserIsLoggedInAndOptionChoosen();
+    // Checks to see if User is logged in and resume option is choosen
+    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+      this.router.navigate(['login']);
+    }
+    if (!ValidatorLogin.checkIfOptionChoosen()) {
+      this.router.navigate(['resumeOption']);
+    }
 
+    // Initializes skillsForm group control values.
     this.skillsForm = this.fb.group({
       languageName: [''],  // Not required
       certificationName: [''],  // Not required
@@ -43,12 +54,17 @@ export class SkillsComponent implements OnInit {
       projects: ['']  // Not required
     });
 
+    // If the user has come back from a previous page or they have choosen the editing option, fills the textboxes
+    // with the values they have entered in the database.
     if (sessionStorage.getItem('editing') == 'yes' || this.cameBack) {
       this.auth.getSkills()
       .subscribe({
         next: (data)=>{
           console.log(data);
           this.fillForm(data.languageName, data.certificationName, data.certificationDate, data.skills, data.projects);
+          delete data.id;
+          delete data.userId;
+          this.originalValues = JSON.stringify(data);
         },
         error: (err)=>{
           if (sessionStorage.getItem('editing') == 'yes')
@@ -57,28 +73,12 @@ export class SkillsComponent implements OnInit {
         }
       })
     }
-    else if (sessionStorage.getItem('editing') == 'no') {
-      this.fillForm('', '', '', '', '');
+    else {
+      this.originalValues = JSON.stringify(this.skillsForm.value);
     }
   }
 
-  checkIfUserIsLoggedInAndOptionChoosen(): void {
-    const userLoggedIn = sessionStorage.getItem('userId');
-
-    console.log("User ID from session storage:", userLoggedIn);
-
-    // If there is no user ID in the session storage
-    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
-      this.router.navigate(['login']); // Go to login page if user is not logged in
-    }
-
-    const editing = sessionStorage.getItem('editing');
-
-    if (editing == null) {
-      this.router.navigate(['resumeOption']); // Go to login page if user is not logged in
-    }
-  }
-
+  // Fills the skillsForm with specified values (the textbox values)
   fillForm(lang: string, certName: string, certDate: string, skill: string, proj: string): void {
     this.skillsForm.setValue({
       languageName: lang, 
@@ -89,7 +89,7 @@ export class SkillsComponent implements OnInit {
     });
   }
 
-  // Method to handle form submission
+  // Method to handle form submission. Either adds or edits entered information.
   onSubmit() {
     console.log("Form Values on Submit:", this.skillsForm.value);
 
@@ -103,30 +103,39 @@ export class SkillsComponent implements OnInit {
       }
     }
     else {
-      ValidatorForm.validateAllFormFileds(this.skillsForm);
+      ValidatorForm.validateAllFormFields(this.skillsForm);
       alert("Form is invalid. Please correct the errors.");
     }
   }
 
+  // Edits User information previously entered in the database.
   editSkills(): void {
-    this.auth.editSkills(this.skillsForm.value)
-    .subscribe({
-      next: (res)=>{
-        alert(res.message);
-        this.skillsForm.reset();
-        this.router.navigate(['download'])
-      },
-      error:(err)=>{
-        alert(err?.error.message)
-      }
-    })
+    if (this.originalValues != JSON.stringify(this.skillsForm.value)) {
+      this.auth.editSkills(this.skillsForm.value)
+      .subscribe({
+        next: (res)=>{
+          alert(res.message);
+          this.skillsForm.reset();
+          this.router.navigate(['download'])
+        },
+        error:(err)=>{
+          alert(err?.error.message)
+        }
+      })
+    }
+    else {
+      this.skillsForm.reset();
+      this.router.navigate(['download'])
+    }
   }
 
+  // Adds user information to the database, if there isn't info already there.
   addSkills(): void {
     this.auth.addSkills(this.skillsForm.value)
     .subscribe({
       next: (res)=>{
-        alert(res.message);
+        if (JSON.stringify(this.skillsForm.value) != this.originalValues)
+          alert(res.message);
         this.skillsForm.reset();
         this.router.navigate(['download'])
       },
