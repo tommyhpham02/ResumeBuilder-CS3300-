@@ -73,17 +73,29 @@ namespace RsumeBuilder_Team_9_.Controllers
                 string personalProjectsContent = string.Join("\n", skillsLanguagesCertifications.Select(proj => proj.Projects));
 
                 // Generate the PDF
-                if (templateID == "1")
+                if (templateID == "1") // Template 1 Easy simple template
                 {
                     var resumeLayout = new ResumeLayouts();
                     resumeLayout.ClassicLayout(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, "1");
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
                 }
-                else if (templateID == "2")
+                else if (templateID == "2") // Template 2 Easy simple red with middle header
                 {
-                    var resumeLayouts = new ResumeLayouts2();
-                    resumeLayouts.NewLayout(filePath, name, personDetails, jobsContent, educationContent,
-                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, "1");
+                    var resumeLayout2 = new ResumeLayouts2();
+                    resumeLayout2.NewLayout(filePath, name, personDetails, jobsContent, educationContent,
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                }
+                else if (templateID == "3") // Temp Needs work
+                {
+                    var resumeLayout3 = new CustomResumeLayout3();
+                    resumeLayout3.customResume3(filePath, name, personDetails, jobsContent, educationContent,
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
+                }
+                else if (templateID == "4") // Temp nmeeds work
+                {
+                    var resumeLayouts = new CustomResume4();
+                    resumeLayouts.customResume4(filePath, name, personDetails, jobsContent, educationContent,
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary, previewOrDownload);
                 }
                 else
                 {
@@ -96,11 +108,10 @@ namespace RsumeBuilder_Team_9_.Controllers
                     byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
                     return Ok(File(fileBytes, "application/pdf", Path.GetFileName(filePath)));
                 }
-                if (previewOrDownload == "2") // Preview
+                else if (previewOrDownload == "2") // Preview
                 {
                     byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                    return Ok(new { filePath = $"/generatedPdfs/{Path.GetFileName(filePath)}" });
-
+                    return File(fileBytes, "application/pdf");
                 }
                 else
                 {

@@ -51,12 +51,12 @@ export class DownloadComponent  {
           if (previewOrDownload === '1') {
             // For download
             const fileName = response.fileDownloadName; // Get the file name from the response
-            console.log(fileName);
+            console.log(response);
             console.log("Response: ", response.fileDownloadName);
             this.fetchResume(fileName); // Trigger fetch to download the file
           } else if (previewOrDownload === '2') {
             // For preview
-            const filePath = response.filePath; // Get the file path from the response
+            const filePath = response.contentType; // Get the file path from the response
             if (filePath) {
               window.open(filePath, '_blank'); // Open the file in a new tab
             } else {
@@ -93,7 +93,7 @@ export class DownloadComponent  {
   }
   
 
-  previewResumePress() {
+  previewResumePress(previewOrDownload: string) {
     const templateID = sessionStorage.getItem('selectedTemplateID');
     if (!templateID) {
       alert('Please select a resume template before previewing.');
@@ -102,9 +102,14 @@ export class DownloadComponent  {
   
     this.auth.downloadResume(templateID, '2').subscribe({
       next: (response: Blob) => {
-        const url = window.URL.createObjectURL(response);
-        window.open(url, '_blank'); // Open in a new tab for preview
-        window.URL.revokeObjectURL(url); // Clean up URL after use
+        if (previewOrDownload === '2') {
+          console.log("Response in temp: ", response)
+          const filePath = response; // Assuming `response` is a Blob
+          const url = window.URL.createObjectURL(filePath);
+          window.open(url, '_blank'); // Open the file in a new tab
+          window.URL.revokeObjectURL(url); // Clean up
+        }
+        
       },
       error: (error) => {
         console.error('Error fetching preview:', error);
