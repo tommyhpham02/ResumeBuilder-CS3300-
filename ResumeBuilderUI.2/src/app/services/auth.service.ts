@@ -61,6 +61,16 @@ export class AuthService {
     return this.http.get<any>(`${this.actualUrl}get/${sessionStorage.getItem("userId")}`)
   }
 
+  submitPersonalInfo(infoObj: any){
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, infoObj)
+  }
+
+  submitSLC(slcObj: any){
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, slcObj)
+  }
+
   submitJobsInfo(jobInfo: any){
     this.actualUrl = this.baseUrl + "Jobs/"
     return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, jobInfo)
@@ -98,7 +108,6 @@ export class AuthService {
 
   deleteAllDegrees() {
     this.actualUrl = this.baseUrl + "Degrees/"
-    console.log(sessionStorage.getItem("userId"));
     return this.http.delete<any>(`${this.actualUrl}delete/all/${sessionStorage.getItem("userId")}`)
   }
 
@@ -116,4 +125,33 @@ export class AuthService {
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
+
+  downloadResume(templateID: string) {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      throw new Error('User ID is missing.');
+    }
+  
+    //const payload = { templateID, previewOrDownload };
+    //console.log(payload);
+    return this.http.get<any>(`${this.baseUrl}ResumeCreating/submit/download/${userId}/${templateID}`);
+  }
+  
+  getResume(fileName: string) {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      throw new Error('User ID is missing.');
+    }
+  
+    return this.http.get(`${this.baseUrl}ResumeCreating/get-resume/${userId}/${fileName}`, {
+      responseType: 'blob',
+    });
+  }
+  
+
+
+  // deleteDegree(id: number){
+  //   this.actualUrl = this.baseUrl + "Input/"
+  //   return this.http.delete<any>(`${this.actualUrl}delete/degree/${id}`)
+  // }
 }

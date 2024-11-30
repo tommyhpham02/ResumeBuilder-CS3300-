@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit{
           this.saveUserId(true);
           alert(res.message);
           this.loginForm.reset();
-          this.router.navigate(['resumeOption'])
+          this.router.navigate(['resumeOption']);
         },
         error:(err)=>{
           this.buttonDisabled = false;

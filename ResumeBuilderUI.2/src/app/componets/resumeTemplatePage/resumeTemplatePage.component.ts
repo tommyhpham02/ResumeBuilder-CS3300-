@@ -5,25 +5,21 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-download',
-  templateUrl: './download.component.html',
-  styleUrl: './download.component.css'
+  selector: 'app-resumeTemplatePage',
+  templateUrl: './resumeTemplatePage.component.html',
+  styleUrl: './resumeTemplatePage.component.css'
 })
-export class DownloadComponent  {
-  downloadForm!: FormGroup;
+export class ResumeTemplatePageComponent  {
+  resumeTemplatePageForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   selectedTemplateID: string = '';
 
   ngOnInit() {
     // Initialize the form group with a form control
-    this.downloadForm = this.fb.group({
+    this.resumeTemplatePageForm = this.fb.group({
       resumeTemplate: ['', Validators.required] // A single form control
     });
-  }
-
-  goBack(){
-    this.router.navigate(['skills']);
   }
 
   optionsPage()
@@ -36,9 +32,7 @@ export class DownloadComponent  {
     this.router.navigate(['']);
   }
 
-  async downloadResumePress() {
-    const templateID = this.selectedTemplateID || sessionStorage.getItem('selectedTemplateID');
-  
+  async downloadResumePress(templateID: string) {  
     if (!templateID) {
       alert('Please select a resume template before proceeding.');
       return;
@@ -89,11 +83,12 @@ export class DownloadComponent  {
     console.log('Selected Template ID:', this.selectedTemplateID); // Debugging
   }
 
-  previewResumePress() {
-    this.router.navigate(['resumeTemplate']);
+  selectTemplate(templateID: string)
+  {
+    this.selectedTemplateID = templateID;
   }
 
-  goToOptions(){
-    this.router.navigate(['resumeOption']);
+  goBack(){
+    this.router.navigate(['download']);
   }
 }
