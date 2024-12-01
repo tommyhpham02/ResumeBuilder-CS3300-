@@ -36,7 +36,7 @@ export class HomeComponent {
     .subscribe({
       next: (data)=>{
         this.setUpTempUserId(data);
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['resumeOption']);
       },
       error: (err)=>{
         alert(err.error);

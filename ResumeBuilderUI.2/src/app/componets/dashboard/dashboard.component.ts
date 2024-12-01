@@ -146,7 +146,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
   createBackButtonEvent(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {

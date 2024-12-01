@@ -119,6 +119,33 @@ body {
   background: linear-gradient(-135deg, #2f2f32, #a3a2a8);
 }
 
+.select-major {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #2f2f32, #a3a2a8);
+  text-align: center;
+}
+
+.options-major {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #2f2f32, #a3a2a8);
+  text-align: center;
+}
 
 
 /* Responsive Design for small screens */

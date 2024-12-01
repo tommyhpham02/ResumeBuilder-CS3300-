@@ -142,10 +142,6 @@ namespace RsumeBuilder_Team_9_.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CertificationDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CertificationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

@@ -44,18 +44,21 @@ export class ResumeOptionComponent {
     setTimeout(() => {
       const userLoggedIn = sessionStorage.getItem('userId');
       if (!userLoggedIn) {
-        this.router.navigate(['login']);
+        this.router.navigate(['']);
       }
     }, 10); // Delay to ensure session storage is updated
+    sessionStorage.setItem('major', 'Nothing');
   }
 
-  onTipsandTricks()
-  {
+  onTipsandTricks() {
     this.router.navigate(['resourcePage']);
   }
 
-  onKeyWords()
-  {
+  onKeyWords() {
     this.router.navigate(['sugestedWordResource']);
+  }
+
+  changeMajorType(major: string) {
+    sessionStorage.setItem('major', major);
   }
 }
