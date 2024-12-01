@@ -14,6 +14,7 @@ import { SkillsComponent } from './componets/skills/skills.component';
 import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
 import { DownloadComponent } from './componets/download/download.component';
 import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resumeTemplatePage.component';
+import { AboutComponent } from './componets/about/about.component';
 
 
 
@@ -28,7 +29,8 @@ import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resu
     SkillsComponent, 
     WorkExperienceComponent,
     DownloadComponent,
-    ResumeTemplatePageComponent
+    ResumeTemplatePageComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
