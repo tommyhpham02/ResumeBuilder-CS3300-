@@ -1,39 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import ValidatorLogin  from "../../helpers/validateLoginAndOptionChoosen";
+import { AppClosingService } from '../../services/appClosing.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   // Values of page and values for 
   dashboardForm!: FormGroup;
   loginValidator!: ValidatorLogin;
   originalValues: string = '';
   nothingToEdit: Boolean = false;
   cameBack: Boolean = sessionStorage.getItem('goBack') == 'yes' ? true: false;
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
+    }
+  }
 
   // Called when the page gets initialized.
   ngOnInit(): void {
-    // Subscribes the event of hitting the back arrow to set "goBack" to yes.
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        if (event.navigationTrigger === 'popstate') {
-          console.log('Popstate navigation detected!');
-          sessionStorage.setItem('goBack', 'yes');
-        }
-      }
-    });
-
+    this.createBackButtonEvent();
     // Checks to see if user is logged in and has choosen an option for their resume.
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
       this.router.navigate(['resumeOption']);
@@ -109,11 +112,12 @@ export class DashboardComponent {
   // Called when user is adding their entered information in the database (they currently have none). 
   // Adds the current values inside the textboxes. 
   addPersonalInfo(): void {
+    // const message = lastValueFrom(this.auth.addPersonalInfo(this.dashboardForm.value))
+    // console.log(message);
     this.auth.addPersonalInfo(this.dashboardForm.value)
     .subscribe({
-      next: (res)=>{
-        if (JSON.stringify(this.dashboardForm.value) != this.originalValues) 
-          alert(res.message);
+      next: (res)=>{ 
+        alert(res.message);
         this.dashboardForm.reset();
         this.router.navigate(['workexperience'])
       },
@@ -140,6 +144,18 @@ export class DashboardComponent {
       ValidatorForm.validateAllFormFields(this.dashboardForm);
       alert("Your Form is invalid")
     }
+  }
+
+
+  createBackButtonEvent(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Popstate navigation detected!');
+          sessionStorage.setItem('goBack', 'yes');
+        }
+      }
+    });
   }
 
   keywordPage(): void {

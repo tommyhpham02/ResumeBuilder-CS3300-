@@ -20,6 +20,8 @@ namespace RsumeBuilder_Team_9_.Controllers
         {
             if (slcObj == null)
                 return BadRequest();
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
 
             slcObj.UserId = id;
 
@@ -37,9 +39,9 @@ namespace RsumeBuilder_Team_9_.Controllers
             var input = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
 
             if (slcObj == null)
-                return BadRequest();
+                return BadRequest("Incorrect Data Given.");
             else if (input == null)
-                return BadRequest();
+                return BadRequest("No User found.");
 
             slcObj.Id = input.Id;
             slcObj.UserId = input.UserId;
@@ -55,8 +57,8 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpGet("get/{id}")]
         public async Task<IActionResult> getPersonalInfo(int id)
         {
-            if (id == 0)
-                return BadRequest("No ID given");
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
 
             var personalInfo = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
 
@@ -69,8 +71,8 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deleteSLCInfo(int id)
         {
-            if (id == 0)
-                return BadRequest();
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
 
             var slcToRemove = _authContext.SLC.SingleOrDefault(x => x.Id == id);
 
