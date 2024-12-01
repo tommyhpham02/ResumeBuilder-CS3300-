@@ -77,7 +77,7 @@ export class SkillsComponent implements OnInit {
       this.originalValues = JSON.stringify(this.skillsForm.value);
     }
   }
-  
+
   keywordPage(): void {
     window.open('/sugestedWordResource', '_blank');
   }
@@ -151,7 +151,6 @@ export class SkillsComponent implements OnInit {
 
   // Method for handling go back functionality
   goBack() {
-    sessionStorage.setItem('goBack', 'yes');
-    this.location.back();  // Navigate back to the previous page
+    this.router.navigate(['education']);
   }
 }

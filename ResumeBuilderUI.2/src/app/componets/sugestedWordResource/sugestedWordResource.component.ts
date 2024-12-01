@@ -11,7 +11,7 @@ export class SugestedWordResourceComponent {
   title = 'ResumeBuilderUI.2';
   constructor (private router: Router, private auth: AuthService) {}
 
-  goBack() {
-    window.history.back();
+  toClose() {
+    window.close();
   }
 }
