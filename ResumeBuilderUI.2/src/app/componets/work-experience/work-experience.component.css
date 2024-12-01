@@ -11,7 +11,7 @@
 
 /* Background styling */
 body {
-  height: 100vh;
+  height: 120vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -348,4 +348,15 @@ form .input-box select:focus {
   .container .content .category {
     flex-direction: column;
   }
+}
+
+.keywordLink a {
+  font-size: 14px; 
+  text-decoration: none; 
+  color: #007bff; 
+  cursor: pointer; 
+}
+
+.keywordLink a:hover {
+  text-decoration: underline; 
 }

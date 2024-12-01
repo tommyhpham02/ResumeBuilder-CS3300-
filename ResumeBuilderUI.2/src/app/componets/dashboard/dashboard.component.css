@@ -311,3 +311,17 @@ form .button-group .continue:hover {
     flex-direction: column;
   }
 }
+
+.keywordLink a {
+  font-size: 14px; 
+  text-decoration: none; 
+  color: #007bff; 
+  cursor: pointer; 
+}
+
+.keywordLink a:hover {
+  text-decoration: underline; 
+}
+
+
+

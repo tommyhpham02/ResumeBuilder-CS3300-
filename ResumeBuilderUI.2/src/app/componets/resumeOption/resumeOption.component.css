@@ -103,13 +103,14 @@ body {
   background: linear-gradient(135deg, #9f96d8, #1c0494);
 }
 
-.about {
+.TandT{
   background: linear-gradient(135deg, #1fd3e0, #0cb6fa);
 }
 
-.about:hover {
-  background: linear-gradient(-135deg, #6abdbd, #a3a2a8);
+.TandT:hover{
+  background: linear-gradient(-135deg, #1fd3e0, #0cb6fa);
 }
+
 .logout-option {
   background: linear-gradient(135deg, #2f2f32, #a3a2a8);
 }

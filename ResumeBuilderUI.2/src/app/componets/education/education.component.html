@@ -105,6 +105,10 @@
         <div [attr.style]="!editMode ? displayString : hideString" class="button-group">
           <input type="button" (click)="goBackButtonPushed()" value="Go Back">
           <input type="submit" (click)="continueButtonPushed()" value="Continue">
+          <!-- Hyper link for keywords page-->
+          <div class="keywordLink" align="center">
+            <a (click)="keywordPage()">Keyword Suggestion Page</a>
+          </div>
         </div>
       </form>
     </div>

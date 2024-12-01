@@ -229,4 +229,8 @@ export class EducationComponent {
     this.educationForm.reset();
     this.router.navigate(['workexperience']);
   }
+
+  keywordPage(): void {
+    window.open('/sugestedWordResource', '_blank');
+  }
 }

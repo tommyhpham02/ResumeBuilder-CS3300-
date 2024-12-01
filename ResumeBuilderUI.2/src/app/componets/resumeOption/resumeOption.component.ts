@@ -39,9 +39,6 @@ export class ResumeOptionComponent {
     sessionStorage.setItem('userId', '');
     this.router.navigate(['']);
   }
-  onAbout(){
-    this.router.navigate(['about']);
-  }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -50,5 +47,15 @@ export class ResumeOptionComponent {
         this.router.navigate(['login']);
       }
     }, 10); // Delay to ensure session storage is updated
+  }
+
+  onTipsandTricks()
+  {
+    this.router.navigate(['resourcePage']);
+  }
+
+  onKeyWords()
+  {
+    this.router.navigate(['sugestedWordResource']);
   }
 }
