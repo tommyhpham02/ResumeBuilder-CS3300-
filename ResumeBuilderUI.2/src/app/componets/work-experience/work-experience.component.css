@@ -11,16 +11,12 @@
 
 /* Background styling */
 body {
-  height: 120vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
   background: linear-gradient(135deg, #68d0cd, #1c0455);
-
-  /* Preserve aspet ratio */
-  min-width: 100%;
-  min-height: 100%;
 }
 
 /* Main container box */
@@ -157,21 +153,16 @@ form .category label {
   cursor: pointer;
 }
 
-/* Radio button styling */
-form input[type="radio"] {
-  display: none;
-}
 /* Button group layout for 'Go Back' and 'Continue' */
-form .button-group {
-  width: 100%; /* Ensure the container spans its parent element */
+.button-group {
   display: flex; /* Flexbox for horizontal alignment */
   justify-content: space-between; /* Distribute buttons with space between them */
   align-items: center; /* Align items vertically to the center of the container */
   gap: 10px; /* Add space between buttons */
 }
 
-form .button-group input {
-  width: 50%;
+.button-group input {
+  width: 49%;
   padding: 10px; /* Add internal space for better touch/click area */
   font-size: 18px; /* Adjust text size for readability */
   text-align: center; /* Center-align text inside buttons */
@@ -181,7 +172,7 @@ form .button-group input {
   border-radius: 5px; /* Add rounded corners */
   cursor: pointer; /* Show pointer cursor on hover */
 }
-form .button-group input:hover {
+.button-group input:hover {
   background: linear-gradient(-135deg, #71b7e6, #1c0455);
 }
 
