@@ -14,6 +14,8 @@ import { SkillsComponent } from './componets/skills/skills.component';
 import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
 import { DownloadComponent } from './componets/download/download.component';
 import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resumeTemplatePage.component';
+import { ResourcePageComponent } from './componets/resourcePage/resourcePage.component';
+import { SugestedWordResourceComponent } from './componets/sugestedWordResource/sugestedWordResource.component';
 
 
 
@@ -28,7 +30,9 @@ import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resu
     SkillsComponent, 
     WorkExperienceComponent,
     DownloadComponent,
-    ResumeTemplatePageComponent
+    ResumeTemplatePageComponent,
+    ResourcePageComponent,
+    SugestedWordResourceComponent
   ],
   imports: [
     BrowserModule,

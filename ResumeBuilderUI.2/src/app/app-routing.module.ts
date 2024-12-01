@@ -11,6 +11,8 @@ import { SkillsComponent } from './componets/skills/skills.component';
 import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
 import { ResumeOptionComponent } from './componets/resumeOption/resumeOption.component';
 import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resumeTemplatePage.component';
+import { ResourcePageComponent } from './componets/resourcePage/resourcePage.component';
+import { SugestedWordResourceComponent } from './componets/sugestedWordResource/sugestedWordResource.component';
 
 export const routes: Routes = [
   {path:'', component: HomeComponent },
@@ -22,7 +24,9 @@ export const routes: Routes = [
   {path:'skills', component: SkillsComponent},
   {path:'workexperience', component: WorkExperienceComponent},
   {path:'resumeOption', component: ResumeOptionComponent},
-  { path: 'resumeTemplate', component: ResumeTemplatePageComponent }
+  { path: 'resumeTemplate', component: ResumeTemplatePageComponent },
+  {path:'resourcePage', component: ResourcePageComponent},
+  {path:'sugestedWordResource', component: SugestedWordResourceComponent}
 
 ];
 
