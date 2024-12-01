@@ -48,4 +48,14 @@ export class ResumeOptionComponent {
       }
     }, 10); // Delay to ensure session storage is updated
   }
+
+  onTipsandTricks()
+  {
+    this.router.navigate(['resourcePage']);
+  }
+
+  onKeyWords()
+  {
+    this.router.navigate(['sugestedWordResource']);
+  }
 }

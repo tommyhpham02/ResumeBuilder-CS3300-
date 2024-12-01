@@ -99,8 +99,16 @@ body {
   background: linear-gradient(135deg, #9f96d8, #7e69e8);
 }
 
-.new-resume:hover {
-  background: linear-gradient(-135deg, #9f96d8, #7e69e8);
+.download-resume:hover {
+  background: linear-gradient(135deg, #9f96d8, #1c0494);
+}
+
+.TandT{
+  background: linear-gradient(135deg, #1fd3e0, #0cb6fa);
+}
+
+.TandT:hover{
+  background: linear-gradient(-135deg, #1fd3e0, #0cb6fa);
 }
 
 .logout-option {

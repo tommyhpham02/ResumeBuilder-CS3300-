@@ -11,7 +11,7 @@
 
 /* Background styling */
 body {
-  height: 200vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,39 +202,28 @@ form .input-box select:focus {
 
 /* Button group layout for 'Go Back' and 'Continue' */
 form .button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  width: 100%; /* Ensure the container spans its parent element */
+  display: flex; /* Flexbox for horizontal alignment */
+  justify-content: space-between; /* Distribute buttons with space between them */
+  align-items: center; /* Align items vertically to the center of the container */
+  gap: 10px; /* Add space between buttons */
+  column-gap: 10px;
 }
 
 form .button-group input {
-  width: 48%;
-  height: 45px;
-  border-radius: 5px;
-  border: none;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-/* 'Go Back' button styling */
-form .button-group .go-back {
-  background: #ccc;
-}
-
-form .button-group .go-back:hover {
-  background: #b5b5b5;
-}
-
-/* 'Continue' button styling */
-form .button-group .continue {
+  flex: 1; /* Allow buttons to grow and take up available space */
+  width: 50%; /* Ensure the container spans its parent element */
+  gap: 10px; /* Add space between buttons */
+  padding: 10px; /* Add internal space for better touch/click area */
+  font-size: 18px; /* Adjust text size for readability */
+  text-align: center; /* Center-align text inside buttons */
   background: linear-gradient(135deg, #71b7e6, #1c0455);
+  color: white; /* Text color */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Show pointer cursor on hover */
 }
-
-form .button-group .continue:hover {
+form .button-group input:hover {
   background: linear-gradient(-135deg, #71b7e6, #1c0455);
 }
 
@@ -258,24 +247,42 @@ form .button-group .continue:hover {
 
 /* Degree list styling */
 .degree-list {
-  margin-top: 20px;
-}
-
-/* Degree list layout */
-.degree-list ul {
-  list-style-type: none;
-  padding-left: 0;
+  list-style: none; /* Removes bullet points */
+  padding: 0;
+  margin: 0;
 }
 
 /* Individual degree item styling */
 .degree-list li {
+  width: 100%;
   background-color: #f7f7f7;
   margin: 10px 0;
-  padding: 15px;
+  padding: 10px;
   border-radius: 5px;
   border: 1px solid #ddd;
+  display: flex; /* Enables flexbox layout */
+  align-items: center; /* Vertically center items */
+  justify-content: space-between; /* Pushes the content to the left and the buttons to the right */
+}
+/* Button wrapper to keep buttons together */
+.degree-list .button-wrapper {
+  display: flex;
+  gap: 10px; /* Adds space between buttons */
+  justify-content: flex-end; /* Align buttons to the right */
+}
+/* Button styling */
+.degree-list input {
+  background: linear-gradient(135deg, #71b7e6, #1c0455);
+  color: white; /* Text color */
+  padding: 10px 15px; /* Button padding */
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px; /* Adds spacing between buttons */
 }
 
+.degree-list input:hover {
+  background: linear-gradient(135deg, #1c0455, #71b7e6);
+}
 /* Responsive layout for screens up to 584px */
 @media(max-width: 584px) {
   .container {
@@ -311,3 +318,15 @@ form .button-group .continue:hover {
     flex-direction: column;
   }
 }
+
+.keywordLink a {
+  font-size: 14px; 
+  text-decoration: none; 
+  color: #007bff; 
+  cursor: pointer; 
+}
+
+.keywordLink a:hover {
+  text-decoration: underline; 
+}
+

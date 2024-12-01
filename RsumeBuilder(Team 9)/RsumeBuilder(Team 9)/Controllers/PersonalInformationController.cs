@@ -29,7 +29,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             await _authContext.SaveChangesAsync();
             return Ok(new
             {
-                Message = "Input values added."
+                Message = "Input values updated"
             });
         }
 
@@ -51,7 +51,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             await _authContext.SaveChangesAsync();
             return Ok(new
             {
-                Message = "Input values updated."
+                Message = "Input values updated"
             });
         }
 

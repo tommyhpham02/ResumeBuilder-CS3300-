@@ -12,6 +12,12 @@ import { HomeComponent } from './componets/home/home.component';
 import { SkillsComponent } from './componets/skills/skills.component';
 //import { jwtDecode } from 'jwt-decode';
 import { WorkExperienceComponent } from './componets/work-experience/work-experience.component';
+import { DownloadComponent } from './componets/download/download.component';
+import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resumeTemplatePage.component';
+import { ResourcePageComponent } from './componets/resourcePage/resourcePage.component';
+import { SugestedWordResourceComponent } from './componets/sugestedWordResource/sugestedWordResource.component';
+import { AboutComponent } from './componets/about/about.component';
+
 
 
 
@@ -24,7 +30,12 @@ import { WorkExperienceComponent } from './componets/work-experience/work-experi
     EducationComponent,
     HomeComponent,
     SkillsComponent, 
-    WorkExperienceComponent
+    WorkExperienceComponent,
+    DownloadComponent,
+    ResumeTemplatePageComponent,
+    ResourcePageComponent,
+    SugestedWordResourceComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

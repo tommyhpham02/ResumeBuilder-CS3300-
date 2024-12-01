@@ -60,8 +60,8 @@
         </div>
         
         <!-- Add Another Degree Button -->
-        <div [attr.style]="!editMode ? displayString : hideString" class="button grey-button">
-          <input (click)="addDegree()" type="button" value="Add Another Degree" id="addDegreeButton">
+        <div class="button grey-button">
+          <input (click)="addDegree()" type="button" value="Add Degree" id="addDegreeButton">
         </div>
 
         <!-- List of Degrees -->
@@ -70,20 +70,26 @@
           <ul [attr.style]="degreeListViewable ? displayString : hideString" *ngIf="degreeListViewable" id="degreeList" class="degree-list">
             <div [attr.style]="degreesEntered[0] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfDegrees[0]}}
+                <div class="button-wrapper">
                 <input type="button" class="degree-list" (click)="editDegree(0)" value="Edit">
                 <input type="button" class="degree-list" (click)="removeDegreeWithIndex(0)" value="Remove">
+                </div>
               </li>
             </div>
             <div [attr.style]="degreesEntered[1] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfDegrees[1]}}
+                <div class="button-wrapper">
                 <input type="button" class="degree-list" (click)="editDegree(1)" value="Edit">
                 <input type="button" class="degree-list" (click)="removeDegreeWithIndex(1)" value="Remove">
+                </div>
               </li>
             </div>
             <div [attr.style]="degreesEntered[2] ? displayString : hideString">
               <li class="degree-list">{{htmlListOfDegrees[2]}}
+                <div class="button-wrapper">
                 <input type="button" class="degree-list" (click)="editDegree(2)" value="Edit">
                 <input type="button" class="degree-list" (click)="removeDegreeWithIndex(2)" value="Remove">
+                </div>
               </li>
             </div>
           </ul>
@@ -98,7 +104,11 @@
         <!-- Go Back and Continue Buttons -->
         <div [attr.style]="!editMode ? displayString : hideString" class="button-group">
           <input type="button" (click)="goBackButtonPushed()" value="Go Back">
-          <input type="button" (click)="continueButtonPushed()" value="Continue">
+          <input type="submit" (click)="continueButtonPushed()" value="Continue">
+          <!-- Hyper link for keywords page-->
+          <div class="keywordLink" align="center">
+            <a (click)="keywordPage()">Keyword Suggestion Page</a>
+          </div>
         </div>
       </form>
     </div>

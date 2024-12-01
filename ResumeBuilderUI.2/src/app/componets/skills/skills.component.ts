@@ -82,6 +82,10 @@ export class SkillsComponent implements OnInit {
     }
   }
 
+  keywordPage(): void {
+    window.open('/sugestedWordResource', '_blank');
+  }
+
   // Fills the skillsForm with specified values (the textbox values)
   fillForm(lang: string, certName: string, certDate: string, skill: string, proj: string): void {
     this.skillsForm.setValue({
@@ -151,7 +155,6 @@ export class SkillsComponent implements OnInit {
 
   // Method for handling go back functionality
   goBack() {
-    sessionStorage.setItem('goBack', 'yes');
-    this.location.back();  // Navigate back to the previous page
+    this.router.navigate(['education']);
   }
 }
