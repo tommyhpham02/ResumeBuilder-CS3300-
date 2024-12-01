@@ -18,9 +18,10 @@ export default class ValidatorLogin {
 
     static checkIfOptionChoosen(): Boolean {
         const editing = sessionStorage.getItem('editing');
+        const temp = sessionStorage.getItem('tempUser');
         let optionChoosen = true;
 
-        if (editing == null) {
+        if (editing == null && temp == null) {
             optionChoosen = false;
         }
 

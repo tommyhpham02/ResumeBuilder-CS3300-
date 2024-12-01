@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
+import { AppClosingService } from '../../services/appClosing.service';
+import { lastValueFrom } from 'rxjs';
 
 
 @Component({
@@ -29,22 +31,23 @@ export class EducationComponent {
 
   displayString: string = "display:block;";
   hideString: string = "display:none;";
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
+    }
+  }
 
   // Called when form is initialized.
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        if (event.navigationTrigger === 'popstate') {
-          console.log('Popstate navigation detected!');
-          sessionStorage.setItem('goBack', 'yes');
-        }
-      }
-    });
-
     // Checks if the User is logged in and resumeOption is choosen.
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
       this.router.navigate(['resumeOption']);
@@ -170,7 +173,7 @@ export class EducationComponent {
     this.auth.submitDegreesInfo(value)
     .subscribe({
       next:(data) => {
-        alert("Degree has been saved.");
+        console.log("Degree has been saved.");
         this.addToHtmlList(this.educationForm.controls['college'].value + ' - ' + this.educationForm.controls['degreeType'].value)
         this.degreeList.set(data, value);
         this.setFormGroup('', '', '', '', '');
