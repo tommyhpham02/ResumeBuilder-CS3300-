@@ -11,14 +11,19 @@ export class AuthService {
   private actualUrl:string = "";
   constructor(private http : HttpClient) { }
 
-  signUp(userObj: any){
+  signUp(userObj: any) {
     this.actualUrl = this.baseUrl + "User/"
     return this.http.post<any>(`${this.actualUrl}register`, userObj);
   }
 
-  login(loginObj: any){
+  login(loginObj: any) {
     this.actualUrl = this.baseUrl + "User/"
     return this.http.post<any>(`${this.actualUrl}authenticate`, loginObj);
+  }
+
+  createTempUser() {
+    this.actualUrl = this.baseUrl + "User/"
+    return this.http.get<any>(`${this.actualUrl}createTempUser`);
   }
 
   getUserId(username: string){
@@ -26,17 +31,17 @@ export class AuthService {
     return this.http.get<any>(`${this.actualUrl}userId/${username}`)
   }
 
-  deleteAllUsersInfo(){
+  deleteAllUsersInfo(option: Boolean) {
     this.actualUrl = this.baseUrl + "User/"
-    return this.http.delete<any>(`${this.actualUrl}deleteAllInputs/${sessionStorage.getItem("userId")}`)
+    return this.http.delete<any>(`${this.actualUrl}deleteAllInputs/${sessionStorage.getItem("userId")}/${option}`)
   }
 
-  editPersonalInfo(infoObj: any){
+  editPersonalInfo(infoObj: any) {
     this.actualUrl = this.baseUrl + "PersonalInformation/"
     return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, infoObj)
   }
 
-  addPersonalInfo(infoObj: any){
+  addPersonalInfo(infoObj: any) {
     this.actualUrl = this.baseUrl + "PersonalInformation/"
     return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, infoObj)
   }
@@ -46,12 +51,12 @@ export class AuthService {
     return this.http.get<any>(`${this.actualUrl}get/${sessionStorage.getItem("userId")}`)
   }
 
-  editSkills(skillsObj: any){
+  editSkills(skillsObj: any) {
     this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
     return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, skillsObj)
   }
 
-  addSkills(skillsObj: any){
+  addSkills(skillsObj: any) {
     this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
     return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, skillsObj)
   }
@@ -76,7 +81,7 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, jobInfo)
   }
 
-  deleteJob(id: number){
+  deleteJob(id: number) {
     this.actualUrl = this.baseUrl + "Jobs/"
     return this.http.delete<any>(`${this.actualUrl}delete/${id}`)
   }
@@ -96,12 +101,12 @@ export class AuthService {
     return this.http.put<any>(`${this.actualUrl}edit/${jobId}`, jobInfo)
   }
 
-  submitDegreesInfo(degreeInfo: any){
+  submitDegreesInfo(degreeInfo: any) {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
-  deleteDegree(id: number){
+  deleteDegree(id: number) {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.delete<any>(`${this.actualUrl}delete/${id}`)
   }
@@ -121,7 +126,7 @@ export class AuthService {
     return this.http.put<any>(`${this.actualUrl}edit/${degreeId}`, degreeInfo)
   }
 
-  submitDegreeInfo(degreeInfo: any){
+  submitDegreeInfo(degreeInfo: any) {
     this.actualUrl = this.baseUrl + "Input/"
     return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
   }

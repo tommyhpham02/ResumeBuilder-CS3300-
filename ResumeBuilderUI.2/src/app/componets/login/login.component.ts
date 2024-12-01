@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit{
   isText: Boolean = false;
   eyeIcon: string = "fa-eye-slash";
   userId: any = "";
-  loginSuccess: Boolean = false;
   buttonDisabled: Boolean = false;
   loginForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
@@ -46,6 +45,7 @@ export class LoginComponent implements OnInit{
       this.auth.login(this.loginForm.value)
       .subscribe({
         next: (res)=>{
+          this.ensureUserStartsFresh();
           this.saveUserId(true);
           alert(res.message);
           this.loginForm.reset();
@@ -76,10 +76,41 @@ export class LoginComponent implements OnInit{
           sessionStorage.setItem('userId', data);
         }
       );
-      this.loginSuccess = false;
     }
     else{
       sessionStorage.setItem('userId', '');
     }
   }
+
+  createBackButtonEvent(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Popstate navigation detected!');
+          sessionStorage.setItem('goBack', 'yes');
+        }
+      }
+    });
+  }
+
+  ensureUserStartsFresh() {
+    if (sessionStorage.getItem('userId') != null) {
+      if (sessionStorage.getItem('tempUser') == 'yes') {
+        this.auth.deleteAllUsersInfo(true)
+        .subscribe({
+            next: (res)=>{
+            alert(res.message);
+            },
+            error:(err)=>{
+            alert(err?.error.message)
+            }
+        });
+      }
+      sessionStorage.removeItem('editing');
+      sessionStorage.removeItem('goBack');
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+    }
+  }
 }
+

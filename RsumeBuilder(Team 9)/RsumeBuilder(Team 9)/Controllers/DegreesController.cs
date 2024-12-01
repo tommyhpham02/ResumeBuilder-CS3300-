@@ -22,16 +22,16 @@ namespace RsumeBuilder_Team_9_.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitDegree([FromBody] Degree degree, string id)
+        public async Task<IActionResult> SubmitDegree([FromBody] Degree degree, int id)
         {
             if (degree == null)
                 return BadRequest();
-            else if (id == "0")
-                return BadRequest();
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
 
-            if ((_authContext.Degrees.Where(x => x.UserId.ToString() == id)).ToList().Count < 3)
+            if ((_authContext.Degrees.Where(x => x.Id == id)).ToList().Count < 3)
             {
-                degree.UserId = int.Parse(id);
+                degree.UserId = id;
                 await _authContext.Degrees.AddAsync(degree);
                 await _authContext.SaveChangesAsync();
 
@@ -45,13 +45,13 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> RemoveDegreeFromList(int id)
+        [HttpDelete("delete/{degreeId}")]
+        public async Task<IActionResult> RemoveDegreeFromList(int degreeId)
         {
-            if (id == 0)
-                return BadRequest();
+            if (_authContext.Degrees.SingleOrDefault(x => x.Id == degreeId) == null)
+                return BadRequest("No Degree found.");
 
-            var degreeToRemove = _authContext.Degrees.SingleOrDefault(x => x.Id == id);
+            var degreeToRemove = _authContext.Degrees.SingleOrDefault(x => x.Id == degreeId);
 
             if (degreeToRemove == null)
                 return NotFound();
@@ -63,30 +63,12 @@ namespace RsumeBuilder_Team_9_.Controllers
 
         }
 
-        [HttpDelete("delete/all/{id}")]
-        public async Task<IActionResult> RemoveDegreesFromList(int id)
-        {
-            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId == id).ToList();
-
-            if (degreeListToDelete.Count > 0)
-            {
-                foreach (Degree degree in degreeListToDelete)
-                {
-                    _authContext.Degrees.Remove(degree);
-                }
-                await _authContext.SaveChangesAsync();
-
-                return Ok(new { Message = "Degrees were found and removed" });
-            }
-            else
-            {
-                return Ok(new { Message = "No Degrees required removing" });
-            }
-        }
-
         [HttpGet("get/all/{id}")]
         public IActionResult GetDegreesFromList(int id)
         {
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
             List<Degree> degreeListToGet = _authContext.Degrees.Where(x => x.UserId == id).ToList();
             List<string> jsonStrings = new List<string>();
 
@@ -109,6 +91,9 @@ namespace RsumeBuilder_Team_9_.Controllers
         [HttpPut("edit/{degreeId}")]
         public async Task<IActionResult> editDegreeInfo([FromBody] Degree degreeObj, int degreeId)
         {
+            if (_authContext.Degrees.SingleOrDefault(x => x.Id == degreeId) == null)
+                return BadRequest("No Degree found.");
+
             var degree = _authContext.Degrees.SingleOrDefault(x => x.Id == degreeId);
 
             if (degreeObj == null)

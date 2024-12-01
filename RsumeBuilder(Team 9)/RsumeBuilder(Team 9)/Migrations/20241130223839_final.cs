@@ -5,11 +5,28 @@
 namespace RsumeBuilder_Team_9_.Migrations
 {
     /// <inheritdoc />
-    public partial class v4 : Migration
+    public partial class final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Degree",
                 columns: table => new
@@ -21,7 +38,7 @@ namespace RsumeBuilder_Team_9_.Migrations
                     CityAndState = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DegreeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DegreeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    YearGraduated = table.Column<int>(type: "int", nullable: false)
+                    YearGraduated = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +62,6 @@ namespace RsumeBuilder_Team_9_.Migrations
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EndDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CurrentJob = table.Column<bool>(type: "bit", nullable: false),
                     JobResponsibilities = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -53,27 +69,6 @@ namespace RsumeBuilder_Team_9_.Migrations
                     table.PrimaryKey("PK_Job", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Job_users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Language",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    LanguageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LanguageProficiency = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Language", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Language_users_UserId",
                         column: x => x.UserId,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -105,6 +100,30 @@ namespace RsumeBuilder_Team_9_.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SkillsLanguagesCertifications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    LanguageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CertificationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CertificationDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Skills = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Projects = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SkillsLanguagesCertifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SkillsLanguagesCertifications_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Degree_UserId",
                 table: "Degree",
@@ -116,13 +135,14 @@ namespace RsumeBuilder_Team_9_.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Language_UserId",
-                table: "Language",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ResumeInput_UserId",
                 table: "ResumeInput",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SkillsLanguagesCertifications_UserId",
+                table: "SkillsLanguagesCertifications",
                 column: "UserId",
                 unique: true);
         }
@@ -137,10 +157,13 @@ namespace RsumeBuilder_Team_9_.Migrations
                 name: "Job");
 
             migrationBuilder.DropTable(
-                name: "Language");
+                name: "ResumeInput");
 
             migrationBuilder.DropTable(
-                name: "ResumeInput");
+                name: "SkillsLanguagesCertifications");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }
