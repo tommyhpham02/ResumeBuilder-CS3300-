@@ -11,8 +11,8 @@ using RsumeBuilder_Team_9_.Context;
 namespace RsumeBuilder_Team_9_.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241127064913_v6")]
-    partial class v6
+    [Migration("20241130223839_final")]
+    partial class final
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,10 +154,6 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LanguageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Proficiency")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

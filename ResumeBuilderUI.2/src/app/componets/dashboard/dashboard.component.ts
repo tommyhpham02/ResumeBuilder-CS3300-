@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import ValidatorLogin  from "../../helpers/validateLoginAndOptionChoosen";
 import { AppClosingService } from '../../services/appClosing.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,15 +22,21 @@ export class DashboardComponent implements OnInit {
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
   @HostListener('window:beforeunload', ['$event'])
-  unloadHandler(event: BeforeUnloadEvent) {
-    this.closer.handleAppClosing(); 
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
+    }
   }
 
   // Called when the page gets initialized.
   ngOnInit(): void {
+    this.createBackButtonEvent();
     // Checks to see if user is logged in and has choosen an option for their resume.
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
       this.router.navigate(['resumeOption']);
@@ -105,6 +112,8 @@ export class DashboardComponent implements OnInit {
   // Called when user is adding their entered information in the database (they currently have none). 
   // Adds the current values inside the textboxes. 
   addPersonalInfo(): void {
+    // const message = lastValueFrom(this.auth.addPersonalInfo(this.dashboardForm.value))
+    // console.log(message);
     this.auth.addPersonalInfo(this.dashboardForm.value)
     .subscribe({
       next: (res)=>{ 
@@ -135,5 +144,16 @@ export class DashboardComponent implements OnInit {
       ValidatorForm.validateAllFormFields(this.dashboardForm);
       alert("Your Form is invalid")
     }
+  }
+
+  createBackButtonEvent(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Popstate navigation detected!');
+          sessionStorage.setItem('goBack', 'yes');
+        }
+      }
+    });
   }
 }

@@ -1,28 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { Router, NavigationStart } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppClosingService {
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
     handleAppClosing() {
-        if (sessionStorage.getItem('tempUser') == 'yes') {
-            this.auth.deleteAllUsersInfo(true)
-            .subscribe({
-                next: (res)=>{
-                alert(res.message);
-                },
-                error:(err)=>{
-                alert(err?.error.message)
-                }
-            });
-            
-        }
-        
-        console.log('App is closing!');
-    
+      if (sessionStorage.getItem('tempUser') == 'yes') 
+        lastValueFrom(this.auth.deleteAllUsersInfo(true))
     }
 }

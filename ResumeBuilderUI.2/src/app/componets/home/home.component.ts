@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomeComponent {
   constructor(private router: Router, private auth: AuthService) {}
+
+  ngOnInit(): void {}
 
   onLogin() {
     this.router.navigate(['login']);
@@ -19,6 +22,15 @@ export class HomeComponent {
   }
 
   onCreate() {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      lastValueFrom(this.auth.deleteAllUsersInfo(true));
+      sessionStorage.removeItem('editing');
+      sessionStorage.removeItem('goBack');
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+    }
+
+    sessionStorage.setItem('editing', 'no');
     sessionStorage.setItem('tempUser', 'yes');
     this.auth.createTempUser()
     .subscribe({

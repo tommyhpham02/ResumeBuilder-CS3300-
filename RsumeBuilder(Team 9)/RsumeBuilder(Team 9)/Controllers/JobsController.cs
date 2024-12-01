@@ -32,6 +32,7 @@ namespace RsumeBuilder_Team_9_.Controllers
 
             if ((_authContext.Jobs.Where(x => x.UserId == id)).ToList().Count < 3)
             {
+                job.UserId = id;
                 await _authContext.Jobs.AddAsync(job);
                 await _authContext.SaveChangesAsync();
 
@@ -45,7 +46,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{jobId}")]
         public async Task<IActionResult> RemoveJobFromList(int jobId)
         {
             if (_authContext.Jobs.SingleOrDefault(x => x.Id == jobId) == null)
@@ -61,30 +62,6 @@ namespace RsumeBuilder_Team_9_.Controllers
 
             return Ok(new { Message = "Job successfully removed." });
 
-        }
-
-        [HttpDelete("delete/all/{id}")]
-        public async Task<IActionResult> RemoveJobsFromList(int id)
-        {
-            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
-                return BadRequest("No User found.");
-
-            List<Job> jobListToDelete = _authContext.Jobs.Where(x => x.UserId == id).ToList();
-
-            if (jobListToDelete.Count > 0)
-            {
-                foreach (Job job in jobListToDelete)
-                {
-                    _authContext.Jobs.Remove(job);
-                }
-                await _authContext.SaveChangesAsync();
-
-                return Ok(new { Message = "Jobs were found and removed" });
-            }
-            else
-            {
-                return Ok(new { Message = "No jobs required removing" });
-            }
         }
 
         [HttpGet("get/all/{id}")]

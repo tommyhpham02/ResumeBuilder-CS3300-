@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, NavigationStart } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import ValidatorForm from '../../helpers/validateForm';
 import { ReactiveFormsModule } from '@angular/forms';
 import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
+import { AppClosingService } from '../../services/appClosing.service';
 
 @Component({
   selector: 'app-skills',
@@ -23,15 +24,26 @@ export class SkillsComponent implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    private location: Location  // Inject Location service
+    private location: Location, // Inject Location service
+    private closer: AppClosingService
   ) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
+    }
+  }
 
   // Called when form is initialized
   ngOnInit(): void {
     
     // Checks to see if User is logged in and resume option is choosen
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
       this.router.navigate(['resumeOption']);

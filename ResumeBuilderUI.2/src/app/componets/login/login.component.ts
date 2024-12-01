@@ -21,10 +21,6 @@ export class LoginComponent implements OnInit{
 
   // Called when the form is initialized.
   ngOnInit(): void {
-    if (sessionStorage.getItem('userId') != null && sessionStorage.getItem('userId') != '-1') {
-      this.router.navigate(['resumeOptions'])
-    }
-
     this.loginForm = this.fb.group({
       username:['',Validators.required],
       password:['',Validators.required]
@@ -43,13 +39,13 @@ export class LoginComponent implements OnInit{
   onLogin(){
     if(this.loginForm.valid)
     {
-      this.createBackButtonEvent();
       this.buttonDisabled = true;
       console.log(this.loginForm.value);
       //send obj to database
       this.auth.login(this.loginForm.value)
       .subscribe({
         next: (res)=>{
+          this.ensureUserStartsFresh();
           this.saveUserId(true);
           alert(res.message);
           this.loginForm.reset();
@@ -95,6 +91,26 @@ export class LoginComponent implements OnInit{
         }
       }
     });
+  }
+
+  ensureUserStartsFresh() {
+    if (sessionStorage.getItem('userId') != null) {
+      if (sessionStorage.getItem('tempUser') == 'yes') {
+        this.auth.deleteAllUsersInfo(true)
+        .subscribe({
+            next: (res)=>{
+            alert(res.message);
+            },
+            error:(err)=>{
+            alert(err?.error.message)
+            }
+        });
+      }
+      sessionStorage.removeItem('editing');
+      sessionStorage.removeItem('goBack');
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+    }
   }
 }
 

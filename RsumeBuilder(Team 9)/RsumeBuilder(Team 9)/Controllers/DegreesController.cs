@@ -29,8 +29,9 @@ namespace RsumeBuilder_Team_9_.Controllers
             if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
                 return BadRequest("No User found.");
 
-            if ((_authContext.Degrees.Where(x => x.UserId == id)).ToList().Count < 3)
+            if ((_authContext.Degrees.Where(x => x.Id == id)).ToList().Count < 3)
             {
+                degree.UserId = id;
                 await _authContext.Degrees.AddAsync(degree);
                 await _authContext.SaveChangesAsync();
 
@@ -44,13 +45,13 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> RemoveDegreeFromList(int id)
+        [HttpDelete("delete/{degreeId}")]
+        public async Task<IActionResult> RemoveDegreeFromList(int degreeId)
         {
-            if (_authContext.Degrees.SingleOrDefault(x => x.Id == id) == null)
+            if (_authContext.Degrees.SingleOrDefault(x => x.Id == degreeId) == null)
                 return BadRequest("No Degree found.");
 
-            var degreeToRemove = _authContext.Degrees.SingleOrDefault(x => x.Id == id);
+            var degreeToRemove = _authContext.Degrees.SingleOrDefault(x => x.Id == degreeId);
 
             if (degreeToRemove == null)
                 return NotFound();
@@ -60,30 +61,6 @@ namespace RsumeBuilder_Team_9_.Controllers
 
             return Ok(new { Message = "Degree successfully removed." });
 
-        }
-
-        [HttpDelete("delete/all/{id}")]
-        public async Task<IActionResult> RemoveDegreesFromList(int id)
-        {
-            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
-                return BadRequest("No User found.");
-
-            List<Degree> degreeListToDelete = _authContext.Degrees.Where(x => x.UserId == id).ToList();
-
-            if (degreeListToDelete.Count > 0)
-            {
-                foreach (Degree degree in degreeListToDelete)
-                {
-                    _authContext.Degrees.Remove(degree);
-                }
-                await _authContext.SaveChangesAsync();
-
-                return Ok(new { Message = "Degrees were found and removed" });
-            }
-            else
-            {
-                return Ok(new { Message = "No Degrees required removing" });
-            }
         }
 
         [HttpGet("get/all/{id}")]

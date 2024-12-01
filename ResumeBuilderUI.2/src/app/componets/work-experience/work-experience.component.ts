@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
+import { AppClosingService } from '../../services/appClosing.service';
 
 
 @Component({
@@ -30,13 +31,23 @@ export class WorkExperienceComponent {
 
   displayString: string = "display:block;";
   hideString: string = "display:none;";
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
+    }
+  }
 
   // Called When form is initialized.
   ngOnInit(): void {
     // Checks if user is logged in and if resumeOption is choosen.
     if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
       this.router.navigate(['resumeOption']);
@@ -190,7 +201,7 @@ export class WorkExperienceComponent {
     this.auth.submitJobsInfo(value)
     .subscribe({
       next:(data) => {
-        alert("Job has been saved.");
+        console.log("Job has been saved.");
         this.addToHtmlList(this.workExperienceForm.controls['companyName'].value + ' - ' + this.workExperienceForm.controls['position'].value)
         this.jobList.set(data, value);
         this.setFormGroup('', '', '', '', '');

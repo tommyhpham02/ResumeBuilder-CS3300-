@@ -19,10 +19,6 @@ export class SignupComponent implements OnInit {
   constructor(private fb: FormBuilder, private auth : AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if (sessionStorage.getItem('userId') != null || sessionStorage.getItem('userId') != '-1') {
-      this.router.navigate(['resumeOptions'])
-    }
-    
     this.signUpForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
