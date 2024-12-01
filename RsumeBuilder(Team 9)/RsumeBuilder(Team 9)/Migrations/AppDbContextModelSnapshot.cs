@@ -48,8 +48,9 @@ namespace RsumeBuilder_Team_9_.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("YearGraduated")
-                        .HasColumnType("int");
+                    b.Property<string>("YearGraduated")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -153,10 +154,6 @@ namespace RsumeBuilder_Team_9_.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Proficiency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Projects")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -173,7 +170,7 @@ namespace RsumeBuilder_Team_9_.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("SkillsLanguagesCertifications");
+                    b.ToTable("SkillsLanguagesCertifications", (string)null);
                 });
 
             modelBuilder.Entity("RsumeBuilder_Team_9_.Models.User", b =>

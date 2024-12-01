@@ -16,10 +16,14 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitPersonalInfo([FromBody] ResumeInput personalObj, string id)
+        public async Task<IActionResult> SubmitPersonalInfo([FromBody] ResumeInput personalObj, int id)
         {
             if (personalObj == null)
                 return BadRequest();
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
+            personalObj.UserId = id;
 
             await _authContext.ResumeInputs.AddAsync(personalObj);
             await _authContext.SaveChangesAsync();
@@ -31,14 +35,14 @@ namespace RsumeBuilder_Team_9_.Controllers
 
         
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> EditPersonalInfo([FromBody] ResumeInput inputObj, string id)
+        public async Task<IActionResult> EditPersonalInfo([FromBody] ResumeInput inputObj, int id)
         {
-            var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId.ToString() == id);
+            var input = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId == id);
 
             if (inputObj == null)
-                return BadRequest();
+                return BadRequest("Incorrect Data given.");
             else if (input == null)
-                return BadRequest();
+                return BadRequest("No User found.");
 
             inputObj.Id = input.Id;
             inputObj.UserId = input.UserId;
@@ -51,11 +55,25 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> getPersonalInfo(int id)
+        {
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
+            var personalInfo = _authContext.ResumeInputs.SingleOrDefault(x => x.UserId == id);
+
+            if (personalInfo == null)
+                return BadRequest("User has no input");
+
+            return Ok(personalInfo);
+        }
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deletePersonalInfo(int id)
         {
-            if (id == 0)
-                return BadRequest();
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
 
             var slcToRemove = _authContext.ResumeInputs.SingleOrDefault(x => x.Id == id);
 

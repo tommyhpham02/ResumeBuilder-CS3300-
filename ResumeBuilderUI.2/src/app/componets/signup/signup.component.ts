@@ -13,6 +13,7 @@ export class SignupComponent implements OnInit {
 
   type: string = "password";
   isText: Boolean = false;
+  buttonDisabled: Boolean = false;
   eyeIcon: string = "fa-eye-slash";
   signUpForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth : AuthService, private router: Router) {}
@@ -23,8 +24,7 @@ export class SignupComponent implements OnInit {
       lastName: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', Validators.required],
-      password: ['', Validators.required],
-      resumeInput: {}
+      password: ['', Validators.required]
     })
   }
 
@@ -37,6 +37,7 @@ export class SignupComponent implements OnInit {
   onSignUp(){
     if(this.signUpForm.valid)
     {
+      this.buttonDisabled = true;
       this.auth.signUp(this.signUpForm.value)
       .subscribe({
         next:(res) =>{
@@ -45,6 +46,7 @@ export class SignupComponent implements OnInit {
           this.router.navigate(['login']);
         },
         error: (err) => {
+          this.buttonDisabled = false;
           console.error('Full Error Response:', err);
           alert(err?.error?.message || 'An error occurred during registration');
         }
@@ -53,7 +55,7 @@ export class SignupComponent implements OnInit {
     else{
       console.log("Form is Invalis");
       //throw error
-      ValidatorForm.validateAllFormFileds(this.signUpForm);
+      ValidatorForm.validateAllFormFields(this.signUpForm);
       alert("Your Form is invalid")
     }
   }

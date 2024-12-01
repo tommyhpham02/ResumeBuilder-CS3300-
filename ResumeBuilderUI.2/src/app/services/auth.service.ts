@@ -11,19 +11,59 @@ export class AuthService {
   private actualUrl:string = "";
   constructor(private http : HttpClient) { }
 
-  signUp(userObj: any){
+  signUp(userObj: any) {
     this.actualUrl = this.baseUrl + "User/"
     return this.http.post<any>(`${this.actualUrl}register`, userObj);
   }
 
-  login(loginObj: any){
+  login(loginObj: any) {
     this.actualUrl = this.baseUrl + "User/"
     return this.http.post<any>(`${this.actualUrl}authenticate`, loginObj);
+  }
+
+  createTempUser() {
+    this.actualUrl = this.baseUrl + "User/"
+    return this.http.get<any>(`${this.actualUrl}createTempUser`);
   }
 
   getUserId(username: string){
     this.actualUrl = this.baseUrl + "User/"
     return this.http.get<any>(`${this.actualUrl}userId/${username}`)
+  }
+
+  deleteAllUsersInfo(option: Boolean) {
+    this.actualUrl = this.baseUrl + "User/"
+    return this.http.delete<any>(`${this.actualUrl}deleteAllInputs/${sessionStorage.getItem("userId")}/${option}`)
+  }
+
+  editPersonalInfo(infoObj: any) {
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, infoObj)
+  }
+
+  addPersonalInfo(infoObj: any) {
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, infoObj)
+  }
+
+  getPersonalInfo() {
+    this.actualUrl = this.baseUrl + "PersonalInformation/"
+    return this.http.get<any>(`${this.actualUrl}get/${sessionStorage.getItem("userId")}`)
+  }
+
+  editSkills(skillsObj: any) {
+    this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
+    return this.http.put<any>(`${this.actualUrl}edit/${sessionStorage.getItem("userId")}`, skillsObj)
+  }
+
+  addSkills(skillsObj: any) {
+    this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
+    return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, skillsObj)
+  }
+
+  getSkills() {
+    this.actualUrl = this.baseUrl + "SkillsLanguagesCertifications/"
+    return this.http.get<any>(`${this.actualUrl}get/${sessionStorage.getItem("userId")}`)
   }
 
   submitPersonalInfo(infoObj: any){
@@ -41,7 +81,7 @@ export class AuthService {
     return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, jobInfo)
   }
 
-  deleteJob(id: number){
+  deleteJob(id: number) {
     this.actualUrl = this.baseUrl + "Jobs/"
     return this.http.delete<any>(`${this.actualUrl}delete/${id}`)
   }
@@ -61,12 +101,12 @@ export class AuthService {
     return this.http.put<any>(`${this.actualUrl}edit/${jobId}`, jobInfo)
   }
 
-  submitDegreesInfo(degreeInfo: any){
+  submitDegreesInfo(degreeInfo: any) {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.post<any>(`${this.actualUrl}submit/${sessionStorage.getItem("userId")}`, degreeInfo)
   }
 
-  deleteDegree(id: number){
+  deleteDegree(id: number) {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.delete<any>(`${this.actualUrl}delete/${id}`)
   }
@@ -85,4 +125,38 @@ export class AuthService {
     this.actualUrl = this.baseUrl + "Degrees/"
     return this.http.put<any>(`${this.actualUrl}edit/${degreeId}`, degreeInfo)
   }
+
+  submitDegreeInfo(degreeInfo: any) {
+    this.actualUrl = this.baseUrl + "Input/"
+    return this.http.post<any>(`${this.actualUrl}submit/degrees/${sessionStorage.getItem("userId")}`, degreeInfo)
+  }
+
+  downloadResume(templateID: string) {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      throw new Error('User ID is missing.');
+    }
+  
+    //const payload = { templateID, previewOrDownload };
+    //console.log(payload);
+    return this.http.get<any>(`${this.baseUrl}ResumeCreating/submit/download/${userId}/${templateID}`);
+  }
+  
+  getResume(fileName: string) {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      throw new Error('User ID is missing.');
+    }
+  
+    return this.http.get(`${this.baseUrl}ResumeCreating/get-resume/${userId}/${fileName}`, {
+      responseType: 'blob',
+    });
+  }
+  
+
+
+  // deleteDegree(id: number){
+  //   this.actualUrl = this.baseUrl + "Input/"
+  //   return this.http.delete<any>(`${this.actualUrl}delete/degree/${id}`)
+  // }
 }

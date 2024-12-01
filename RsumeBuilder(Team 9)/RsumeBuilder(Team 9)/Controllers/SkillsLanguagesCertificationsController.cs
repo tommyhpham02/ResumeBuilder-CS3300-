@@ -4,6 +4,8 @@ using RsumeBuilder_Team_9_.Models;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SkillsLanguagesCertificationsController : ControllerBase
     {
         private readonly AppDbContext _authContext;
@@ -14,10 +16,14 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPost("submit/{id}")]
-        public async Task<IActionResult> SubmitSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, string id)
+        public async Task<IActionResult> SubmitSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, int id)
         {
             if (slcObj == null)
                 return BadRequest();
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
+            slcObj.UserId = id;
 
             await _authContext.SLC.AddAsync(slcObj);
             await _authContext.SaveChangesAsync();
@@ -28,14 +34,14 @@ namespace RsumeBuilder_Team_9_.Controllers
         }
 
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> editSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, string id)
+        public async Task<IActionResult> editSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, int id)
         {
-            var input = _authContext.SLC.SingleOrDefault(x => x.UserId.ToString() == id);
+            var input = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
 
             if (slcObj == null)
-                return BadRequest();
+                return BadRequest("Incorrect Data Given.");
             else if (input == null)
-                return BadRequest();
+                return BadRequest("No User found.");
 
             slcObj.Id = input.Id;
             slcObj.UserId = input.UserId;
@@ -48,11 +54,25 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> getPersonalInfo(int id)
+        {
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
+            var personalInfo = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
+
+            if (personalInfo == null)
+                return BadRequest("User has no input");
+
+            return Ok(personalInfo);
+        }
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deleteSLCInfo(int id)
         {
-            if (id == 0)
-                return BadRequest();
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
 
             var slcToRemove = _authContext.SLC.SingleOrDefault(x => x.Id == id);
 

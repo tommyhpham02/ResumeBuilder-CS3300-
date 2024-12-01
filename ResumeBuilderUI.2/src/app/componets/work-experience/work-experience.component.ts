@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
+import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
+import { AppClosingService } from '../../services/appClosing.service';
 
 
 @Component({
@@ -12,6 +14,8 @@ import { Router } from '@angular/router';
 })
 
 export class WorkExperienceComponent {
+  // Form vales as well as boolean flags trigged by events.
+  // Also holds list of information of each degree, and list of if a degree has been entered.
   workExperienceForm!: FormGroup;
   jobList = new Map<number, any>;
   htmlListOfJobs: string[] = ['', '', ''];
@@ -19,7 +23,7 @@ export class WorkExperienceComponent {
   currentJob: Boolean = false;
   jobListViewable: Boolean = false;
   editMode: Boolean = false;
-  editingResume: Boolean = true;
+  cameBack: Boolean = sessionStorage.getItem('goBack') == 'yes' ? true: false;
   jobIdToEdit: number = -1;
   jobIndexToEdit: number = -1;
   todayDate: Date = new Date();
@@ -27,21 +31,31 @@ export class WorkExperienceComponent {
 
   displayString: string = "display:block;";
   hideString: string = "display:none;";
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
-  ngOnInit(): void {
-    // Get the user ID from the session storage
-    const userLoggedIn = sessionStorage.getItem('userId');
-
-    // If there is no user ID in the session storage
-    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
-      this.router.navigate(['login']); // Go to login page if user is not logged in
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
     }
+  }
 
+  // Called When form is initialized.
+  ngOnInit(): void {
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+      this.router.navigate(['']);
+    }
+    if (!ValidatorLogin.checkIfOptionChoosen()) {
+      this.router.navigate(['resumeOption']);
+    }
     this.setFormGroup('', '', '', '', '');
 
-    // If editing the resume (set up variable later) takes already stored jobs from database to put into list
-    if (this.editingResume) {
+    // If editing the resume takes already stored jobs from database to put into list.
+    if (sessionStorage.getItem('editing') == 'yes' || this.cameBack) {
       this.auth.getListOfEnteredJobs()
       .subscribe(data => {
           for (let i = 0; i < data.length; i++){
@@ -56,19 +70,6 @@ export class WorkExperienceComponent {
           }
           if (this.jobList.size > 0)
             this.jobListViewable = true;
-      });
-    }
-    // Or if not editing, deletes all jobs associated with the user.
-    else {
-      this.auth.deleteAllJobs()
-      .subscribe({
-        next:(res) => {
-          console.log(res.message)
-        },
-        error: (err) => {
-          console.error('Full Error Response:', err);
-          alert(err?.error.message);
-        }
       });
     }
   }
@@ -200,7 +201,7 @@ export class WorkExperienceComponent {
     this.auth.submitJobsInfo(value)
     .subscribe({
       next:(data) => {
-        alert("Job has been saved.");
+        console.log("Job has been saved.");
         this.addToHtmlList(this.workExperienceForm.controls['companyName'].value + ' - ' + this.workExperienceForm.controls['position'].value)
         this.jobList.set(data, value);
         this.setFormGroup('', '', '', '', '');
@@ -232,6 +233,7 @@ export class WorkExperienceComponent {
         alert(err?.error.message);
       }
     })
+    // Removes job from each list.
     this.jobList.delete(Array.from(this.jobList.keys())[index]);
     this.htmlListOfJobs.splice(index, 1);
     this.jobsEntered.splice(index, 1);
@@ -244,17 +246,23 @@ export class WorkExperienceComponent {
   continueButtonPushed(): void {
     if (this.jobList.size >= 1) {
       this.workExperienceForm.reset();
-      this.router.navigate(['download']);
+      this.router.navigate(['education']);
     }
     else {
       alert("No jobs entered. Proceeding")
-      this.router.navigate(['download']);
+      this.router.navigate(['education']);
     }
   }
 
   // Goes back to previous page.
   goBackButtonPushed(): void {
+    sessionStorage.setItem('goBack', 'yes');
     this.workExperienceForm.reset();
-    this.router.navigate(['skills']);
+    this.router.navigate(['dashboard']);
   }
+
+  keywordPage(): void {
+    window.open('/sugestedWordResource', '_blank');
+  }
+  
 }

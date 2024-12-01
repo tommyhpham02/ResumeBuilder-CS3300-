@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,15 +10,16 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
-
+  // Values for the form as well as boolean flags for events.
   type: string = "password";
   isText: Boolean = false;
   eyeIcon: string = "fa-eye-slash";
   userId: any = "";
-  loginSuccess: Boolean = false;
+  buttonDisabled: Boolean = false;
   loginForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
+  // Called when the form is initialized.
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username:['',Validators.required],
@@ -26,27 +27,32 @@ export class LoginComponent implements OnInit{
     })
   }
 
+  // When triggered, hides/shows the password the user is entering. 
   hideShowPass(){
     this.isText = !this.isText;
     this.isText ? this.eyeIcon = "fa-eye" : this.eyeIcon = "fa-eye-slash";
     this.isText ? this.type = "text" : this.type = "password";
-
   }
 
+  // When login button is hit, disables the button, checks on the backend if the user is registered
+  // and that their entered info is correct. If error, button is enabled again, else goes to next page.
   onLogin(){
     if(this.loginForm.valid)
     {
+      this.buttonDisabled = true;
       console.log(this.loginForm.value);
       //send obj to database
       this.auth.login(this.loginForm.value)
       .subscribe({
         next: (res)=>{
+          this.ensureUserStartsFresh();
           this.saveUserId(true);
           alert(res.message);
           this.loginForm.reset();
-          this.router.navigate(['dashboard'])
+          this.router.navigate(['resumeOption']);
         },
         error:(err)=>{
+          this.buttonDisabled = false;
           this.saveUserId(false);
           alert(err?.error.message)
         }
@@ -55,11 +61,13 @@ export class LoginComponent implements OnInit{
     else{
       console.log("Form is Invalis");
       //throw error
-      ValidatorForm.validateAllFormFileds(this.loginForm);
+      ValidatorForm.validateAllFormFields(this.loginForm);
       alert("Your Form is invalid")
     }
   }
 
+  // Takes the username the user entered to find the ID associated with said username. 
+  // (Which will be used throughout the rest of the program.)
   saveUserId(valid: Boolean){
     if (valid){
       this.auth.getUserId(this.loginForm.get('username')?.value).subscribe
@@ -68,10 +76,41 @@ export class LoginComponent implements OnInit{
           sessionStorage.setItem('userId', data);
         }
       );
-      this.loginSuccess = false;
     }
     else{
-      sessionStorage.setItem('userId', '-1');
+      sessionStorage.setItem('userId', '');
+    }
+  }
+
+  createBackButtonEvent(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Popstate navigation detected!');
+          sessionStorage.setItem('goBack', 'yes');
+        }
+      }
+    });
+  }
+
+  ensureUserStartsFresh() {
+    if (sessionStorage.getItem('userId') != null) {
+      if (sessionStorage.getItem('tempUser') == 'yes') {
+        this.auth.deleteAllUsersInfo(true)
+        .subscribe({
+            next: (res)=>{
+            alert(res.message);
+            },
+            error:(err)=>{
+            alert(err?.error.message)
+            }
+        });
+      }
+      sessionStorage.removeItem('editing');
+      sessionStorage.removeItem('goBack');
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
     }
   }
 }
+

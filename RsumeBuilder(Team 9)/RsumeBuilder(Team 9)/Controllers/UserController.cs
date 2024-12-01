@@ -24,10 +24,10 @@ namespace RsumeBuilder_Team_9_.Controllers
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest authRequest)
         {
             if (authRequest == null)
-                return BadRequest();
+                return BadRequest("Incorrect Data Given.");
             var user = await _authContext.Users.FirstOrDefaultAsync(x => x.Username == authRequest.Username);
             if (user == null)
-                return NotFound(new { Message = "User Not Found! Tommy Fix your Code" });
+                return NotFound(new { Message = "User Not found"});
             if (!PasswordHash.VerifyPass(authRequest.Password, user.Password))
             {
                 return BadRequest(new { Message = "Password is incorrect" });
@@ -41,6 +41,24 @@ namespace RsumeBuilder_Team_9_.Controllers
 
         }
 
+        [HttpGet("createTempUser")]
+        public async Task<IActionResult> CreateTempUser() 
+        {
+            User user = new User();
+            user.FirstName = "";
+            user.LastName = "";
+            user.Email = "";
+            user.Username = "";
+            user.Password = "";
+            await _authContext.Users.AddAsync(user);
+            await _authContext.SaveChangesAsync();
+
+            if (_authContext.Users.Entry(user) == null)
+                return BadRequest("User was unable to be created");
+
+            return Ok(user.Id);
+        }
+
         [HttpGet("userId/{username}")]
         public IActionResult GetUserIdFromUsername(string username) 
         {
@@ -52,11 +70,59 @@ namespace RsumeBuilder_Team_9_.Controllers
             return Ok(user.Id.ToString());
         }
 
+        [HttpDelete("deleteAllInputs/{id}/{option}")]
+        public async Task<IActionResult> DeleteAllUserInputs(int id, bool option)
+        {
+            string log = "";
+            if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
+                return BadRequest("No User found.");
+
+            var user = await _authContext.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (option)
+            {
+                _authContext.Users.Remove(user);
+                log += "User has been removed \n";
+            }
+
+            log += "Entities that were never found: \n";
+            var personalInfo = await _authContext.ResumeInputs.SingleOrDefaultAsync(x => x.UserId == id);
+            var skills = await _authContext.SLC.SingleOrDefaultAsync(x => x.UserId == id);
+
+            if (personalInfo != null)
+                _authContext.ResumeInputs.Remove(personalInfo);
+            else
+                log += "Personal Info \n";
+
+            if (skills != null)
+                _authContext.SLC.Remove(skills);
+            else
+                log += "Skills, Languages, and Cetifications \n";
+
+            if (_authContext.Degrees.Where(x => x.UserId == id).ToList().Count > 0)
+                _authContext.RemoveRange(_authContext.Degrees.Where(x => x.UserId == id));
+            else
+                log += "Degrees \n";
+
+            if (_authContext.Jobs.Where(x => x.UserId == id).ToList().Count > 0)
+                _authContext.RemoveRange(_authContext.Jobs.Where(x => x.UserId == id));
+            else
+                log += "Jobs \n";
+
+            await _authContext.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = log
+            });
+        }
+
+
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] User userObj)
         {
             if(userObj == null)
-                return BadRequest();
+                return BadRequest("Incorrect Data Given.");
 
             //Check username
             if(await CheckUserNameExist(userObj.Username))

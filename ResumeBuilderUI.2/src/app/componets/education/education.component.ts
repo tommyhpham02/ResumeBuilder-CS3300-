@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
+import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
+import { AppClosingService } from '../../services/appClosing.service';
+import { lastValueFrom } from 'rxjs';
 
 
 @Component({
@@ -12,6 +15,8 @@ import { Router } from '@angular/router';
 })
 
 export class EducationComponent {
+  // Form vales as well as boolean flags trigged by events.
+  // Also holds list of information of each job, and list of if a job has been entered.
   educationForm!: FormGroup;
   degreeList = new Map<number, any>;
   htmlListOfDegrees: string[] = ['', '', ''];
@@ -20,26 +25,37 @@ export class EducationComponent {
   degreeListViewable: Boolean = false;
   editMode: Boolean = false;
   editingResume: Boolean = true;
+  cameBack: Boolean = sessionStorage.getItem('goBack') == 'yes' ? true: false;
   degreeIdToEdit: number = -1;
   degreeIndexToEdit: number = -1;
 
   displayString: string = "display:block;";
   hideString: string = "display:none;";
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
-  ngOnInit(): void {
-    // Get the user ID from the session storage
-    const userLoggedIn = sessionStorage.getItem('userId');
-
-    // If there is no user ID in the session storage
-    if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
-      this.router.navigate(['login']); // Go to login page if user is not logged in
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
     }
+  }
 
+  // Called when form is initialized.
+  ngOnInit(): void {
+    // Checks if the User is logged in and resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+      this.router.navigate(['']);
+    }
+    if (!ValidatorLogin.checkIfOptionChoosen()) {
+      this.router.navigate(['resumeOption']);
+    }
     this.setFormGroup('', '', '', '', '');
 
-    // If editing the resume (set up variable later) takes already stored jobs from database to put into list
-    if (this.editingResume) {
+    // If editing the resume takes already stored degrees from database to put into list
+    if (sessionStorage.getItem('editing') == 'yes' || this.cameBack) {
       this.auth.getListOfEnteredDegrees()
       .subscribe(data => {
           for (let i = 0; i < data.length; i++){
@@ -53,19 +69,6 @@ export class EducationComponent {
           }
           if (this.degreeList.size > 0)
             this.degreeListViewable = true;
-      });
-    }
-    // Or if not editing, deletes all jobs associated with the user.
-    else {
-      this.auth.deleteAllDegrees()
-      .subscribe({
-        next:(res) => {
-          console.log(res.message)
-        },
-        error: (err) => {
-          console.error('Full Error Response:', err);
-          alert(err?.error.message);
-        }
       });
     }
   }
@@ -94,7 +97,7 @@ export class EducationComponent {
     return jsonData;
   }
 
-  // Adds job to database if form is valid and no more than three already in database.
+  // Adds degree to database if form is valid and no more than three already in database.
   addDegree(): void {
     if (this.degreeList.size < 3) {
       if (this.educationForm.valid) {
@@ -112,19 +115,18 @@ export class EducationComponent {
     }
   }
 
-  // Replaces input fields with specified job wanting to edit, removes original from database. 
+  // Replaces input fields with specified degree wanting to edit, removes original from database. 
   editDegree(index: number) {
     let degreeToEdit = this.degreeList.get(Array.from(this.degreeList.keys())[index]);
     this.setFormGroup(degreeToEdit[`college`], degreeToEdit[`cityAndState`], degreeToEdit[`degreeType`], degreeToEdit[`degreeName`],
       degreeToEdit[`yearGraduated`]);
-
       this.degreeListViewable = false;
       this.editMode = true;
       this.degreeIdToEdit = Array.from(this.degreeList.keys())[index];
       this.degreeIndexToEdit = index;
   }
 
-  // Edits job in the actual database, if the user makes edits and hits the make edits button.
+  // Edits degree in the actual database, if the user makes edits and hits the make edits button.
   editDegreeInDatabase(): void {
     if ((JSON.stringify(this.educationForm.value) != JSON.stringify(this.degreeList.get(this.degreeIdToEdit))) && this.educationForm.valid){
       this.auth.editDegree(this.educationForm.value, this.degreeIdToEdit)
@@ -166,12 +168,12 @@ export class EducationComponent {
     this.degreeIndexToEdit = -1; 
   }
 
-  // Saves job to database and adds to appropriate lists.
+  // Saves degree to database and adds to appropriate lists.
   saveDegreeToDatbase(value: any) {
     this.auth.submitDegreesInfo(value)
     .subscribe({
       next:(data) => {
-        alert("Degree has been saved.");
+        console.log("Degree has been saved.");
         this.addToHtmlList(this.educationForm.controls['college'].value + ' - ' + this.educationForm.controls['degreeType'].value)
         this.degreeList.set(data, value);
         this.setFormGroup('', '', '', '', '');
@@ -184,13 +186,13 @@ export class EducationComponent {
     });
   }
 
-  // Adds job information needed for displaying on frontend.
+  // Adds degree information needed for displaying on frontend.
   addToHtmlList(htmlInsert: string) {
     this.htmlListOfDegrees[this.degreeList.size] = htmlInsert;
     this.degreesEntered[this.degreeList.size] = true;
   }
 
-  // Removes job from database and lists with specified index.
+  // Removes degree from database and lists with specified index.
   removeDegreeWithIndex(index: number): void {
     console.log(this.degreeList.get(Array.from(this.degreeList.keys())[index]))
     this.auth.deleteDegree(Array.from(this.degreeList.keys())[index])
@@ -203,6 +205,7 @@ export class EducationComponent {
         alert(err?.error.message);
       }
     })
+    // Removes degree from each list.
     this.degreeList.delete(Array.from(this.degreeList.keys())[index]);
     this.htmlListOfDegrees.splice(index, 1);
     this.degreesEntered.splice(index, 1);
@@ -215,17 +218,22 @@ export class EducationComponent {
   continueButtonPushed(): void {
     if (this.degreeList.size >= 1) {
       this.educationForm.reset();
-      this.router.navigate(['download']);
+      this.router.navigate(['skills']);
     }
     else {
       alert("No degrees entered. Proceeding")
-      this.router.navigate(['download']);
+      this.router.navigate(['skills']);
     }
   }
 
   // Goes back to previous page.
   goBackButtonPushed(): void {
+    sessionStorage.setItem('goBack', 'yes');
     this.educationForm.reset();
-    this.router.navigate(['skills']);
+    this.router.navigate(['workexperience']);
+  }
+
+  keywordPage(): void {
+    window.open('/sugestedWordResource', '_blank');
   }
 }
