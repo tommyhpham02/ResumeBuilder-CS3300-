@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AppClosingService } from '../../services/appClosing.service';
 
 @Component({
   selector: 'resourcePage-root',
@@ -9,7 +10,17 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ResourcePageComponent {
   title = 'ResumeBuilderUI.2';
-  constructor (private router: Router, private auth: AuthService) {}
+  constructor (private router: Router, private auth: AuthService, private closer: AppClosingService) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
+    }
+  }
 
   goBack() {
     window.history.back();

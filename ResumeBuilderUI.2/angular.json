@@ -32,12 +32,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
-                "glob": "**/*",
+                "glob": "/*",
                 "input": "src/assets",
                 "output": "/assets"
               },
               {
-                "glob": "**/*",
+                "glob": "/*",
                 "input": "src/assets/pdf",
                 "output": "/assets/pdf"
               },
