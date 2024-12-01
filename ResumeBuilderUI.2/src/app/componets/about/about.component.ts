@@ -15,6 +15,6 @@ export class AboutComponent {
 
   goBack(): void {
     sessionStorage.setItem('goBack', 'yes');
-    this.router.navigate(['resumeOption']);
+    this.router.navigate(['']);
     }
 }
