@@ -82,17 +82,6 @@ export class LoginComponent implements OnInit{
     }
   }
 
-  createBackButtonEvent(): void {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        if (event.navigationTrigger === 'popstate') {
-          console.log('Popstate navigation detected!');
-          sessionStorage.setItem('goBack', 'yes');
-        }
-      }
-    });
-  }
-
   ensureUserStartsFresh() {
     if (sessionStorage.getItem('userId') != null) {
       if (sessionStorage.getItem('tempUser') == 'yes') {
