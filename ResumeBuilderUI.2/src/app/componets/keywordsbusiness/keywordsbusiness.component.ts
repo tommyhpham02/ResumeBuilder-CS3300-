@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-keywords',
-  templateUrl: './keywords.component.html',
-  styleUrls: ['./keywords.component.css']
+  selector: 'app-keywordsbusiness',
+  templateUrl: './keywordsbusiness.component.html',
+  styleUrls: ['./keywordsbusiness.component.css']
 })
-export class KeywordsComponent implements OnInit {
+export class KeywordsBusinessComponent implements OnInit {
   selectedKeywords: string[] = [];
 
   // Inject the Router service into the component

@@ -13,6 +13,8 @@ import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resu
 import { ResourcePageComponent } from './componets/resourcePage/resourcePage.component';
 import { SugestedWordResourceComponent } from './componets/sugestedWordResource/sugestedWordResource.component';
 import { AboutComponent } from './componets/about/about.component';
+import { KeywordsComponent } from './componets/keywords/keywords.component';
+import { KeywordsBusinessComponent } from './componets/keywordsbusiness/keywordsbusiness.component';
 
 export const routes: Routes = [
   {path:'', component: HomeComponent },
@@ -29,6 +31,8 @@ export const routes: Routes = [
   {path:'sugestedWordResource', component: SugestedWordResourceComponent},
   {path: 'resumeTemplate', component: ResumeTemplatePageComponent},
   {path: 'about', component: AboutComponent},
+  {path: 'keywords', component: KeywordsComponent},
+  {path: 'keywordsBusiness', component: KeywordsBusinessComponent},
 
 ];
 

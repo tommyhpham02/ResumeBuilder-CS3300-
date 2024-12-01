@@ -84,15 +84,26 @@ export class SkillsComponent implements OnInit {
 
   // Fills the skillsForm with specified values (the textbox values)
   fillForm(lang: string, certName: string, certDate: string, skill: string, proj: string): void {
+    const additionalSkills = sessionStorage.getItem('selectedKeywords') || '';
+    const combinedSkills = skill ? `${skill}, ${additionalSkills}` : additionalSkills;
+  
     this.skillsForm.setValue({
-      languageName: lang, 
-      certificationName: certName, 
-      certificationDate: certDate, 
-      skills: skill, 
-      projects: proj
+      languageName: lang || '', // Ensure fallback to empty string
+      certificationName: certName || '',
+      certificationDate: certDate || '',
+      skills: combinedSkills,
+      projects: proj || ''
     });
   }
 
+    // Fills the skillsForm with specified values (the textbox values)
+    fillSkills(skill: string): void {
+      const currentSkills = this.skillsForm.get('skills')?.value || '';
+      const additionalSkills = sessionStorage.getItem('selectedKeywords') || '';
+      this.skillsForm.get('skills')?.setValue(`${currentSkills}, ${additionalSkills}`);
+    }
+    
+  
   // Method to handle form submission. Either adds or edits entered information.
   onSubmit() {
     console.log("Form Values on Submit:", this.skillsForm.value);

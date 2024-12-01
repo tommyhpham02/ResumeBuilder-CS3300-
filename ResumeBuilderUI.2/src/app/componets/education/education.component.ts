@@ -219,7 +219,7 @@ export class EducationComponent {
     }
     else {
       alert("No degrees entered. Proceeding")
-      this.router.navigate(['skills']);
+      this.router.navigate(['keywords']);
     }
   }
 
