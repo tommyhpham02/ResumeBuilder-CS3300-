@@ -258,4 +258,9 @@ export class WorkExperienceComponent {
     this.workExperienceForm.reset();
     this.router.navigate(['dashboard']);
   }
+
+  keywordPage(): void {
+    window.open('/sugestedWordResource', '_blank');
+  }
+  
 }

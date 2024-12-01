@@ -131,3 +131,14 @@ button {
   background: linear-gradient(135deg, #71b7e6, #1c0455);
   color: #fff;
 }
+
+.keywordLink a {
+  font-size: 14px; 
+  text-decoration: none; 
+  color: #007bff; 
+  cursor: pointer; 
+}
+
+.keywordLink a:hover {
+  text-decoration: underline; 
+}

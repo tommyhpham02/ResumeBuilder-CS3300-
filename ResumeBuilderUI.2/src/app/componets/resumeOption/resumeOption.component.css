@@ -110,6 +110,15 @@ body {
 .about:hover {
   background: linear-gradient(-135deg, #6abdbd, #a3a2a8);
 }
+
+.TandT{
+  background: linear-gradient(135deg, #14deaf, #10ca9f);
+}
+
+.TandT:hover{
+  background: linear-gradient(-135deg, #14deaf, #10ca9f);
+}
+
 .logout-option {
   background: linear-gradient(135deg, #2f2f32, #a3a2a8);
 }

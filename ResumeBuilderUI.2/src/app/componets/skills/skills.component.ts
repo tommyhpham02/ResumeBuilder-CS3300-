@@ -77,6 +77,10 @@ export class SkillsComponent implements OnInit {
       this.originalValues = JSON.stringify(this.skillsForm.value);
     }
   }
+  
+  keywordPage(): void {
+    window.open('/sugestedWordResource', '_blank');
+  }
 
   // Fills the skillsForm with specified values (the textbox values)
   fillForm(lang: string, certName: string, certDate: string, skill: string, proj: string): void {

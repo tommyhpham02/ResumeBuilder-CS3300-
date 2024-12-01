@@ -26,7 +26,7 @@ export const routes: Routes = [
   {path:'resumeOption', component: ResumeOptionComponent},
   { path: 'resumeTemplate', component: ResumeTemplatePageComponent },
   {path:'resourcePage', component: ResourcePageComponent},
-  {path:'sugestedWordResource', component: SugestedWordResourceComponent}
+  {path:'sugestedWordResource', component: SugestedWordResourceComponent},
   {path: 'resumeTemplate', component: ResumeTemplatePageComponent},
   {path: 'about', component: AboutComponent},
 

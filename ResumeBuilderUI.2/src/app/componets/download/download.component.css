@@ -82,11 +82,11 @@ form .input-box select {
 
 /* Go Back button style */
 .go-back {
-  background-color: #7f8c8d;
+  background: linear-gradient(135deg, #71b7e6, #1c0455);
 }
 
 .go-back:hover {
-  background-color: #95a5a6;
+  background: linear-gradient(-135deg, #71b7e6, #1c0455);
 }
 
 /* Resume Download button style */
@@ -119,3 +119,22 @@ form .input-box select {
     font-size: 16px;
   }
 }
+
+/* Download Resume button style */
+.download-resume {
+  background: linear-gradient(135deg, #9f96d8, #7e69e8);
+}
+
+.download-resume:hover {
+  background: linear-gradient(135deg, #9f96d8, #1c0494);
+}
+
+/* Download Resume button style */
+.options-resume {
+  background: linear-gradient(135deg, #1fd3e0, #0cb6fa);
+}
+
+.options-resume:hover{
+  background: linear-gradient(-135deg, #6abdbd, #a3a2a8);
+}
+

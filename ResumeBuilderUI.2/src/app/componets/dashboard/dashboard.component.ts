@@ -141,4 +141,8 @@ export class DashboardComponent {
       alert("Your Form is invalid")
     }
   }
+
+  keywordPage(): void {
+    window.open('/sugestedWordResource', '_blank');
+  }
 }
