@@ -93,7 +93,7 @@
         </div>
 
         <!-- Make Edit and Cancel Buttons -->
-        <div [attr.style]="editMode ? displayString : hideString" class="button grey-button" display="none">
+        <div [attr.style]="editMode ? displayString : hideString" class="button-group" display="none">
           <input (click)="editJobInDatabase()" type="button" value="Make Edit" id="editButton">
           <input (click)="cancelEdit()" type="button" value="Cancel" id="cancelButton">
         </div>

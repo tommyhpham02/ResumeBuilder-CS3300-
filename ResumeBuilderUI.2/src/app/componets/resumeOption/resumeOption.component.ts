@@ -39,6 +39,9 @@ export class ResumeOptionComponent {
     sessionStorage.setItem('userId', '');
     this.router.navigate(['']);
   }
+  onAbout(){
+    this.router.navigate(['about']);
+  }
 
   ngOnInit(): void {
     setTimeout(() => {

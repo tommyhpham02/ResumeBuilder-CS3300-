@@ -16,6 +16,8 @@ import { DownloadComponent } from './componets/download/download.component';
 import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resumeTemplatePage.component';
 import { ResourcePageComponent } from './componets/resourcePage/resourcePage.component';
 import { SugestedWordResourceComponent } from './componets/sugestedWordResource/sugestedWordResource.component';
+import { AboutComponent } from './componets/about/about.component';
+
 
 
 
@@ -32,7 +34,8 @@ import { SugestedWordResourceComponent } from './componets/sugestedWordResource/
     DownloadComponent,
     ResumeTemplatePageComponent,
     ResourcePageComponent,
-    SugestedWordResourceComponent
+    SugestedWordResourceComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
