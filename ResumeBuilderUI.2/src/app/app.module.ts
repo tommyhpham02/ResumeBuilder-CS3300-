@@ -21,7 +21,7 @@ import { KeywordsComponent } from './componets/keywords/keywords.component';
 import { KeywordsBusinessComponent } from './componets/keywordsbusiness/keywordsbusiness.component';
 
 
-
+// The apps components
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +40,7 @@ import { KeywordsBusinessComponent } from './componets/keywordsbusiness/keywords
     KeywordsComponent,
     KeywordsBusinessComponent
   ],
+  // THe apps imports
   imports: [
     BrowserModule,
     AppRoutingModule,

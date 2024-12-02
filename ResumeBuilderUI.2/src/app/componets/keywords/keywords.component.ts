@@ -21,7 +21,24 @@ export class KeywordsComponent implements OnInit {
   // Inject the Router service into the component
   constructor (private router: Router, private closer: AppClosingService) {}
 
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      sessionStorage.setItem('deleted', 'yes');
+    }
+  }
+
+  // Called when from is initialized.
   ngOnInit(): void {
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
+      this.router.navigate(['']);
+    }
+    if (!ValidatorLogin.checkIfOptionChoosen()) {
+      this.router.navigate(['resumeOption']);
+    }
+
     sessionStorage.setItem('skillsSavedBool', 'true');
 
     // Retrieve existing keywords from sessionStorage (if any)
@@ -31,14 +48,15 @@ export class KeywordsComponent implements OnInit {
     }
   }
 
+  // For adding a keyword to the "selectedKeywords" session variable.
   addKeyword(keyword: string): void {
     if (!this.selectedKeywords.includes(keyword)) {
       this.selectedKeywords.push(keyword);
       sessionStorage.setItem('selectedKeywords', this.selectedKeywords.join(', '));
     }
-    console.log('Keywords:', this.selectedKeywords); // Debugging
   }
 
+  // Goes to skills page on button press, checks if any words were chosen. If not, sets session variable to empty string.
   goToNextPage(): void {
     const storedKeywords = sessionStorage.getItem('selectedKeywords');
     if(storedKeywords == null)
@@ -46,18 +64,10 @@ export class KeywordsComponent implements OnInit {
     
     this.router.navigate(['skills']);
   }
+
+  // Goes back to education when continue button is pressed.
   goBack(): void {
     this.router.navigate(['education']);
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
-    }
   }
 
 }

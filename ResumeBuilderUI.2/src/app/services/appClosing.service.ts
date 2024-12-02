@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+// Was oringally for removing temp user, solved in different manner, kept in case.
 export class AppClosingService {
 
   constructor(private auth: AuthService, private router: Router) { }

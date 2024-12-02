@@ -13,6 +13,7 @@ export class AboutComponent {
   title = 'ResumeBuilderUI.2';
   constructor (private router: Router) {}
 
+  // Triggers when back button is hit.
   goBack(): void {
     sessionStorage.setItem('goBack', 'yes');
     this.router.navigate(['']);

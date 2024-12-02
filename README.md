@@ -73,25 +73,13 @@ With Node.js and npm installed, you can now install Angular CLI.
      ```
 
 3. **If you get this error "Could not find the implementation for builder @angular-devkit/build-angular:dev-server on ng serve command [duplicate]":**
-   - Run this command:
+   - In VS code go to the ResumeBuilderUI.2 folder
+   - Run this command in VS Code:
      ```bash
-     npm install --save-dev @angular-devkit/build-angular
+     npm install
      ```
   - Reset Visual Studio Code
-
-### 3. Run the Angular Application
-
-1. **Start the Development Server:**
-   - Run the following command to start the Angular development server:
-     ```bash
-     ng serve -o
-     ```
-
-2. **Access the Application:**
-   - Open your browser and navigate to `http://localhost:4200` to view your Angular application.
-
-
-### 4. Database Installation
+### 3. Database Installation
 
 We will be using SQL Server 2022 and to view the data in the database the application being used 
 SQL Server Managment Studio 20.
@@ -119,6 +107,19 @@ SQL Server Managment Studio 20.
       ```bash
      update-database
      ```
+
+### 4. Run the Angular Application
+
+1. **Start the Development Server:**
+   - Run the following command to start the Angular development server:
+   - Run this command in VS Code: 
+     ```bash
+     ng serve -o
+     ```
+
+2. **Access the Application:**
+   - Open your browser and navigate to `http://localhost:4200` to view your Angular application.
+
 
 ### 5. Running the program.
 
