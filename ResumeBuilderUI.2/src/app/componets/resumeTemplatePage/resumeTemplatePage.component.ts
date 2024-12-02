@@ -13,13 +13,11 @@ import { AppClosingService } from '../../services/appClosing.service';
 export class ResumeTemplatePageComponent  {
   resumeTemplatePageForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
-
+  
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
       this.router.navigate(['']);
     }
   }

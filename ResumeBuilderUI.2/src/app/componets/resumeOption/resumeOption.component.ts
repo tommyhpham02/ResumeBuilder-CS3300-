@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AppClosingService } from '../../services/appClosing.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'resumeOption-root',
@@ -9,7 +11,15 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ResumeOptionComponent {
   title = 'ResumeBuilderUI.2';
-  constructor (private router: Router, private auth: AuthService) {}
+  constructor (private router: Router, private auth: AuthService, private closer: AppClosingService) {}
+
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.router.navigate(['']);
+    }
+  }
 
   onEdit(){
     sessionStorage.setItem('editing', 'yes');
@@ -36,11 +46,11 @@ export class ResumeOptionComponent {
   }
 
   onLogout(){
-    sessionStorage.setItem('userId', '');
     this.router.navigate(['']);
   }
 
   ngOnInit(): void {
+    sessionStorage.removeItem('editing')
     setTimeout(() => {
       const userLoggedIn = sessionStorage.getItem('userId');
       if (!userLoggedIn) {

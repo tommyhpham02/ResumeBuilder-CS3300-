@@ -12,15 +12,13 @@ export class ResourcePageComponent {
   title = 'ResumeBuilderUI.2';
   constructor (private router: Router, private auth: AuthService, private closer: AppClosingService) {}
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
-    }
-  }
+   // Listener for closing the window or exiting the app. Removes the temp user and their info.
+   @HostListener('window:beforeunload', ['$event'])
+   beforeUnloadHandler(event: BeforeUnloadEvent) {
+     if (sessionStorage.getItem('tempUser') == 'yes') {
+       this.router.navigate(['']);
+     }
+   }
 
   goBack() {
     window.history.back();

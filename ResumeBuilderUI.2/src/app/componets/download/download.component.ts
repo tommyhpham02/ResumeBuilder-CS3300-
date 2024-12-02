@@ -15,15 +15,13 @@ export class DownloadComponent  {
   downloadForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
-    }
-  }
+   // Listener for closing the window or exiting the app. Removes the temp user and their info.
+   @HostListener('window:beforeunload', ['$event'])
+   beforeUnloadHandler(event: BeforeUnloadEvent) {
+     if (sessionStorage.getItem('tempUser') == 'yes') {
+       this.router.navigate(['']);
+     }
+   }
 
   selectedTemplateID: string = '';
 
@@ -45,9 +43,6 @@ export class DownloadComponent  {
   }
 
   onLogout(){
-    if (sessionStorage.getItem('tempUser') == 'yes')
-      lastValueFrom(this.auth.deleteAllUsersInfo(true));
-    sessionStorage.setItem('userId', '');
     this.router.navigate(['']);
   }
 

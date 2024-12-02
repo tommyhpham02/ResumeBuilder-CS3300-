@@ -34,12 +34,10 @@ export class WorkExperienceComponent {
   hideString: string = "display:none;";
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
       this.router.navigate(['']);
     }
   }
@@ -245,14 +243,7 @@ export class WorkExperienceComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if (this.jobList.size >= 1) {
-      this.workExperienceForm.reset();
-      this.router.navigate(['education']);
-    }
-    else {
-      alert("No jobs entered. Proceeding")
-      this.router.navigate(['education']);
-    }
+    this.router.navigate(['education']);
   }
 
   // Goes back to previous page.

@@ -21,15 +21,13 @@ export class DashboardComponent implements OnInit {
   cameBack: Boolean = sessionStorage.getItem('goBack') == 'yes' ? true: false;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
-    }
-  }
+   // Listener for closing the window or exiting the app. Removes the temp user and their info.
+   @HostListener('window:beforeunload', ['$event'])
+   beforeUnloadHandler(event: BeforeUnloadEvent) {
+     if (sessionStorage.getItem('tempUser') == 'yes') {
+       this.router.navigate(['']);
+     }
+   }
 
   // Called when the page gets initialized.
   ngOnInit(): void {
@@ -94,7 +92,6 @@ export class DashboardComponent implements OnInit {
       this.auth.editPersonalInfo(this.dashboardForm.value)
       .subscribe({
         next: (res)=>{
-          alert(res.message);
           this.dashboardForm.reset();
           this.router.navigate(['workexperience'])
         },
@@ -117,7 +114,6 @@ export class DashboardComponent implements OnInit {
     this.auth.addPersonalInfo(this.dashboardForm.value)
     .subscribe({
       next: (res)=>{ 
-        alert(res.message);
         this.dashboardForm.reset();
         this.router.navigate(['workexperience'])
       },
@@ -145,6 +141,7 @@ export class DashboardComponent implements OnInit {
       alert("Your Form is invalid")
     }
   }
+
 
   createBackButtonEvent(): void {
     this.router.events.subscribe(event => {

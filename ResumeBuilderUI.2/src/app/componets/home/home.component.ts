@@ -9,34 +9,33 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+  buttonDisabled: Boolean = false;
   constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      lastValueFrom(this.auth.deleteAllUsersInfo(true));
+    }
+
     sessionStorage.removeItem('userId');
     sessionStorage.removeItem('tempUser');
     sessionStorage.removeItem('major');
     sessionStorage.removeItem('goBack');
     sessionStorage.removeItem('editing');
+    this.buttonDisabled = false;
   }
 
   onLogin() {
     this.router.navigate(['login']);
+    this.buttonDisabled = true;
   }
 
   onRegister() {
     this.router.navigate(['signup']);
+    this.buttonDisabled = true;
   }
 
   onCreate() {
-    if (sessionStorage.getItem('tempUser') == 'yes') {
-      lastValueFrom(this.auth.deleteAllUsersInfo(true));
-      sessionStorage.removeItem('editing');
-      sessionStorage.removeItem('goBack');
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-    }
-
-    sessionStorage.setItem('editing', 'no');
     sessionStorage.setItem('tempUser', 'yes');
     this.auth.createTempUser()
     .subscribe({
@@ -48,6 +47,7 @@ export class HomeComponent {
         alert(err.error);
       }
     })
+    this.buttonDisabled = true;
   }
 
   setUpTempUserId(data: any) {

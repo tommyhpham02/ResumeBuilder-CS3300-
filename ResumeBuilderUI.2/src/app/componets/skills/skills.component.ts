@@ -28,12 +28,10 @@ export class SkillsComponent implements OnInit {
     private closer: AppClosingService
   ) {}
 
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
       this.router.navigate(['']);
     }
   }
@@ -122,7 +120,6 @@ export class SkillsComponent implements OnInit {
       this.auth.editSkills(this.skillsForm.value)
       .subscribe({
         next: (res)=>{
-          alert(res.message);
           this.skillsForm.reset();
           this.router.navigate(['download'])
         },
@@ -142,8 +139,6 @@ export class SkillsComponent implements OnInit {
     this.auth.addSkills(this.skillsForm.value)
     .subscribe({
       next: (res)=>{
-        if (JSON.stringify(this.skillsForm.value) != this.originalValues)
-          alert(res.message);
         this.skillsForm.reset();
         this.router.navigate(['download'])
       },

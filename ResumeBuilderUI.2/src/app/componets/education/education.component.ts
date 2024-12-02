@@ -33,15 +33,13 @@ export class EducationComponent {
   hideString: string = "display:none;";
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
-    }
-  }
+   // Listener for closing the window or exiting the app. Removes the temp user and their info.
+   @HostListener('window:beforeunload', ['$event'])
+   beforeUnloadHandler(event: BeforeUnloadEvent) {
+     if (sessionStorage.getItem('tempUser') == 'yes') {
+       this.router.navigate(['']);
+     }
+   }
 
   // Called when form is initialized.
   ngOnInit(): void {
@@ -216,14 +214,7 @@ export class EducationComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if (this.degreeList.size >= 1) {
-      this.educationForm.reset();
-      this.router.navigate(['skills']);
-    }
-    else {
-      alert("No degrees entered. Proceeding")
-      this.router.navigate(['skills']);
-    }
+    this.router.navigate(['skills']);
   }
 
   // Goes back to previous page.
