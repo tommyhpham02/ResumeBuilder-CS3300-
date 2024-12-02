@@ -27,26 +27,27 @@ export class WorkExperienceComponent {
   jobIdToEdit: number = -1;
   jobIndexToEdit: number = -1;
   todayDate: Date = new Date();
-  todayDateString: string = `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`;
+  todayDateString: string = `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${
+    this.todayDate.getDate().toString().length == 1 ? `0${this.todayDate.getDate()}` : `${this.todayDate.getDate()}`}`;
 
   displayString: string = "display:block;";
   hideString: string = "display:none;";
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
+      sessionStorage.setItem('deleted', 'yes');
     }
   }
 
+
   // Called When form is initialized.
   ngOnInit(): void {
+
     // Checks if user is logged in and if resumeOption is choosen.
-    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
       this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
@@ -65,8 +66,7 @@ export class WorkExperienceComponent {
             delete jsonData.id;
             jsonData['checkBox'] = jsonData['endDate'] == this.todayDateString ? true : false;
             this.addToHtmlList(jsonData['companyName'] + " - " + jsonData['position']);
-            this.jobList.set(id, jsonData)
-            console.log(this.jobList.get(id));
+            this.jobList.set(id, jsonData);
           }
           if (this.jobList.size > 0)
             this.jobListViewable = true;
@@ -201,7 +201,6 @@ export class WorkExperienceComponent {
     this.auth.submitJobsInfo(value)
     .subscribe({
       next:(data) => {
-        console.log("Job has been saved.");
         this.addToHtmlList(this.workExperienceForm.controls['companyName'].value + ' - ' + this.workExperienceForm.controls['position'].value)
         this.jobList.set(data, value);
         this.setFormGroup('', '', '', '', '');
@@ -222,7 +221,6 @@ export class WorkExperienceComponent {
 
   // Removes job from database and lists with specified index.
   removeJobWithIndex(index: number): void {
-    console.log(this.jobList.get(Array.from(this.jobList.keys())[index]))
     this.auth.deleteJob(Array.from(this.jobList.keys())[index])
     .subscribe({
       next:(res) => {
@@ -244,14 +242,7 @@ export class WorkExperienceComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if (this.jobList.size >= 1) {
-      this.workExperienceForm.reset();
-      this.router.navigate(['education']);
-    }
-    else {
-      alert("No jobs entered. Proceeding")
-      this.router.navigate(['education']);
-    }
+    this.router.navigate(['education']);
   }
 
   // Goes back to previous page.
@@ -261,6 +252,7 @@ export class WorkExperienceComponent {
     this.router.navigate(['dashboard']);
   }
 
+  // Goes to keyword page.
   keywordPage(): void {
     window.open('/sugestedWordResource', '_blank');
   }

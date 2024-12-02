@@ -28,21 +28,19 @@ export class SkillsComponent implements OnInit {
     private closer: AppClosingService
   ) {}
 
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
+      sessionStorage.setItem('deleted', 'yes');
     }
   }
 
   // Called when form is initialized
   ngOnInit(): void {
     
-    // Checks to see if User is logged in and resume option is choosen
-    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
       this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
@@ -53,7 +51,6 @@ export class SkillsComponent implements OnInit {
     this.skillsForm = this.fb.group({
       languageName: [''],  // Not required
       certificationName: [''],  // Not required
-      certificationDate: [''],  // Not required
       skills: [(sessionStorage.getItem('selectedKeywords') != '') ? sessionStorage.getItem('selectedKeywords') + ', ' : ''],  // Not required
       projects: ['']  // Not required
     });
@@ -64,8 +61,7 @@ export class SkillsComponent implements OnInit {
       this.auth.getSkills()
       .subscribe({
         next: (data)=>{
-          console.log(data);
-          this.fillForm(data.languageName, data.certificationName, data.certificationDate, data.skills, data.projects);
+          this.fillForm(data.languageName, data.certificationName, data.skills, data.projects);
           delete data.id;
           delete data.userId;
           this.originalValues = JSON.stringify(data);
@@ -80,51 +76,35 @@ export class SkillsComponent implements OnInit {
     else {
       this.originalValues = JSON.stringify(this.skillsForm.value);
     }
-    // if (sessionStorage.getItem('skillsSavedBool') == 'true'){
-    //   const tempSkillString = sessionStorage.getItem('selectedKeywords') || '';
-    //   console.log("Got to the if statment");
-    //   this.fillSkills(tempSkillString);
-    // }
-
   }
 
+  // Goes to keywords page.
   keywordPage(): void {
     window.open('/sugestedWordResource', '_blank');
   }
 
   // Fills the skillsForm with specified values (the textbox values)
-  fillForm(lang: string, certName: string, certDate: string, skill: string, proj: string): void {  
+  fillForm(lang: string, certName: string, skill: string, proj: string): void {  
     let tempSkills = this.skillsForm.get('skills')?.value;
     this.skillsForm.setValue({
       languageName: lang || '', // Ensure fallback to empty string
       certificationName: certName || '',
-      certificationDate: certDate || '',
       skills: (this.skillsForm.get('skills')?.value != '' || null) ? tempSkills += skill : skill || '',
       projects: proj || ''
     });
-    sessionStorage.setItem('selectedKeywords', '');
-  }
-
-    // // Fills the skillsForm with specified values (the textbox values)
-    // fillSkills(skill: string): void {
-    //   const currentSkills = this.skillsForm.get('skills')?.value || '';
-    //   const additionalSkills = sessionStorage.getItem('selectedKeywords') || '';
-    //   this.skillsForm.get('skills')?.setValue(`${additionalSkills}, ${currentSkills}`);
-    // }
-    
+  } 
   
   // Method to handle form submission. Either adds or edits entered information.
   onSubmit() {
-    console.log("Form Values on Submit:", this.skillsForm.value);
 
     if (this.skillsForm.valid) {
-      console.log(this.skillsForm.value);
       if ((sessionStorage.getItem('editing') == 'yes' || this.cameBack) && !this.nothingToEdit) {
         this.editSkills();
       }
       else {
         this.addSkills();
       }
+      sessionStorage.setItem('selectedKeywords', '');
     }
     else {
       ValidatorForm.validateAllFormFields(this.skillsForm);
@@ -138,7 +118,6 @@ export class SkillsComponent implements OnInit {
       this.auth.editSkills(this.skillsForm.value)
       .subscribe({
         next: (res)=>{
-          alert(res.message);
           this.skillsForm.reset();
           this.router.navigate(['download'])
         },
@@ -158,8 +137,6 @@ export class SkillsComponent implements OnInit {
     this.auth.addSkills(this.skillsForm.value)
     .subscribe({
       next: (res)=>{
-        if (JSON.stringify(this.skillsForm.value) != this.originalValues)
-          alert(res.message);
         this.skillsForm.reset();
         this.router.navigate(['download'])
       },
@@ -171,6 +148,7 @@ export class SkillsComponent implements OnInit {
 
   // Method for handling go back functionality
   goBack() {
+    sessionStorage.setItem('goBack', 'yes');
     this.router.navigate(['education']);
   }
 }

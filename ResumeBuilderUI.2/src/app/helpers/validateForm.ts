@@ -1,5 +1,6 @@
 import { FormControl, FormGroup } from "@angular/forms";
 
+// Class for ensuring formgroups that have controls that need validation are validated.
 export default class ValidatorForm{
     static validateAllFormFields(formGroup:FormGroup){
         Object.keys(formGroup.controls).forEach(field=>{

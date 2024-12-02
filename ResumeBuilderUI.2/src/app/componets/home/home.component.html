@@ -14,13 +14,13 @@
     
     <!-- Button Group -->
     <div class="button-group">
-      <button (click)="onRegister()">Register</button>
-      <button (click)="onLogin()">Log In</button>
+      <button (click)="onRegister()" [disabled]="buttonDisabled">Register</button>
+      <button (click)="onLogin()" [disabled]="buttonDisabled">Log In</button>
     </div>
     
     <!-- Create Resume Button -->
     <div class="create-resume">
-      <button (click)="onCreate()">Create a Resume</button>
+      <button (click)="onCreate()" [disabled]="buttonDisabled">Create a Resume</button>
     </div>
 
     <div class="content">
