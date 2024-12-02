@@ -18,6 +18,7 @@ export class SignupComponent implements OnInit {
   signUpForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth : AuthService, private router: Router) {}
 
+  // Called when form is initialized.
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -28,12 +29,14 @@ export class SignupComponent implements OnInit {
     })
   }
 
+  // Hides password in textbox if user wants to do so.
   hideShowPass(){
     this.isText = !this.isText;
     this.isText ? this.eyeIcon = "fa-eye" : this.eyeIcon = "fa-eye-slash";
     this.isText ? this.type = "text" : this.type = "password";
   }
 
+  // Registers user in the database with all entered info. (If form is validated)
   onSignUp(){
     if(this.signUpForm.valid)
     {

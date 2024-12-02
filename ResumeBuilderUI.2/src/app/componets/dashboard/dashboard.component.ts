@@ -21,19 +21,20 @@ export class DashboardComponent implements OnInit {
   cameBack: Boolean = sessionStorage.getItem('goBack') == 'yes' ? true: false;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
-   // Listener for closing the window or exiting the app. Removes the temp user and their info.
-   @HostListener('window:beforeunload', ['$event'])
-   beforeUnloadHandler(event: BeforeUnloadEvent) {
-     if (sessionStorage.getItem('tempUser') == 'yes') {
-       this.router.navigate(['']);
-     }
-   }
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      sessionStorage.setItem('deleted', 'yes');
+    }
+  }
+
 
   // Called when the page gets initialized.
   ngOnInit(): void {
     this.createBackButtonEvent();
-    // Checks to see if user is logged in and has choosen an option for their resume.
-    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
       this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
@@ -55,7 +56,6 @@ export class DashboardComponent implements OnInit {
       this.auth.getPersonalInfo()
       .subscribe({
         next: (data)=>{
-          console.log(data);
           this.fillForm(data.firstName, data.lastName, data.email, data.phoneNumber, data.website, data.summary);
           delete data.id;
           delete data.userId;
@@ -100,6 +100,7 @@ export class DashboardComponent implements OnInit {
         }
       })
     }
+    // If no info to edit, simply goes to next page.
     else {
       this.dashboardForm.reset();
       this.router.navigate(['workexperience'])
@@ -109,8 +110,6 @@ export class DashboardComponent implements OnInit {
   // Called when user is adding their entered information in the database (they currently have none). 
   // Adds the current values inside the textboxes. 
   addPersonalInfo(): void {
-    // const message = lastValueFrom(this.auth.addPersonalInfo(this.dashboardForm.value))
-    // console.log(message);
     this.auth.addPersonalInfo(this.dashboardForm.value)
     .subscribe({
       next: (res)=>{ 
@@ -126,7 +125,6 @@ export class DashboardComponent implements OnInit {
   // Happens when continue button's click event occurs on page. Either edits or adds user's personal info to database.
   onSubmit(): void {
     if(this.dashboardForm.valid) {
-      console.log(this.dashboardForm.value);
       if ((sessionStorage.getItem('editing') == 'yes' || this.cameBack) && !this.nothingToEdit) {
         this.editPersonalInfo();
       }
@@ -135,14 +133,13 @@ export class DashboardComponent implements OnInit {
       }
     }
     else{
-      console.log("Form is Invalid");
       //throw error
       ValidatorForm.validateAllFormFields(this.dashboardForm);
       alert("Your Form is invalid")
     }
   }
 
-
+  // Creates event for site to listen to the back arrow being pushed (acts as go back button.)
   createBackButtonEvent(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -154,6 +151,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // Goes to keyword page
   keywordPage(): void {
     window.open('/sugestedWordResource', '_blank');
   }

@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router, NavigationStart } from '@angular/router';
+import { lastValueFrom, Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -36,30 +38,24 @@ export class LoginComponent implements OnInit{
 
   // When login button is hit, disables the button, checks on the backend if the user is registered
   // and that their entered info is correct. If error, button is enabled again, else goes to next page.
-  onLogin(){
+  async onLogin(){
     if(this.loginForm.valid)
     {
       this.buttonDisabled = true;
-      console.log(this.loginForm.value);
-      //send obj to database
-      this.auth.login(this.loginForm.value)
-      .subscribe({
-        next: (res)=>{
-          this.ensureUserStartsFresh();
-          this.saveUserId(true);
-          alert(res.message);
-          this.loginForm.reset();
-          this.router.navigate(['resumeOption']);
-        },
-        error:(err)=>{
-          this.buttonDisabled = false;
-          this.saveUserId(false);
-          alert(err?.error.message)
-        }
-      })
+      const source$ = this.auth.login(this.loginForm.value);
+
+      try {
+        const res = await lastValueFrom(source$);
+        await this.saveUserId();
+        alert(res.message);
+        this.router.navigate(['resumeOption']);
+      }
+      catch (error: any) {
+        this.buttonDisabled = false;
+        alert(error.error.message);
+      }
     }
     else{
-      console.log("Form is Invalis");
       //throw error
       ValidatorForm.validateAllFormFields(this.loginForm);
       alert("Your Form is invalid")
@@ -68,38 +64,11 @@ export class LoginComponent implements OnInit{
 
   // Takes the username the user entered to find the ID associated with said username. 
   // (Which will be used throughout the rest of the program.)
-  saveUserId(valid: Boolean){
-    if (valid){
-      this.auth.getUserId(this.loginForm.get('username')?.value).subscribe
-      (data => 
-        {
-          sessionStorage.setItem('userId', data);
-        }
-      );
-    }
-    else{
-      sessionStorage.setItem('userId', '');
-    }
-  }
+  async saveUserId() {
+    const source$ = this.auth.getUserId(this.loginForm.get('username')?.value)
+    const res = await lastValueFrom(source$);
+    sessionStorage.setItem('userId', res);
 
-  ensureUserStartsFresh() {
-    if (sessionStorage.getItem('userId') != null) {
-      if (sessionStorage.getItem('tempUser') == 'yes') {
-        this.auth.deleteAllUsersInfo(true)
-        .subscribe({
-            next: (res)=>{
-            alert(res.message);
-            },
-            error:(err)=>{
-            alert(err?.error.message)
-            }
-        });
-      }
-      sessionStorage.removeItem('editing');
-      sessionStorage.removeItem('goBack');
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-    }
   }
 }
 

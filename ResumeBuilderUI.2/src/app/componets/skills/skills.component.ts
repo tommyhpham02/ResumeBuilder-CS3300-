@@ -32,15 +32,15 @@ export class SkillsComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.router.navigate(['']);
+      sessionStorage.setItem('deleted', 'yes');
     }
   }
 
   // Called when form is initialized
   ngOnInit(): void {
     
-    // Checks to see if User is logged in and resume option is choosen
-    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
       this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
@@ -55,15 +55,12 @@ export class SkillsComponent implements OnInit {
       projects: ['']  // Not required
     });
 
-    skills: (sessionStorage.getItem('selectedKeywords') != '' && null) ? sessionStorage.getItem('selectedKeywords') : '';
-
     // If the user has come back from a previous page or they have choosen the editing option, fills the textboxes
     // with the values they have entered in the database.
     if (sessionStorage.getItem('editing') == 'yes' || this.cameBack) {
       this.auth.getSkills()
       .subscribe({
         next: (data)=>{
-          console.log(data);
           this.fillForm(data.languageName, data.certificationName, data.skills, data.projects);
           delete data.id;
           delete data.userId;
@@ -79,14 +76,9 @@ export class SkillsComponent implements OnInit {
     else {
       this.originalValues = JSON.stringify(this.skillsForm.value);
     }
-    // if (sessionStorage.getItem('skillsSavedBool') == 'true'){
-    //   const tempSkillString = sessionStorage.getItem('selectedKeywords') || '';
-    //   console.log("Got to the if statment");
-    //   this.fillSkills(tempSkillString);
-    // }
-
   }
 
+  // Goes to keywords page.
   keywordPage(): void {
     window.open('/sugestedWordResource', '_blank');
   }
@@ -100,29 +92,19 @@ export class SkillsComponent implements OnInit {
       skills: (this.skillsForm.get('skills')?.value != '' || null) ? tempSkills += skill : skill || '',
       projects: proj || ''
     });
-    sessionStorage.setItem('selectedKeywords', '');
-  }
-
-    // // Fills the skillsForm with specified values (the textbox values)
-    // fillSkills(skill: string): void {
-    //   const currentSkills = this.skillsForm.get('skills')?.value || '';
-    //   const additionalSkills = sessionStorage.getItem('selectedKeywords') || '';
-    //   this.skillsForm.get('skills')?.setValue(`${additionalSkills}, ${currentSkills}`);
-    // }
-    
+  } 
   
   // Method to handle form submission. Either adds or edits entered information.
   onSubmit() {
-    console.log("Form Values on Submit:", this.skillsForm.value);
 
     if (this.skillsForm.valid) {
-      console.log(this.skillsForm.value);
       if ((sessionStorage.getItem('editing') == 'yes' || this.cameBack) && !this.nothingToEdit) {
         this.editSkills();
       }
       else {
         this.addSkills();
       }
+      sessionStorage.setItem('selectedKeywords', '');
     }
     else {
       ValidatorForm.validateAllFormFields(this.skillsForm);

@@ -4,6 +4,7 @@ import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AppClosingService } from '../../services/appClosing.service';
+import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
 
 @Component({
   selector: 'app-resumeTemplatePage',
@@ -13,34 +14,47 @@ import { AppClosingService } from '../../services/appClosing.service';
 export class ResumeTemplatePageComponent  {
   resumeTemplatePageForm!: FormGroup;
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
-  
+
   // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.router.navigate(['']);
+      sessionStorage.setItem('deleted', 'yes');
     }
   }
 
+
   selectedTemplateID: string = '';
 
+  // Called when form is initialized.
   ngOnInit() {
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
+      this.router.navigate(['']);
+    }
+    if (!ValidatorLogin.checkIfOptionChoosen()) {
+      this.router.navigate(['resumeOption']);
+    }
+
     // Initialize the form group with a form control
     this.resumeTemplatePageForm = this.fb.group({
       resumeTemplate: ['', Validators.required] // A single form control
     });
   }
 
+  // When options is chosen, navigates to resume options.
   optionsPage()
   {
     this.router.navigate(['resumeOption']);
   }
 
+  // When logout is chosen, navigates back home.
   onLogout(){
     sessionStorage.setItem('userId', '');
     this.router.navigate(['']);
   }
 
+  // Donwloads the choosen resume.
   async downloadResumePress(templateID: string) {  
     if (!templateID) {
       alert('Please select a resume template before proceeding.');
@@ -53,8 +67,6 @@ export class ResumeTemplatePageComponent  {
         next: (response: any) => {
             // For download
             const fileName = response.fileDownloadName; // Get the file name from the response
-            console.log(response);
-            console.log("Response: ", response.fileDownloadName);
             this.fetchResume(fileName); // Trigger fetch to download the file
         },
         error: (error) => {
@@ -68,6 +80,7 @@ export class ResumeTemplatePageComponent  {
     }
   }
   
+  // Fetches the resume to be downloaded to the user's download folder.
   async fetchResume(fileName: string) {
     this.auth.getResume(fileName).subscribe({
       next: (response: Blob) => {
@@ -89,14 +102,15 @@ export class ResumeTemplatePageComponent  {
   onTemplateChange(event: any) {
     this.selectedTemplateID = event.target.value; // Capture the selected value
     sessionStorage.setItem('selectedTemplateID', this.selectedTemplateID); // Save in sessionStorage
-    console.log('Selected Template ID:', this.selectedTemplateID); // Debugging
   }
 
+  // For selecting different templates.
   selectTemplate(templateID: string)
   {
     this.selectedTemplateID = templateID;
   }
 
+  // Goes bakc to download.
   goBack(){
     this.router.navigate(['download']);
     sessionStorage.setItem('goBack', 'yes');
