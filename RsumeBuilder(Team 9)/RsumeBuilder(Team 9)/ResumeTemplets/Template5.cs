@@ -55,7 +55,7 @@ namespace ResumeBuilder
                                     AddSection(column, sectionTitles[1], jobs, Colors.Green.Accent3);  // Experience
                                     AddSection(column, sectionTitles[2], education, Colors.Green.Accent3); // Education
                                     AddSection(column, sectionTitles[3], certifications, Colors.Green.Accent3); // Certifications
-                                    AddSection(column, sectionTitles[7], projects, Colors.Green.Accent3); // Projects
+                                    AddSection(column, sectionTitles[6], projects, Colors.Green.Accent3); // Projects
                                 });
 
                                 // Right Column
@@ -65,13 +65,6 @@ namespace ResumeBuilder
                                     AddSection(column, sectionTitles[5], languages, Colors.Green.Accent3); // Languages
                                 });
                             });
-                        });
-
-                        // Footer on all pages
-                        page.Footer().PaddingTop(10).Column(footer =>
-                        {
-                            footer.Item().LineHorizontal(1).LineColor(Colors.Grey.Darken2);
-                            footer.Item().AlignCenter().Text("Generated with QuestPDF").FontSize(9).FontColor(Colors.Grey.Darken3);
                         });
                     });
                 }).GeneratePdf(path);
