@@ -162,7 +162,7 @@ form .category label {
 }
 
 .button-group input {
-  width: 49%;
+  width: 50%;
   padding: 10px; /* Add internal space for better touch/click area */
   font-size: 18px; /* Adjust text size for readability */
   text-align: center; /* Center-align text inside buttons */
