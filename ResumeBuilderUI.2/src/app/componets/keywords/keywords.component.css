@@ -57,6 +57,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   color: #555;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -119,6 +120,55 @@ body {
 .button input:hover {
   background: linear-gradient(-135deg, #71b7e6, #1c0455);
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid layout for the verbs list */
+.verbs-list {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Remove default list item styles */
+.verbs-list li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Button styling */
+.verbs-list button {
+  width: 100%;
+  height: 45px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #71b7e6, #0c506b);
+}
+
+/* Hover effects for buttons */
+.verbs-list button:hover {
+  background: linear-gradient(-135deg, #71b7e6, #1c0455);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments for verbs-list */
+@media (max-width: 768px) {
+  .verbs-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .verbs-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 /* Responsive adjustments */
