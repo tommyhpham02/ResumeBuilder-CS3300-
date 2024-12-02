@@ -21,11 +21,19 @@
     
     <!-- Button Group -->
     <div class="button-group">
-      <input type="button" class="old-resume" value="Continue With Old Resume"(click)="onEdit()">
+      <input type="button" class="old-resume" value="Continue With Old Resume" (click)="onEdit()" [disabled]="tempUser === 'yes'">
       <input type="button" class="new-resume" value="Start New Resume" (click)="onNewresume()">
-      <input type="button" class="download-resume" value="Resume Export Page" (click)="onExportResume()">
+      <input type="button" class="download-resume" value="Resume Export Page" (click)="onExportResume()" [disabled]="tempUser === 'yes'">
       <input type="button" class="TandT" value="Resume Tips and Tricks" (click)="onTipsandTricks()">
       <input type="button" class="logout-option" value="Logout" (click)="onLogout()" >
+
+      <div class="input-box">
+        <select required #majorSelection (change)="changeMajorType(majorSelection.value)">
+          <option (change)="changeMajorType('Nothing')" [value]="'Nothing'">Nothing</option>
+          <option (ngModelChange)="changeMajorType('Computer Scinence')" [value]="'Computer Science'">Computer Science</option>
+          <option (ngModelChange)="changeMajorType('Business')" [value]="'Business'">Business</option>
+        </select>
+      </div>
     </div>
 
   </div>

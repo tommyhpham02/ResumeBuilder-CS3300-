@@ -7,6 +7,8 @@ import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
 import { AppClosingService } from '../../services/appClosing.service';
 import { lastValueFrom } from 'rxjs';
 
+
+
 @Component({
   selector: 'app-keywords',
   templateUrl: './keywords.component.html',
@@ -15,10 +17,13 @@ import { lastValueFrom } from 'rxjs';
 export class KeywordsComponent implements OnInit {
   selectedKeywords: string[] = [];
 
+
   // Inject the Router service into the component
-  constructor(private router: Router) {}
+  constructor (private router: Router, private closer: AppClosingService) {}
 
   ngOnInit(): void {
+    sessionStorage.setItem('skillsSavedBool', 'true');
+
     // Retrieve existing keywords from sessionStorage (if any)
     const storedKeywords = sessionStorage.getItem('selectedKeywords');
     if (storedKeywords) {
@@ -36,10 +41,23 @@ export class KeywordsComponent implements OnInit {
 
   goToNextPage(): void {
     const storedKeywords = sessionStorage.getItem('selectedKeywords');
+    if(storedKeywords == null)
+      sessionStorage.setItem('selectedKeywords', '')
     
     this.router.navigate(['skills']);
   }
   goBack(): void {
     this.router.navigate(['education']);
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    if (sessionStorage.getItem('tempUser') == 'yes') {
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('tempUser');
+      this.router.navigate(['']);
+    }
+  }
+
 }

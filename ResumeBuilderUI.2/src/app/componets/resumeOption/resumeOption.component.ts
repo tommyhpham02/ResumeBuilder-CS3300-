@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
+
 @Component({
   selector: 'resumeOption-root',
   templateUrl: './resumeOption.component.html',
   styleUrl: './resumeOption.component.css'
 })
 export class ResumeOptionComponent {
+  tempUser = sessionStorage.getItem('tempUser') || '';
   title = 'ResumeBuilderUI.2';
   constructor (private router: Router, private auth: AuthService) {}
 
@@ -41,21 +43,26 @@ export class ResumeOptionComponent {
   }
 
   ngOnInit(): void {
+    sessionStorage.setItem('selectedKeywords', '')
+    sessionStorage.setItem('major', '');
     setTimeout(() => {
       const userLoggedIn = sessionStorage.getItem('userId');
       if (!userLoggedIn) {
-        this.router.navigate(['login']);
+        this.router.navigate(['']);
       }
     }, 10); // Delay to ensure session storage is updated
+    sessionStorage.setItem('major', 'Nothing');
   }
 
-  onTipsandTricks()
-  {
+  onTipsandTricks() {
     this.router.navigate(['resourcePage']);
   }
 
-  onKeyWords()
-  {
+  onKeyWords() {
     this.router.navigate(['sugestedWordResource']);
+  }
+
+  changeMajorType(major: string) {
+    sessionStorage.setItem('major', major);
   }
 }

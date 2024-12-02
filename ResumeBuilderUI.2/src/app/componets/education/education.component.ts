@@ -216,12 +216,16 @@ export class EducationComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if(sessionStorage.getItem('major') == 'CS'){
+    if(sessionStorage.getItem('major') == 'Computer Science'){
       this.router.navigate(['keywords']);
     }
     else if(sessionStorage.getItem('major') == 'Business'){
-      this.router.navigate(['keywordsbusiness']);
-    }      
+      this.router.navigate(['keywordsBusiness']);
+    }   
+    else
+    {
+      this.router.navigate(['skills']);
+    }   
   }
 
   // Goes back to previous page.

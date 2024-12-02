@@ -1,0 +1,84 @@
+This is Team's 9 Test cases. Below are all the POST and some GET commands needed to test the function for each page in our resume builder. You
+will be using the SWAGGER UI to test all of these functions. First navigate to function you want to test each testcase is labeled. To test the 
+function just copy and paste the section you want to test from { to }. Anything with a // is a comment and must be required. For these function 
+to pass the code after running these test should return 200, not 400 or 500. You can also verify that these function are performing there task
+by checking the database to see if the values were inputted correctly. Happy Testing
+
+----------------------------------------------------------------------------------------------------------------
+
+POST /api/User/register
+{
+  "id": 22,
+  "firstName": "John",
+  "lastName": "Doe",
+  "username": "JohnDoe",
+  "email": "JohnDoe@gmail.com",
+  "password": "JohnDoe123!"
+}
+
+------------------------------------------------------------------------------------------------------------------
+
+POST /api/User/authenticate
+{
+  "username": "JohnDoe",
+  "password": "JohnDoe123!"
+}
+------------------------------------------------------------------------------------------------------------------
+
+GET /api/User/userId
+
+JohnDoe
+
+//Make sure to note this UserID as you will be using it a lot
+------------------------------------------------------------------------------------------------------------------
+
+POST /api/PersonalInformation/submit/{id}
+
+// For Id please insert the UserID you recevied from GET /api/User/userId
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "JohnDoe@gmail.com",
+  "phoneNumber": "1234567890",
+  "website": "JohnDoe.com",
+  "summary": "Highly motivated and detail-oriented professional with extensive experience in [industry/field]. Proven expertise in [key skill/area of expertise], with a strong track record of achieving [specific achievements or results]. Adept at leveraging innovative strategies and solutions to drive organizational success and foster team collaboration. Known for excellent communication, problem-solving, and project management skills."
+}
+
+-----------------------------------------------------------------------------------------------------------------
+POST /api/Jobs/submit/{id}
+
+// For Id please insert the UserID you received from GET /api/User/userId
+
+{
+  "companyName": "Tech Innovators Inc.",
+  "position": "Software Engineer",
+  "startDate": "2024-12-19",
+  "endDate": "2025-02-14",
+  "jobResponsibilities": "Developed and maintained scalable software solutions, collaborated with cross-functional teams to implement new features, ensured code quality through rigorous testing, and optimized system performance resulting in a 25% improvement in efficiency."
+}
+
+------------------------------------------------------------------------------------------------------------------
+POST /api/Degrees/submit/{id}
+
+// For Id please insert the UserID you received from GET /api/User/userId
+{
+  "college": "State University",
+  "cityAndState": "Springfield, IL",
+  "degreeType": "Bachelors Degree",
+  "degreeName": "Computer Science",
+  "yearGraduated": "2019"
+}
+
+------------------------------------------------------------------------------------------------------------------
+POST /api/SkillsLanguagesCertifications/submit/{id}
+
+// For Id please insert the UserID you received from GET /api/User/userId
+{
+  "languageName": "Python, JavaScript, SQL",
+  "certificationName": "AWS Certified Solutions Architect",
+  "skills": "Software Development, Cloud Computing, Database Management, Agile Methodologies, Problem-Solving",
+  "projects": "Developed a web-based inventory management system that increased operational efficiency by 30%; led the design and implementation of a cloud migration project reducing infrastructure costs by 20%."
+}
+
+

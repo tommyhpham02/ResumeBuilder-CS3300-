@@ -13,6 +13,7 @@ export class KeywordsBusinessComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    sessionStorage.setItem('skillsSavedBool', 'true');
     // Retrieve existing keywords from sessionStorage (if any)
     const storedKeywords = sessionStorage.getItem('selectedKeywords');
     if (storedKeywords) {

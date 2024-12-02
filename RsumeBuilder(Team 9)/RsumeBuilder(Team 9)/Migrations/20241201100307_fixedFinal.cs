@@ -5,13 +5,13 @@
 namespace RsumeBuilder_Team_9_.Migrations
 {
     /// <inheritdoc />
-    public partial class v7 : Migration
+    public partial class fixedFinal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Proficiency",
+                name: "CertificationDate",
                 table: "SkillsLanguagesCertifications");
         }
 
@@ -19,7 +19,7 @@ namespace RsumeBuilder_Team_9_.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Proficiency",
+                name: "CertificationDate",
                 table: "SkillsLanguagesCertifications",
                 type: "nvarchar(max)",
                 nullable: false,
