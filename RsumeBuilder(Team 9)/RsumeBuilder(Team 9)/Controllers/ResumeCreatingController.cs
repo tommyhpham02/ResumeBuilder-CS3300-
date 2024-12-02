@@ -103,6 +103,12 @@ namespace RsumeBuilder_Team_9_.Controllers
                     resumeLayout5.GenerateCustomResume(filePath, name, personDetails, jobsContent, educationContent,
                         certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
                 }
+                else if (templateID == "6")
+                {
+                    var resumeLayout6 = new ResumesTemplate6();
+                    resumeLayout6.ResumeLayout6(filePath, name, personDetails, jobsContent, educationContent,
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
+                }
                 else
                 {
                     return BadRequest($"Invalid template ID!!: {templateID}");

@@ -42,7 +42,7 @@ namespace ResumeBuilder
                             content.Item().Column(column =>
                             {
                                 if (!string.IsNullOrEmpty(name))
-                                    column.Item().Text(name).FontSize(18).FontColor(Colors.Blue.Medium).Bold();
+                                    column.Item().Text(name).FontSize(18).FontColor(Colors.Red.Medium).Bold();
 
                                 if (!string.IsNullOrEmpty(personDetails))
                                     column.Item().Text(personDetails);
