@@ -51,7 +51,8 @@ export class ResumeTemplatePageComponent  {
 
   // When logout is chosen, navigates back home.
   onLogout(){
-    sessionStorage.setItem('userId', '');
+    if (sessionStorage.getItem('tempUser') == 'yes')
+      this.closer.handleAppClosing();
     this.router.navigate(['']);
   }
 

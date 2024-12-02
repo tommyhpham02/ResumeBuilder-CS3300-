@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.createBackButtonEvent();
     // Checks if user is logged in and if resumeOption is choosen.
-    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
+    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
       this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
       })
     }
     else {
-      this.originalValues = JSON.stringify(this.dashboardForm.value)
+      this.originalValues = JSON.stringify(this.dashboardForm.value);
     }
   }
 
@@ -115,10 +115,10 @@ export class DashboardComponent implements OnInit {
     .subscribe({
       next: (res)=>{ 
         this.dashboardForm.reset();
-        this.router.navigate(['workexperience'])
+        this.router.navigate(['workexperience']);
       },
       error:(err)=>{
-        alert(err?.error.message)
+        alert(err?.error.message);
       }
     })
   }

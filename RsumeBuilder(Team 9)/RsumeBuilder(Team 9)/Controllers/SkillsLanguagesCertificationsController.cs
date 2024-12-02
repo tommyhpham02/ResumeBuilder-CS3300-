@@ -4,6 +4,9 @@ using RsumeBuilder_Team_9_.Models;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    /// <summary>
+    /// Controller for SkillsLanguagesCertifications entities in database
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SkillsLanguagesCertificationsController : ControllerBase
@@ -15,6 +18,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext = appDbContext;
         }
 
+        /// <summary>
+        /// For submitting a User's Skills, Languages, and Certifications 
+        /// </summary>
+        /// <param name="slcObj"></param>
+        /// <param name="id"></param>
+        /// <returns>Error or Confirmation message</returns>
         [HttpPost("submit/{id}")]
         public async Task<IActionResult> SubmitSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, int id)
         {
@@ -33,6 +42,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
+        /// <summary>
+        /// For editing an SLC entity in the database.
+        /// </summary>
+        /// <param name="slcObj"></param>
+        /// <param name="id"></param>
+        /// <returns>Error or Confimration message</returns>
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> editSLCInfo([FromBody] SkillsLanguagesCertifications slcObj, int id)
         {
@@ -54,20 +69,30 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
+        /// <summary>
+        /// Gets 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Error or SLC information</returns>
         [HttpGet("get/{id}")]
-        public async Task<IActionResult> getPersonalInfo(int id)
+        public async Task<IActionResult> getSLC(int id)
         {
             if (_authContext.Users.SingleOrDefault(x => x.Id == id) == null)
                 return BadRequest("No User found.");
 
-            var personalInfo = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
+            var slc = _authContext.SLC.SingleOrDefault(x => x.UserId == id);
 
-            if (personalInfo == null)
+            if (slc == null)
                 return BadRequest("User has no input");
 
-            return Ok(personalInfo);
+            return Ok(slc);
         }
 
+        /// <summary>
+        /// Deletes a specific enetiy from the SLC database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Error or Confirmation message</returns>
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deleteSLCInfo(int id)
         {

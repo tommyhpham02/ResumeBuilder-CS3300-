@@ -3,6 +3,9 @@ using RsumeBuilder_Team_9_.Models;
 
 namespace RsumeBuilder_Team_9_.Context
 {
+    /// <summary>
+    /// Gives access to database.
+    /// </summary>
     public class AppDbContext: DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options): base(options)

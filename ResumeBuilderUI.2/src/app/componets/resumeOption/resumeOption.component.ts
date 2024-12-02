@@ -68,6 +68,8 @@ export class ResumeOptionComponent {
 
   // Goes home if logout is clicked.
   onLogout(){
+    if (sessionStorage.getItem('tempUser') == 'yes')
+      this.closer.handleAppClosing();
     this.router.navigate(['']);
   }
 

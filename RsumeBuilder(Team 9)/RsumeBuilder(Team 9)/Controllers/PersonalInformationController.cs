@@ -4,6 +4,9 @@ using RsumeBuilder_Team_9_.Models;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    /// <summary>
+    /// Controller for entities in PersonalInfo table in database
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PersonalInformationController : ControllerBase
@@ -15,6 +18,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext = appDbContext;
         }
 
+        /// <summary>
+        /// Submits a user's personal info to the database.
+        /// </summary>
+        /// <param name="personalObj"></param>
+        /// <param name="id"></param>
+        /// <returns>Error or Confirmation message</returns>
         [HttpPost("submit/{id}")]
         public async Task<IActionResult> SubmitPersonalInfo([FromBody] ResumeInput personalObj, int id)
         {
@@ -33,7 +42,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
-        
+        /// <summary>
+        /// Edits a User's personal info from the database.
+        /// </summary>
+        /// <param name="inputObj"></param>
+        /// <param name="id"></param>
+        /// <returns>Error or Confirmation message</returns>
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> EditPersonalInfo([FromBody] ResumeInput inputObj, int id)
         {
@@ -55,6 +69,11 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
+        /// <summary>
+        /// Retrieves a User's personal Info from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The User's personal information data</returns>
         [HttpGet("get/{id}")]
         public async Task<IActionResult> getPersonalInfo(int id)
         {
@@ -69,6 +88,11 @@ namespace RsumeBuilder_Team_9_.Controllers
             return Ok(personalInfo);
         }
 
+        /// <summary>
+        /// Deletes a User's personal Info from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Error or Confirmation message</returns>
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deletePersonalInfo(int id)
         {
@@ -83,7 +107,7 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext.ResumeInputs.Remove(slcToRemove);
             await _authContext.SaveChangesAsync();
 
-            return Ok(new { Message = "Skills, Languages, and Certifications successfully removed." });
+            return Ok(new { Message = "PersonalInfo successfully removed." });
         }
     }
 }

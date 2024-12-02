@@ -2,8 +2,12 @@
 
 namespace RsumeBuilder_Team_9_.Models
 {
+    /// <summary>
+    /// Model for User entity in database.
+    /// </summary>
     public class User
     {
+        // properties for various class variables.
         [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }

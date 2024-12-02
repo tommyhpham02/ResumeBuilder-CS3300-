@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RsumeBuilder_Team_9_.Models
 {
+    /// <summary>
+    /// Model for Job entity in database.
+    /// </summary>
     public class Job
     {
         [Key]

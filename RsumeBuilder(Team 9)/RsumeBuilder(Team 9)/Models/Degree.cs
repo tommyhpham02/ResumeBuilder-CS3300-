@@ -3,8 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RsumeBuilder_Team_9_.Models
 {
+    /// <summary>
+    /// Model for Degree entity in database.
+    /// </summary>
     public class Degree
     {
+        // properties for various class variables.
         [Key]
         public int Id { get; set; }
         [ForeignKey("User")]
