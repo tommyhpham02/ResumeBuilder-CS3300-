@@ -9,19 +9,20 @@ export default class ValidatorLogin {
         let loggedIn = true;
 
         // If there is no user ID in the session storage.
-        if (userLoggedIn == '' || userLoggedIn == '-1' || userLoggedIn == null) {
+        if (userLoggedIn == null) {
             loggedIn = false;
         }
 
         return loggedIn;
     }
 
+    // Checking if a logged in user
     static checkIfOptionChoosen(): Boolean {
         const editing = sessionStorage.getItem('editing');
         const temp = sessionStorage.getItem('tempUser');
         let optionChoosen = true;
 
-        if (editing == null && temp == null) {
+        if (editing == null) {
             optionChoosen = false;
         }
 

@@ -33,25 +33,25 @@ export class EducationComponent {
   hideString: string = "display:none;";
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private closer: AppClosingService) {}
 
+  // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.closer.handleAppClosing();
-      sessionStorage.removeItem('userId');
-      sessionStorage.removeItem('tempUser');
-      this.router.navigate(['']);
+      sessionStorage.setItem('deleted', 'yes');
     }
   }
 
+
   // Called when form is initialized.
   ngOnInit(): void {
-    // Checks if the User is logged in and resumeOption is choosen.
-    if (!ValidatorLogin.checkIfUserIsLoggedIn()) {
+    // Checks if user is logged in and if resumeOption is choosen.
+    if (!ValidatorLogin.checkIfUserIsLoggedIn() || sessionStorage.getItem('deleted') == 'yes') {
       this.router.navigate(['']);
     }
     if (!ValidatorLogin.checkIfOptionChoosen()) {
       this.router.navigate(['resumeOption']);
     }
+
     this.setFormGroup('', '', '', '', '');
 
     // If editing the resume takes already stored degrees from database to put into list
@@ -65,7 +65,6 @@ export class EducationComponent {
             delete jsonData.id;
             this.addToHtmlList(jsonData['college'] + " - " + jsonData['degreeType']);
             this.degreeList.set(id, jsonData)
-            console.log(this.degreeList.get(id));
           }
           if (this.degreeList.size > 0)
             this.degreeListViewable = true;
@@ -173,7 +172,6 @@ export class EducationComponent {
     this.auth.submitDegreesInfo(value)
     .subscribe({
       next:(data) => {
-        console.log("Degree has been saved.");
         this.addToHtmlList(this.educationForm.controls['college'].value + ' - ' + this.educationForm.controls['degreeType'].value)
         this.degreeList.set(data, value);
         this.setFormGroup('', '', '', '', '');
@@ -194,7 +192,6 @@ export class EducationComponent {
 
   // Removes degree from database and lists with specified index.
   removeDegreeWithIndex(index: number): void {
-    console.log(this.degreeList.get(Array.from(this.degreeList.keys())[index]))
     this.auth.deleteDegree(Array.from(this.degreeList.keys())[index])
     .subscribe({
       next:(res) => {
@@ -235,6 +232,7 @@ export class EducationComponent {
     this.router.navigate(['workexperience']);
   }
 
+  // Goes to keyword page.
   keywordPage(): void {
     window.open('/sugestedWordResource', '_blank');
   }
