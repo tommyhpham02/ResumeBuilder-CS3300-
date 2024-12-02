@@ -171,3 +171,23 @@ input[type="button"]:disabled {
 .invisible {
   visibility: hidden; /* The element is hidden, but its space is still reserved. */
 }
+
+/* Container styles */
+.input-box {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  max-width: 200px;
+  align-items: center;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #495057;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
