@@ -11,7 +11,13 @@ import { lastValueFrom } from 'rxjs';
 export class HomeComponent {
   constructor(private router: Router, private auth: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('tempUser');
+    sessionStorage.removeItem('major');
+    sessionStorage.removeItem('goBack');
+    sessionStorage.removeItem('editing');
+  }
 
   onLogin() {
     this.router.navigate(['login']);

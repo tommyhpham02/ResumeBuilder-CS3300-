@@ -101,5 +101,6 @@ export class ResumeTemplatePageComponent  {
 
   goBack(){
     this.router.navigate(['download']);
+    sessionStorage.setItem('goBack', 'yes');
   }
 }

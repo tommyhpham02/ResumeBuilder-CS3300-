@@ -27,7 +27,8 @@ export class WorkExperienceComponent {
   jobIdToEdit: number = -1;
   jobIndexToEdit: number = -1;
   todayDate: Date = new Date();
-  todayDateString: string = `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${this.todayDate.getDate()}`;
+  todayDateString: string = `${this.todayDate.getFullYear()}-${this.todayDate.getMonth() + 1}-${
+    this.todayDate.getDate().toString().length == 1 ? `0${this.todayDate.getDate()}` : `${this.todayDate.getDate()}`}`;
 
   displayString: string = "display:block;";
   hideString: string = "display:none;";

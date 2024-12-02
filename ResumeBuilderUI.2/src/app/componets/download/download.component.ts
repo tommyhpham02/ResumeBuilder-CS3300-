@@ -4,6 +4,7 @@ import ValidatorForm from '../../helpers/validateForm';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AppClosingService } from '../../services/appClosing.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-download',
@@ -34,6 +35,7 @@ export class DownloadComponent  {
   }
 
   goBack(){
+    sessionStorage.setItem('goBack', 'yes')
     this.router.navigate(['skills']);
   }
 
@@ -43,6 +45,8 @@ export class DownloadComponent  {
   }
 
   onLogout(){
+    if (sessionStorage.getItem('tempUser') == 'yes')
+      lastValueFrom(this.auth.deleteAllUsersInfo(true));
     sessionStorage.setItem('userId', '');
     this.router.navigate(['']);
   }

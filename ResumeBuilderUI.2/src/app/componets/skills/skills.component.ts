@@ -53,10 +53,11 @@ export class SkillsComponent implements OnInit {
     this.skillsForm = this.fb.group({
       languageName: [''],  // Not required
       certificationName: [''],  // Not required
-      certificationDate: [''],  // Not required
       skills: [''],  // Not required
       projects: ['']  // Not required
     });
+
+    skills: (sessionStorage.getItem('selectedKeywords') != '' && null) ? sessionStorage.getItem('selectedKeywords') : '';
 
     // If the user has come back from a previous page or they have choosen the editing option, fills the textboxes
     // with the values they have entered in the database.
@@ -65,7 +66,7 @@ export class SkillsComponent implements OnInit {
       .subscribe({
         next: (data)=>{
           console.log(data);
-          this.fillForm(data.languageName, data.certificationName, data.certificationDate, data.skills, data.projects);
+          this.fillForm(data.languageName, data.certificationName, data.skills, data.projects);
           delete data.id;
           delete data.userId;
           this.originalValues = JSON.stringify(data);
@@ -87,11 +88,10 @@ export class SkillsComponent implements OnInit {
   }
 
   // Fills the skillsForm with specified values (the textbox values)
-  fillForm(lang: string, certName: string, certDate: string, skill: string, proj: string): void {
+  fillForm(lang: string, certName: string, skill: string, proj: string): void {
     this.skillsForm.setValue({
       languageName: lang, 
-      certificationName: certName, 
-      certificationDate: certDate, 
+      certificationName: certName,  
       skills: skill, 
       projects: proj
     });
@@ -155,6 +155,7 @@ export class SkillsComponent implements OnInit {
 
   // Method for handling go back functionality
   goBack() {
+    sessionStorage.setItem('goBack', 'yes');
     this.router.navigate(['education']);
   }
 }
