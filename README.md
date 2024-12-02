@@ -1,13 +1,13 @@
 # ResumYay
 This project is a web application that allows users to create and manage their resumes.<br>
-It is built using C#, Angular, .Net, CSS, HTML and it uses a SQL Server database to store and retrieve data.<br>
+It is built using C#, Angular, .Net, Typesript, Swagger, CSS, HTML and it uses a SQL Server database to store and retrieve data.<br>
 <h1>Features</h1>
 <ul>
-  <li>Save your resume using multiple layouts</li>
+  <li>Create your resume using 6 different layouts</li>
   <li>Automatically saving</li>
   <li>Export your all created resumes</li>
   <li>Print as Pdf file</li>
-  <li>You can add; Name, Phone Number, Email, Website, Summary, Job informations, Education informations, Skills, Languages, Certifications to your resume</li>
+  <li>You can add: Name, Phone Number, Email, Website, Summary, Job informations, Education informations, Skills, Languages, Certifications</li>
   <li>Keword suggestions for Computer Science and Business Degrees</li>
 </ul>
 
@@ -18,8 +18,7 @@ To use this project, follow these steps:
 <li>Open the project in Visual Studio.</li>
 <li>Build and run the project.</li>
 <li>Fill in your personal details, job history, education, and more details.</li>
-<li>Upload your photo.</li>
-<li>Choose a resume layout and export your resume as a PDF or DOCX file.</li>
+<li>Choose a resume layout and export your resume as a PDF.</li>
 <li>Import or export your resume data as a JSON file.</li>
 <li>View information about the developer and visit their Github profile.</li>
 </ul>
