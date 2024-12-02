@@ -1,15 +1,14 @@
 # ResumYay
-This project is a desktop application that allows users to create and manage their resumes.<br>
-It is built using C# and Windows Forms, and it uses a SQL Server database to store and retrieve data.<br>
-![alt text](https://repository-images.githubusercontent.com/576042902/37e60d01-004b-4d49-89be-d1189cf4b9c1)
+This project is a web application that allows users to create and manage their resumes.<br>
+It is built using C#, Angular, .Net, CSS, HTML and it uses a SQL Server database to store and retrieve data.<br>
 <h1>Features</h1>
 <ul>
   <li>Save your resume using multiple layouts</li>
-  <li>Automatically saving.</li>
+  <li>Automatically saving</li>
   <li>Export your all created resumes</li>
   <li>Print as Pdf file</li>
-  <li>You can add; Name, Phone Number, Email, Website, Summary, Job informations, Education informations, Skills, Languages, Certifications to your resume.</li>
-  <li>Keword suggestions for Computer Science and Business Degrees.</li>
+  <li>You can add; Name, Phone Number, Email, Website, Summary, Job informations, Education informations, Skills, Languages, Certifications to your resume</li>
+  <li>Keword suggestions for Computer Science and Business Degrees</li>
 </ul>
 
 <h1>Usage</h1>
