@@ -126,11 +126,11 @@ namespace RsumeBuilder_Team_9_.Controllers
 
             //Check username
             if(await CheckUserNameExist(userObj.Username))
-                return BadRequest(new { Message = "Username Already Exist MADE BY TOMMY"});
+                return BadRequest(new { Message = "Username Already Exist"});
 
             //Check Email
             if (await CheckEmailExist(userObj.Email))
-                return BadRequest(new { Message = "Email Already Exist MADE BY TOMMY" });
+                return BadRequest(new { Message = "Email Already Exist" });
 
             //Check Pass
             var pass = CheckPasswordStrength(userObj.Password);
@@ -158,8 +158,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             StringBuilder sb = new StringBuilder();
             if (password.Length < 8)
                 sb.Append("Minimum Password length is 8"+Environment.NewLine);
-            if (!(Regex.IsMatch(password, "[a-z]") && Regex.IsMatch(password, "[A-Z]") && Regex.IsMatch(password, "[0-9]")))
-                sb.Append("Password Needs to be Alphanumeric" + Environment.NewLine);
+            if (!Regex.IsMatch(password, "[a-z]"))
+                sb.Append("Password Needs to have a lowercase letter" + Environment.NewLine);
+            if (!Regex.IsMatch(password, "[A-Z]"))
+                sb.Append("Password Needs to have a uppercase letter" + Environment.NewLine);
+            if (!Regex.IsMatch(password, "[0-9]"))
+                sb.Append("Password Needs to contain a number" + Environment.NewLine);
             if (!Regex.IsMatch(password, @"[\W_]"))
                 sb.Append("Password should contain special chars" + Environment.NewLine);
 

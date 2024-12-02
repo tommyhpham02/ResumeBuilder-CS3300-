@@ -4,12 +4,14 @@ import { AuthService } from '../../services/auth.service';
 import { AppClosingService } from '../../services/appClosing.service';
 import { lastValueFrom } from 'rxjs';
 
+
 @Component({
   selector: 'resumeOption-root',
   templateUrl: './resumeOption.component.html',
   styleUrl: './resumeOption.component.css'
 })
 export class ResumeOptionComponent {
+  tempUser = sessionStorage.getItem('tempUser') || '';
   title = 'ResumeBuilderUI.2';
   constructor (private router: Router, private auth: AuthService, private closer: AppClosingService) {}
 
@@ -51,6 +53,8 @@ export class ResumeOptionComponent {
 
   ngOnInit(): void {
     sessionStorage.removeItem('editing')
+    sessionStorage.setItem('selectedKeywords', '')
+    sessionStorage.setItem('major', '');
     setTimeout(() => {
       const userLoggedIn = sessionStorage.getItem('userId');
       if (!userLoggedIn) {

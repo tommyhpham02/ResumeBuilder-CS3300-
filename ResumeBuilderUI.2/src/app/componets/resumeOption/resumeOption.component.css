@@ -160,3 +160,14 @@ body {
     font-size: 16px;
   }
 }
+
+input[type="button"]:disabled {
+  background-color: gray; /* Gray background */
+  color: white; /* White text */
+  cursor: not-allowed; /* Change cursor to indicate non-interactive */
+  opacity: 0.7; /* Optional: Add transparency */
+}
+
+.invisible {
+  visibility: hidden; /* The element is hidden, but its space is still reserved. */
+}

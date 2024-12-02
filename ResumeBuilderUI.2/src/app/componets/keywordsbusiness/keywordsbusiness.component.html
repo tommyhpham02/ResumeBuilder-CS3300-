@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="keywordsbusiness.component.css">
+</head>
+<body>
+<div class="container">
+  <!-- Title section -->
+  <div class="title">Computer Science Keywords</div>
+
+  <!-- Subtitle Text -->
+  <div class="subtitle">
+    Consider using these keywords as your skills. 
+    If you click on the word it will be copied to your skills page.
+  </div>
+
+  <div class="content">
+    <!-- Action Verbs Section -->
+    <div class="action-verbs">
+      <ul class="verbs-list">
+        <li><button (click)="addKeyword('Microsoft Excel')">Microsoft Excel</button></li>
+        <li><button (click)="addKeyword('Financial Modeling')">Financial Modeling</button></li>
+        <li><button (click)="addKeyword('CRM Tools')">CRM Tools</button></li>
+        <li><button (click)="addKeyword('ERP Systems')">ERP Systems</button></li>
+        <li><button (click)="addKeyword('Project Management Software')">Project Management Software</button></li>
+        <li><button (click)="addKeyword('Google Workspace')">Google Workspace</button></li>
+        <li><button (click)="addKeyword('QuickBooks')">QuickBooks</button></li>
+        <li><button (click)="addKeyword('SQL for Data Management')">SQL for Data Management</button></li>
+        <li><button (click)="addKeyword('Market Research Tools')">Market Research Tools</button></li>
+        <li><button (click)="addKeyword('Financial Analysis')">Financial Analysis</button></li>
+        <li><button (click)="addKeyword('Business Process Improvement')">Business Process Improvement</button></li>
+        <li><button (click)="addKeyword('Strategic Planning')">Strategic Planning</button></li>
+        <li><button (click)="addKeyword('Business Intelligence Analysis')">Business Intelligence Analysis</button></li>
+        <li><button (click)="addKeyword('SWOT Analysis')">SWOT Analysis</button></li>
+        <li><button (click)="addKeyword('Competitor Analysis')">Competitor Analysis</button></li>
+        <li><button (click)="addKeyword('Forecasting and Trend Analysis')">Forecasting and Trend Analysis</button></li>
+        <li><button (click)="addKeyword('Communication and Presentation')">Communication and Presentation</button></li>
+        <li><button (click)="addKeyword('Interpersonal Skills')">Interpersonal Skills</button></li>
+        <li><button (click)="addKeyword('Time Management')">Time Management</button></li>
+        <li><button (click)="addKeyword('Digital Marketing')">Digital Marketing</button></li>
+        <li><button (click)="addKeyword('Content Strategy')">Content Strategy</button></li>
+        <li><button (click)="addKeyword('Market Segmentation')">Market Segmentation</button></li>
+        <li><button (click)="addKeyword('Cost Analysis')">Cost Analysis</button></li>
+        <li><button (click)="addKeyword('Investment Strategies')">Investment Strategies</button></li>
+      </ul>
+    </div>
+
+    <!-- Continue button -->
+    <div class="button">
+      <input type="button" value="Go Back" (click)="goBack()">
+      <input type="button" value="Continue" (click)="goToNextPage()">
+    </div>
+  </div>
+</div>
+</body>

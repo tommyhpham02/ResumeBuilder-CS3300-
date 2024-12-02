@@ -51,7 +51,7 @@ export class SkillsComponent implements OnInit {
     this.skillsForm = this.fb.group({
       languageName: [''],  // Not required
       certificationName: [''],  // Not required
-      skills: [''],  // Not required
+      skills: [(sessionStorage.getItem('selectedKeywords') != '') ? sessionStorage.getItem('selectedKeywords') + ', ' : ''],  // Not required
       projects: ['']  // Not required
     });
 
@@ -79,6 +79,12 @@ export class SkillsComponent implements OnInit {
     else {
       this.originalValues = JSON.stringify(this.skillsForm.value);
     }
+    // if (sessionStorage.getItem('skillsSavedBool') == 'true'){
+    //   const tempSkillString = sessionStorage.getItem('selectedKeywords') || '';
+    //   console.log("Got to the if statment");
+    //   this.fillSkills(tempSkillString);
+    // }
+
   }
 
   keywordPage(): void {
@@ -86,15 +92,25 @@ export class SkillsComponent implements OnInit {
   }
 
   // Fills the skillsForm with specified values (the textbox values)
-  fillForm(lang: string, certName: string, skill: string, proj: string): void {
+  fillForm(lang: string, certName: string, skill: string, proj: string): void {  
+    let tempSkills = this.skillsForm.get('skills')?.value;
     this.skillsForm.setValue({
-      languageName: lang, 
-      certificationName: certName,  
-      skills: skill, 
-      projects: proj
+      languageName: lang || '', // Ensure fallback to empty string
+      certificationName: certName || '',
+      skills: (this.skillsForm.get('skills')?.value != '' || null) ? tempSkills += skill : skill || '',
+      projects: proj || ''
     });
+    sessionStorage.setItem('selectedKeywords', '');
   }
 
+    // // Fills the skillsForm with specified values (the textbox values)
+    // fillSkills(skill: string): void {
+    //   const currentSkills = this.skillsForm.get('skills')?.value || '';
+    //   const additionalSkills = sessionStorage.getItem('selectedKeywords') || '';
+    //   this.skillsForm.get('skills')?.setValue(`${additionalSkills}, ${currentSkills}`);
+    // }
+    
+  
   // Method to handle form submission. Either adds or edits entered information.
   onSubmit() {
     console.log("Form Values on Submit:", this.skillsForm.value);

@@ -97,9 +97,21 @@ namespace RsumeBuilder_Team_9_.Controllers
                     resumeLayouts.customResume4(filePath, name, personDetails, jobsContent, educationContent,
                         certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
                 }
+                else if (templateID == "5")
+                {
+                    var resumeLayout5 = new ResumeLayout5();
+                    resumeLayout5.GenerateCustomResume(filePath, name, personDetails, jobsContent, educationContent,
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
+                }
+                else if (templateID == "6")
+                {
+                    var resumeLayout6 = new ResumesTemplate6();
+                    resumeLayout6.ResumeLayout6(filePath, name, personDetails, jobsContent, educationContent,
+                        certificationsContent, personalProjectsContent, languagesContent, skillsContent, summary);
+                }
                 else
                 {
-                    return BadRequest($"Invalid template ID: {templateID}");
+                    return BadRequest($"Invalid template ID!!: {templateID}");
                 }
 
                 // Handle response based on preview or download
@@ -137,8 +149,5 @@ namespace RsumeBuilder_Team_9_.Controllers
                 return StatusCode(500, new { Message = "An error occurred while retrieving the file." });
             }
         }
-
-
-
     }
 }
