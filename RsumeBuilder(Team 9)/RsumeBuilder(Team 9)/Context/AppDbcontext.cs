@@ -10,14 +10,18 @@ namespace RsumeBuilder_Team_9_.Context
 
         }
 
+        // Variables for accessing certain tables in the database
         public DbSet<User> Users { get; set; }
         public DbSet<ResumeInput> ResumeInputs { get; set; }
         public DbSet<Degree> Degrees { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<SkillsLanguagesCertifications> SLC { get; set; }
 
+        // Your added DbSet object here
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Creation and naming of tables
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<ResumeInput>().ToTable("ResumeInput");
             modelBuilder.Entity<Degree>().ToTable("Degree");

@@ -25,7 +25,8 @@ export class DashboardComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      sessionStorage.setItem('deleted', 'yes');
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
     }
   }
 
@@ -146,6 +147,7 @@ export class DashboardComponent implements OnInit {
         if (event.navigationTrigger === 'popstate') {
           console.log('Popstate navigation detected!');
           sessionStorage.setItem('goBack', 'yes');
+          sessionStorage.setItem('refresh', 'yes');
         }
       }
     });

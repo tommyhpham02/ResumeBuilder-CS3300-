@@ -25,7 +25,8 @@ export class KeywordsComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      sessionStorage.setItem('deleted', 'yes');
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
     }
   }
 

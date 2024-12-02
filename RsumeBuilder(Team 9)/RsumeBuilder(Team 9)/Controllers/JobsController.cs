@@ -5,6 +5,9 @@ using System.Text.Json;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    /// <summary>
+    /// Controller for entities in Jobs table in database
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class JobsController : ControllerBase
@@ -46,6 +49,11 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
         }
 
+        /// <summary>
+        /// Removes a certain job from the database with the jobId.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns>Error or COnfimration message</returns>
         [HttpDelete("delete/{jobId}")]
         public async Task<IActionResult> RemoveJobFromList(int jobId)
         {
@@ -64,6 +72,11 @@ namespace RsumeBuilder_Team_9_.Controllers
 
         }
 
+        /// <summary>
+        /// Gets a list of all jobs associated with the User.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>List of jobs as JSON strings</returns>
         [HttpGet("get/all/{id}")]
         public IActionResult GetJobsFromList(int id)
         {
@@ -89,6 +102,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
         }
 
+        /// <summary>
+        /// Edits a certain job in the database.
+        /// </summary>
+        /// <param name="jobObj"></param>
+        /// <param name="jobId"></param>
+        /// <returns>Error or confirmation message</returns>
         [HttpPut("edit/{jobId}")]
         public async Task<IActionResult> editJobInfo([FromBody] Job jobObj, int jobId)
         {

@@ -5,6 +5,9 @@ using System.Text.Json;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    /// <summary>
+    /// Controller for enitiies in Degree table in database.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class DegreesController : ControllerBase
@@ -45,6 +48,11 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
         }
 
+        /// <summary>
+        /// For deleting a certain degree, needs the Id of the degree.
+        /// </summary>
+        /// <param name="degreeId"></param>
+        /// <returns></returns>
         [HttpDelete("delete/{degreeId}")]
         public async Task<IActionResult> RemoveDegreeFromList(int degreeId)
         {
@@ -63,6 +71,11 @@ namespace RsumeBuilder_Team_9_.Controllers
 
         }
 
+        /// <summary>
+        /// Fir getting a list of all degrees associated with a User.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>List of degrees as JSON strings</returns>
         [HttpGet("get/all/{id}")]
         public IActionResult GetDegreesFromList(int id)
         {
@@ -88,6 +101,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             }
         }
 
+        /// <summary>
+        /// For editing a certain degree in the database.
+        /// </summary>
+        /// <param name="degreeObj"></param>
+        /// <param name="degreeId"></param>
+        /// <returns>Error or confirmation message</returns>
         [HttpPut("edit/{degreeId}")]
         public async Task<IActionResult> editDegreeInfo([FromBody] Degree degreeObj, int degreeId)
         {
