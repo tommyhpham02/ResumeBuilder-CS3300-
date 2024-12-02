@@ -17,7 +17,8 @@ import { ResumeTemplatePageComponent } from './componets/resumeTemplatePage/resu
 import { ResourcePageComponent } from './componets/resourcePage/resourcePage.component';
 import { SugestedWordResourceComponent } from './componets/sugestedWordResource/sugestedWordResource.component';
 import { AboutComponent } from './componets/about/about.component';
-
+import { KeywordsComponent } from './componets/keywords/keywords.component';
+import { KeywordsBusinessComponent } from './componets/keywordsbusiness/keywordsbusiness.component';
 
 
 
@@ -36,6 +37,8 @@ import { AboutComponent } from './componets/about/about.component';
     ResourcePageComponent,
     SugestedWordResourceComponent,
     AboutComponent,
+    KeywordsComponent,
+    KeywordsBusinessComponent
   ],
   imports: [
     BrowserModule,

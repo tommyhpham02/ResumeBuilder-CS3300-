@@ -21,43 +21,45 @@ body {
 
 /* Main container box */
 .container {
-  max-width: 900px;
+  max-width: 800px;
   width: 100%;
   background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Title section */
 .container .title {
-  font-size: 28px;
-  font-weight: 600;
-  color: #1c0455;
-  margin-bottom: 10px;
+  font-size: 25px;
+  font-weight: 500;
   position: relative;
+  margin-bottom: 20px;
+  color: #1c0455;
+  text-align: center;
 }
 
 /* Decorative line under the title */
-.container .title::after {
+.container .title::before {
   content: "";
   position: absolute;
-  bottom: -5px;
   left: 50%;
   transform: translateX(-50%);
+  bottom: -10px;
   height: 3px;
-  width: 50px;
-  background: linear-gradient(135deg, #71b7e6, #1c0455);
+  width: 60px;
   border-radius: 5px;
+  background: linear-gradient(135deg, #71b7e6, #1c0455);
 }
 
 /* Subtitle text styling */
 .subtitle {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
-  color: #555;
-  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  margin: 15px 0;
+  opacity: 0.9;
 }
 
 /* Action Verbs list styling */
@@ -67,35 +69,33 @@ body {
 
 .verbs-list {
   list-style-type: none;
-  padding: 0;
+  padding-left: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
 }
 
 .verbs-list li {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
+  padding: 10px 15px;
   border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 14px;
+  text-align: center;
+  font-size: 16px;
   font-weight: 500;
   color: #333;
-  height: 40px;
+  border: 1px solid #ddd;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
-/* Hover effect for verbs list items */
+/* Hover effect for action verbs */
 .verbs-list li:hover {
   background: linear-gradient(135deg, #71b7e6, #1c0455);
   color: #fff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Button group styling */
+/* Button styling */
 .button {
   display: flex;
   justify-content: space-between;
@@ -103,13 +103,14 @@ body {
 }
 
 .button input {
-  width: 45%;
   height: 45px;
+  width: 48%;
   border-radius: 5px;
   border: none;
-  font-size: 16px;
-  font-weight: 500;
   color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
   background: linear-gradient(135deg, #71b7e6, #1c0455);
@@ -121,24 +122,25 @@ body {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive adjustments */
-@media(max-width: 768px) {
+/* Responsive layout for small screens */
+@media(max-width: 584px) {
+  .container {
+    max-width: 100%;
+  }
+
   .verbs-list {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  }
-
-  .button input {
-    width: 48%;
-  }
-}
-
-@media(max-width: 480px) {
-  .button {
-    flex-direction: column;
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 
   .button input {
     width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* Responsive layout adjustments for extra small screens */
+@media(max-width: 459px) {
+  .container .content .verbs-list {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 }
