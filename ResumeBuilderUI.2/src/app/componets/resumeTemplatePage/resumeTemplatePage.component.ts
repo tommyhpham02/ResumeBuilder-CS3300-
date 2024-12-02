@@ -19,7 +19,8 @@ export class ResumeTemplatePageComponent  {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      sessionStorage.setItem('deleted', 'yes');
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
     }
   }
 
@@ -50,7 +51,8 @@ export class ResumeTemplatePageComponent  {
 
   // When logout is chosen, navigates back home.
   onLogout(){
-    sessionStorage.setItem('userId', '');
+    if (sessionStorage.getItem('tempUser') == 'yes')
+      this.closer.handleAppClosing();
     this.router.navigate(['']);
   }
 

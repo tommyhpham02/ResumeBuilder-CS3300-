@@ -6,13 +6,12 @@ import { lastValueFrom } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-// Was oringally for removing temp user, solved in different manner, kept in case.
+// For removing the User from the database.
 export class AppClosingService {
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService) { }
 
-    handleAppClosing() {
-      if (sessionStorage.getItem('tempUser') == 'yes') 
-        lastValueFrom(this.auth.deleteAllUsersInfo(true))
+    async handleAppClosing() {
+      await lastValueFrom(this.auth.deleteAllUsersInfo(true))
     }
 }

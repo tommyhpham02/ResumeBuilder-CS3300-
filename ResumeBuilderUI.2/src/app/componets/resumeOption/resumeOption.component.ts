@@ -20,7 +20,8 @@ export class ResumeOptionComponent {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      sessionStorage.setItem('deleted', 'yes');
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
     }
   }
 
@@ -67,6 +68,8 @@ export class ResumeOptionComponent {
 
   // Goes home if logout is clicked.
   onLogout(){
+    if (sessionStorage.getItem('tempUser') == 'yes')
+      this.closer.handleAppClosing();
     this.router.navigate(['']);
   }
 

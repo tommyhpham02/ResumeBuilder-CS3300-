@@ -20,7 +20,8 @@ export class DownloadComponent  {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      sessionStorage.setItem('deleted', 'yes');
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
     }
   }
 
@@ -57,6 +58,8 @@ export class DownloadComponent  {
 
   // Called when logout is pressed. Goes back home.
   onLogout(){
+    if (sessionStorage.getItem('tempUser') == 'yes')
+      this.closer.handleAppClosing();
     this.router.navigate(['']);
   }
 
