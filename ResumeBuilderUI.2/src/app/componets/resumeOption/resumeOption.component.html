@@ -18,6 +18,14 @@
     <div class="container">
       What would you like to do:
     </div>
+    <div class="input-box"> 
+      <span class="details">Select a major for skill word sugestions</span>
+      <select required #majorSelection (change)="changeMajorType(majorSelection.value)">
+        <option (change)="changeMajorType('Nothing')" [value]="'Nothing'">Nothing</option>
+        <option (ngModelChange)="changeMajorType('Computer Scinence')" [value]="'Computer Science'">Computer Science</option>
+        <option (ngModelChange)="changeMajorType('Business')" [value]="'Business'">Business</option>
+      </select>
+    </div>
     
     <!-- Button Group -->
     <div class="button-group">
@@ -27,13 +35,7 @@
       <input type="button" class="TandT" value="Resume Tips and Tricks" (click)="onTipsandTricks()">
       <input type="button" class="logout-option" value="Logout" (click)="onLogout()" >
 
-      <div class="input-box">
-        <select required #majorSelection (change)="changeMajorType(majorSelection.value)">
-          <option (change)="changeMajorType('Nothing')" [value]="'Nothing'">Nothing</option>
-          <option (ngModelChange)="changeMajorType('Computer Scinence')" [value]="'Computer Science'">Computer Science</option>
-          <option (ngModelChange)="changeMajorType('Business')" [value]="'Business'">Business</option>
-        </select>
-      </div>
+      
     </div>
 
   </div>
