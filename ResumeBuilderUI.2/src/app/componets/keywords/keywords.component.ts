@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { CheckboxControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import ValidatorForm from '../../helpers/validateForm';
+import { AuthService } from '../../services/auth.service';
+import { Router, NavigationStart } from '@angular/router';
+import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
+import { AppClosingService } from '../../services/appClosing.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-keywords',
@@ -32,5 +38,8 @@ export class KeywordsComponent implements OnInit {
     const storedKeywords = sessionStorage.getItem('selectedKeywords');
     
     this.router.navigate(['skills']);
+  }
+  goBack(): void {
+    this.router.navigate(['education']);
   }
 }

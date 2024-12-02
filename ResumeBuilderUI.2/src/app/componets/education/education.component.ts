@@ -216,14 +216,12 @@ export class EducationComponent {
 
   // Continues to next page
   continueButtonPushed(): void {
-    if (this.degreeList.size >= 1) {
-      this.educationForm.reset();
-      this.router.navigate(['skills']);
-    }
-    else {
-      alert("No degrees entered. Proceeding")
+    if(sessionStorage.getItem('major') == 'CS'){
       this.router.navigate(['keywords']);
     }
+    else if(sessionStorage.getItem('major') == 'Business'){
+      this.router.navigate(['keywordsbusiness']);
+    }      
   }
 
   // Goes back to previous page.

@@ -33,4 +33,7 @@ export class KeywordsBusinessComponent implements OnInit {
     
     this.router.navigate(['skills']);
   }
+  goBack(): void {
+    this.router.navigate(['education']);
+  }
 }

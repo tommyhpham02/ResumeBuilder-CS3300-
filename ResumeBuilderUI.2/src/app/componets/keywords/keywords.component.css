@@ -21,43 +21,43 @@ body {
 
 /* Main container box */
 .container {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   background-color: #fff;
-  padding: 25px 30px;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-/* Title section styling */
+/* Title section */
 .container .title {
-    font-size: 25px;
-    font-weight: 500;
-    position: relative;
-    margin-bottom: 20px; /* Adds space below the title */
-  }
-  
-  /* Subtitle text styling */
-  .subtitle {
-    font-size: 18px;
-    font-weight: 400;
-    color: #333;
-    text-align: center;
-    margin-top: 10px; /* Adds space above the subtitle */
-    margin-bottom: 20px; /* Adds space below the subtitle */
-    opacity: 0.9;
-  }
+  font-size: 28px;
+  font-weight: 600;
+  color: #1c0455;
+  margin-bottom: 10px;
+  position: relative;
+}
 
 /* Decorative line under the title */
-.container .title::before {
+.container .title::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: 0;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
   height: 3px;
-  width: 30px;
-  border-radius: 5px;
+  width: 50px;
   background: linear-gradient(135deg, #71b7e6, #1c0455);
+  border-radius: 5px;
+}
+
+/* Subtitle text styling */
+.subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 20px;
 }
 
 /* Action Verbs list styling */
@@ -67,67 +67,78 @@ body {
 
 .verbs-list {
   list-style-type: none;
-  padding-left: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 15px;
 }
 
 .verbs-list li {
-  background-color: #f0f0f0;
-  padding: 10px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
   border-radius: 5px;
-  text-align: center;
-  font-size: 16px;
+  border: 1px solid #ddd;
+  font-size: 14px;
   font-weight: 500;
   color: #333;
-  border: 1px solid #ddd;
+  height: 40px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-/* Hover effect for action verbs */
+/* Hover effect for verbs list items */
 .verbs-list li:hover {
   background: linear-gradient(135deg, #71b7e6, #1c0455);
   color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Button styling */
+/* Button group styling */
 .button {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .button input {
+  width: 45%;
   height: 45px;
-  width: 48%;
   border-radius: 5px;
   border: none;
-  color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: 1px;
+  color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
   background: linear-gradient(135deg, #71b7e6, #1c0455);
 }
 
+/* Hover effects for buttons */
 .button input:hover {
   background: linear-gradient(-135deg, #71b7e6, #1c0455);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive layout for small screens */
-@media(max-width: 584px) {
-  .container {
-    max-width: 100%;
+/* Responsive adjustments */
+@media(max-width: 768px) {
+  .verbs-list {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   }
 
-  .verbs-list {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  .button input {
+    width: 48%;
+  }
+}
+
+@media(max-width: 480px) {
+  .button {
+    flex-direction: column;
+    gap: 15px;
   }
 
   .button input {
     width: 100%;
-    margin-bottom: 10px;
   }
 }
