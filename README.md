@@ -7,8 +7,8 @@ It is built using C#, Angular, .Net, Typesript, Swagger, CSS, HTML and it uses a
   <li>Automatically saving</li>
   <li>Export your all created resumes</li>
   <li>Print as Pdf file</li>
-  <li>You can add: Name, Phone Number, Email, Website, Summary, Job informations, Education informations, Skills, Languages, Certifications</li>
-  <li>Keword suggestions for Computer Science and Business Degrees</li>
+  <li>You can add: Name, Phone Number, Email, Website, Summary, Job information, Education information, Skills, Languages, Certifications</li>
+  <li>Keyword suggestions for Computer Science and Business Degrees</li>
 </ul>
 
 <h1>Usage</h1>
