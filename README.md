@@ -102,10 +102,11 @@ SQL Server Managment Studio 20.
      "Data Source=DESKTOP-HB3HD5S;TrustServerCertificate=True;Initial Catalog = ResumeBuilderDb; Integrated Security = true;"
      ```
    - Replace Data Source with the Server name you copyed from the previous step. ("Source=DESKTOP-HB3HD5S;")
-   - Then in open a Pakage Manager page from other windows and uses this command.
+   - In Package Manager Console, update the database with the comand bellow.
       ```bash
      update-database
      ```
+   - If you can not find the Package manager Console, use tools->Nu Get Package Manager->Package Manager Consol.
 
 ### 4. Run the Angular Application
 
