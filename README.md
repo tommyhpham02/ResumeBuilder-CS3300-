@@ -123,6 +123,7 @@ SQL Server Managment Studio 20.
       ```bash
      Set-ExecutionPolicy -ExecutionPolicy Unrestricted
      ```
+  - If you get this error "Error: Could not find the '@angular-devkit/build-angular:dev-server' builder's node package." look at the sulution in part 2 step 3.
   - 
 
 3. **Access the Application:**
