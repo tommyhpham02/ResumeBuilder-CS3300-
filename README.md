@@ -151,3 +151,6 @@ This project is open for contributions. If you find any bugs or issues, please r
 
 <h1>License</h1>
 Licensed under the GPL 3.0 license.
+
+<h1>Development Team</h1>
+Bracken B, Tarek F, Tommy P, Marina A
