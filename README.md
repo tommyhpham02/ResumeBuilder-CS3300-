@@ -97,11 +97,11 @@ SQL Server Managment Studio 20.
    - Uses the icon with an outlet.
    - Look at Server name and copy that name. (for later use)
    - Open the C# project in visual studio 2022, it will be located in the ResumeBuilder(Team9) folder.
-   - In the solution explorer on the right side of the project, find appsettings.json and look for this code on line 10.
+   - In the solution explorer on the right side of the project, find appsettings.json and look for this code on line 10. (The line bellow is the line that you are modifying)
       ```bash
      "Data Source=DESKTOP-HB3HD5S;TrustServerCertificate=True;Initial Catalog = ResumeBuilderDb; Integrated Security = true;"
      ```
-   - Replace Data Source with the Server name you copyed for the previous step.
+   - Replace Data Source with the Server name you copyed from the previous step. ("Source=DESKTOP-HB3HD5S;")
    - Then in open a Pakage Manager page from other windows and uses this command.
       ```bash
      update-database
