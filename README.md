@@ -106,7 +106,8 @@ SQL Server Managment Studio 20.
       ```bash
      update-database
      ```
-   - If you can not find the Package manager Console, use tools->Nu Get Package Manager->Package Manager Consol.
+       >If you can not find the Package manager Console, use tools->Nu Get Package Manager->Package Manager Consol.
+   - Now the database is set up and ready to be used.
 
 ### 4. Run the Angular Application
 
