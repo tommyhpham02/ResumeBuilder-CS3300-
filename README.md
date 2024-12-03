@@ -132,11 +132,11 @@ SQL Server Managment Studio 20.
 
 ### 5. Running the program.
 
-In the repository you to run the backend you will need to go into the RsumeBuilder(Team 9) folder and find the solution file. Then run the program like normal by hitting the HTTPS button near the top.
+To start running the database make sure to run RsumeBuilder(Team 9) project by pressing the HTTPS button near the top where you would normally see your debug compiler button.
 
-In the repository you to run the frontend you will need to go into the ResumeBuilderUI.2 folder in VS Code. Then open a terminal in VS code and uses this command: ng serve -o
+Once the back end is running a swagerUI page with open in your default browser. (make sure that the settings on that browser are allowing localhost pages to be launched).
 
-The application should open the Swagger UI and the Front Page.
+The front end will start running when you type in the terminal "ng serve -o" (we did this in part 4 step 1).
 
 
 <h1>Contributing</h1>
