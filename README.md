@@ -113,13 +113,19 @@ SQL Server Managment Studio 20.
 ### 4. Run the Angular Application
 
 1. **Start the Development Server:**
-   - Run the following command to start the Angular development server:
-   - Run this command in VS Code: 
+   - Open the ResumeBuilderUI.2 folder in VS code.
+   - Run the following command in the terminal to start the Angular development server: (Make sure the terminal path is the ResumeBuilderUI.2)
      ```bash
      ng serve -o
      ```
 
-2. **Access the Application:**
+  - If you get an error that states you can not run scripts on the current system. You will have to give your computer permission to runs scripts by running this comand in your powershell in admistrator mode.
+      ```bash
+     Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+     ```
+  - 
+
+3. **Access the Application:**
    - Open your browser and navigate to `http://localhost:4200` to view your Angular application.
 
 
