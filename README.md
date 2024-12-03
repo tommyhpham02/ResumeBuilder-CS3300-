@@ -90,17 +90,18 @@ SQL Server Managment Studio 20.
    - A command prompt window will pop up after hitting the connect button. Then you can close the installer.
 
 2. **Download SQL Server Managment Studio 20:**
-   - Go to the [SQL Server Managment Studio 20 download page](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) and download the SQL Server 2022 Developer r you can download SMSS from the SQL Server 2022 Installer.
+   - Go to the [SQL Server Managment Studio 20 download page](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) and download the SQL Server 2022 Developer. You can download SMSS from the SQL Server 2022 Installer.
 
 3. **Using SQL Server:**
    - Open up SQL Server Managment Studio 20.
    - Uses the icon with an outlet.
-   - Look at Server name and copy that name.
-   - In the c# program go to appsettings.json and find this code.
+   - Look at Server name and copy that name. (for later use)
+   - Open the C# project in visual studio 2022, it will be located in the ResumeBuilder(Team9) folder.
+   - In the solution explorer on the right side of the project, find appsettings.json and look for this code on line 10.
       ```bash
      "Data Source=DESKTOP-HB3HD5S;TrustServerCertificate=True;Initial Catalog = ResumeBuilderDb; Integrated Security = true;"
      ```
-   - Replace Data Source with the Server name we copyed and save.
+   - Replace Data Source with the Server name you copyed for the previous step.
    - Then in open a Pakage Manager page from other windows and uses this command.
       ```bash
      update-database
