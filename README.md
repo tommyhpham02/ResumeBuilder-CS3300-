@@ -153,4 +153,4 @@ This project is open for contributions. If you find any bugs or issues, please r
 Licensed under the GPL 3.0 license.
 
 <h1>Development Team</h1>
-Bracken B, Tarek F, Tommy P, Marina A
+Bracken Brinkel, Tarek Fouad, Tommy Phan, Marina Alsip
