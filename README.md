@@ -85,16 +85,14 @@ We will be using SQL Server 2022 and to view the data in the database the applic
 SQL Server Managment Studio 20.
 
 1. **Download SQL Server 2022:**
-   - Go to the [SQL Server download page](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) and download the SQL Server 2022 Developer.
-
-2. **Creating SQL Server:**
+   - Go to the [SQL Server download page](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and download the SQL Server 2022 Developer.
    - After installation a page will prompt the users to connect the server using the connect now button.
    - A command prompt window will pop up after is stop running you can close it.
 
-3. **Download SQL Server Managment Studio 20:**
-   - Go to the [SQL Server Managment Studio 20 download page](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and download the SQL Server 2022 Developer r you can download SMSS from the SQL Server 2022 Installer.
+2. **Download SQL Server Managment Studio 20:**
+   - Go to the [SQL Server Managment Studio 20 download page]([https://www.microsoft.com/en-us/sql-server/sql-server-downloads](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)) and download the SQL Server 2022 Developer r you can download SMSS from the SQL Server 2022 Installer.
 
-2. **Using SQL Server:**
+3. **Using SQL Server:**
    - Open up SQL Server Managment Studio 20.
    - Uses the icon with an outlet.
    - Look at Server name and copy that name.
