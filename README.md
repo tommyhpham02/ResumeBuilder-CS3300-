@@ -90,7 +90,7 @@ SQL Server Managment Studio 20.
    - A command prompt window will pop up after is stop running you can close it.
 
 2. **Download SQL Server Managment Studio 20:**
-   - Go to the [SQL Server Managment Studio 20 download page]([https://www.microsoft.com/en-us/sql-server/sql-server-downloads](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)) and download the SQL Server 2022 Developer r you can download SMSS from the SQL Server 2022 Installer.
+   - Go to the [SQL Server Managment Studio 20 download page]([https://www.microsoft.com/en-us/sql-server/sql-server-downloads](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) and download the SQL Server 2022 Developer r you can download SMSS from the SQL Server 2022 Installer.
 
 3. **Using SQL Server:**
    - Open up SQL Server Managment Studio 20.
