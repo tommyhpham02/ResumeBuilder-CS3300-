@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener} from '@angular/core';
 import { Router } from '@angular/router';
 import ValidatorLogin from '../../helpers/validateLoginAndOptionChoosen';
+import { AppClosingService } from '../../services/appClosing.service';
 
 @Component({
   selector: 'app-keywordsbusiness',
@@ -11,13 +12,14 @@ export class KeywordsBusinessComponent implements OnInit {
   selectedKeywords: string[] = [];
 
   // Inject the Router service into the component
-  constructor(private router: Router) {}
+  constructor(private router: Router, private closer: AppClosingService) {}
 
   // Listener for closing the window or exiting the app. Removes the temp user and their info.
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (sessionStorage.getItem('tempUser') == 'yes') {
-      sessionStorage.setItem('deleted', 'yes');
+      this.closer.handleAppClosing();
+      sessionStorage.removeItem('userId');
     }
   }
   

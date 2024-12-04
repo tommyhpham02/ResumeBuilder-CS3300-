@@ -10,6 +10,9 @@ using System.Text.RegularExpressions;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    /// <summary>
+    /// Controller for User entities in database 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -20,6 +23,11 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext = appDbContext;
         }
 
+        /// <summary>
+        /// Authenticates if a User is located in the database.
+        /// </summary>
+        /// <param name="authRequest"></param>
+        /// <returns></returns>
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest authRequest)
         {
@@ -41,6 +49,10 @@ namespace RsumeBuilder_Team_9_.Controllers
 
         }
 
+        /// <summary>
+        /// Creates temp user
+        /// </summary>
+        /// <returns>Temp User's Id</returns>
         [HttpGet("createTempUser")]
         public async Task<IActionResult> CreateTempUser() 
         {
@@ -59,6 +71,11 @@ namespace RsumeBuilder_Team_9_.Controllers
             return Ok(user.Id);
         }
 
+        /// <summary>
+        /// Gets Id associated to User
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>User's Id</returns>
         [HttpGet("userId/{username}")]
         public IActionResult GetUserIdFromUsername(string username) 
         {
@@ -70,6 +87,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             return Ok(user.Id.ToString());
         }
 
+        /// <summary>
+        /// Removes all User info from database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="option"></param>
+        /// <returns>Error or Confirmation message</returns>
         [HttpDelete("deleteAllInputs/{id}/{option}")]
         public async Task<IActionResult> DeleteAllUserInputs(int id, bool option)
         {
@@ -117,7 +140,11 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
-
+        /// <summary>
+        /// Registers a User into the database.
+        /// </summary>
+        /// <param name="userObj"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] User userObj)
         {
@@ -147,12 +174,27 @@ namespace RsumeBuilder_Team_9_.Controllers
             });
         }
 
+        /// <summary>
+        /// For checking if username already exisits in User table.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         private Task<bool> CheckUserNameExist(string username)
             => _authContext.Users.AnyAsync(x => x.Username == username);
 
+        /// <summary>
+        /// For checking if Email already exists in User table.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         private Task<bool> CheckEmailExist(string email)
            => _authContext.Users.AnyAsync(x => x.Email == email);
 
+        /// <summary>
+        /// Makes sure the user creates a strong and correct password.
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns>A strong password</returns>
         private string CheckPasswordStrength(string password)
         {
             StringBuilder sb = new StringBuilder();

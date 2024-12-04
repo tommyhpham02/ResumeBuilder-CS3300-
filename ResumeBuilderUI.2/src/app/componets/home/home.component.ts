@@ -15,10 +15,6 @@ export class HomeComponent {
 
   // Called when form initializes
   ngOnInit(): void {
-    if (sessionStorage.getItem('tempUser') == 'yes') {
-      this.deleteTempUser();
-    }
-
     // Removes all previous session storage variables.
     sessionStorage.removeItem('deleted');
     sessionStorage.removeItem('tempUser');

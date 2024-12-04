@@ -7,8 +7,8 @@ It is built using C#, Angular, .Net, Typesript, Swagger, CSS, HTML and it uses a
   <li>Automatically saving</li>
   <li>Export your all created resumes</li>
   <li>Print as Pdf file</li>
-  <li>You can add: Name, Phone Number, Email, Website, Summary, Job informations, Education informations, Skills, Languages, Certifications</li>
-  <li>Keword suggestions for Computer Science and Business Degrees</li>
+  <li>You can add: Name, Phone Number, Email, Website, Summary, Job information, Education information, Skills, Languages, Certifications</li>
+  <li>Keyword suggestions for Computer Science and Business Degrees</li>
 </ul>
 
 <h1>Usage</h1>
@@ -85,49 +85,57 @@ We will be using SQL Server 2022 and to view the data in the database the applic
 SQL Server Managment Studio 20.
 
 1. **Download SQL Server 2022:**
-   - Go to the [SQL Server download page](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) and download the SQL Server 2022 Developer.
-
-2. **Creating SQL Server:**
+   - Go to the [SQL Server download page](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and download the SQL Server 2022 Developer.
    - After installation a page will prompt the users to connect the server using the connect now button.
-   - A command prompt window will pop up after is stop running you can close it.
+   - A command prompt window will pop up after hitting the connect button. Then you can close the installer.
 
-3. **Download SQL Server Managment Studio 20:**
-   - Go to the [SQL Server Managment Studio 20 download page](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and download the SQL Server 2022 Developer r you can download SMSS from the SQL Server 2022 Installer.
+2. **Download SQL Server Managment Studio 20:**
+   - Go to the [SQL Server Managment Studio 20 download page](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) and download the SQL Server 2022 Developer. You can download SMSS from the SQL Server 2022 Installer.
 
-2. **Using SQL Server:**
+3. **Using SQL Server:**
    - Open up SQL Server Managment Studio 20.
    - Uses the icon with an outlet.
-   - Look at Server name and copy that name.
-   - In the c# program go to appsettings.json and find this code.
+   - Look at Server name and copy that name. (for later use)
+   - Open the C# project in visual studio 2022, it will be located in the ResumeBuilder(Team9) folder.
+   - In the solution explorer on the right side of the project, find appsettings.json and look for this code on line 10. (The line bellow is the line that you are modifying)
       ```bash
      "Data Source=DESKTOP-HB3HD5S;TrustServerCertificate=True;Initial Catalog = ResumeBuilderDb; Integrated Security = true;"
      ```
-   - Replace Data Source with the Server name we copyed and save.
-   - Then in open a Pakage Manager page from other windows and uses this command.
+   - Replace Data Source with the Server name you copyed from the previous step. ("Source=DESKTOP-HB3HD5S;")
+   - In Package Manager Console, update the database with the comand bellow.
       ```bash
      update-database
      ```
+       >If you can not find the Package manager Console, use tools->Nu Get Package Manager->Package Manager Consol.
+   - Now the database is set up and ready to be used.
+   - Now you can go back to SQL server managment studio, make sure to press the check box next to the trust server certificate, then press connect at the bottom left of the connect to server window.
 
 ### 4. Run the Angular Application
 
 1. **Start the Development Server:**
-   - Run the following command to start the Angular development server:
-   - Run this command in VS Code: 
+   - Open the ResumeBuilderUI.2 folder in VS code.
+   - Run the following command in the terminal to start the Angular development server: (Make sure the terminal path is the ResumeBuilderUI.2)
      ```bash
      ng serve -o
      ```
 
-2. **Access the Application:**
+  - If you get an error that states you can not run scripts on the current system. You will have to give your computer permission to runs scripts by running this comand in your powershell in admistrator mode.
+      ```bash
+     Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+     ```
+  - If you get this error "Error: Could not find the '@angular-devkit/build-angular:dev-server' builder's node package." look at the sulution in part 2 step 3.
+
+3. **Access the Application:**
    - Open your browser and navigate to `http://localhost:4200` to view your Angular application.
 
 
 ### 5. Running the program.
 
-In the repository you to run the backend you will need to go into the RsumeBuilder(Team 9) folder and find the solution file. Then run the program like normal by hitting the HTTPS button near the top.
+To start running the database make sure to run RsumeBuilder(Team 9) project by pressing the HTTPS button near the top where you would normally see your debug compiler button.
 
-In the repository you to run the frontend you will need to go into the ResumeBuilderUI.2 folder in VS Code. Then open a terminal in VS code and uses this command: ng serve -o
+Once the back end is running a swagerUI page with open in your default browser. (make sure that the settings on that browser are allowing localhost pages to be launched).
 
-The application should open the Swagger UI and the Front Page.
+The front end will start running when you type in the terminal "ng serve -o" (we did this in part 4 step 1).
 
 
 <h1>Contributing</h1>
@@ -143,3 +151,6 @@ This project is open for contributions. If you find any bugs or issues, please r
 
 <h1>License</h1>
 Licensed under the GPL 3.0 license.
+
+<h1>Development Team</h1>
+Bracken Brinkel, Tarek Fouad, Tommy Phan, Marina Alsip

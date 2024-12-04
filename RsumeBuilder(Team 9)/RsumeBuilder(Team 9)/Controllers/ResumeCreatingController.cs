@@ -9,6 +9,9 @@ using System.IO;
 
 namespace RsumeBuilder_Team_9_.Controllers
 {
+    /// <summary>
+    /// Controller for creating and retreiving the PDF resume.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ResumeCreatingController : ControllerBase
@@ -20,6 +23,12 @@ namespace RsumeBuilder_Team_9_.Controllers
             _authContext = appDbContext;
         }
 
+        /// <summary>
+        /// Generates the PDF and sends download link to front end.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="templateID"></param>
+        /// <returns>download link</returns>
         [HttpGet("submit/download/{id}/{templateID}")]
         public async Task<IActionResult> SubmitResumeCreating(int id, string templateID)
         {
@@ -125,6 +134,13 @@ namespace RsumeBuilder_Team_9_.Controllers
                 return StatusCode(500, "An error occurred while generating the PDF.");
             }
         }
+
+        /// <summary>
+        /// Returns the generated file to the User to be downloaded
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fileName"></param>
+        /// <returns>The file to be downloaded</returns>
         [HttpGet("get-resume/{id}/{fileName}")]
         public IActionResult GetResume(int id, string fileName)
         {
