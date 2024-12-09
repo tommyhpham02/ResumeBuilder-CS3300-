@@ -8,7 +8,6 @@ by checking the database to see if the values were inputted correctly. Happy Tes
 
 POST /api/User/register
 {
-  "id": 22,
   "firstName": "John",
   "lastName": "Doe",
   "username": "JohnDoe",
